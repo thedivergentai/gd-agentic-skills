@@ -1,0 +1,57 @@
+# -----------------------------
+# Agent & AI Assistant Workspaces
+# -----------------------------
+# Exclude common agent configuration and memory directories
+.agent/
+.gemini/
+.cursor/
+.windsurf/
+.cline/
+.aider/
+
+# Agent memory, databases, and logs
+brain/
+knowledge/
+memory/
+workspace/
+*.db
+*.sqlite
+*.sqlite3
+*.log
+*.jsonl
+
+# -----------------------------
+# Godot 4+ Standard
+# -----------------------------
+# .godot/ is the cache folder for the editor. It should NOT be committed.
+.godot/
+
+# Generated translation files
+*.translation
+
+# Mono/C# builds (if applicable)
+.mono/
+*.csproj
+*.sln
+
+# -----------------------------
+# IDEs & Editors
+# -----------------------------
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# -----------------------------
+# OS Generated
+# -----------------------------
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# -----------------------------
+# Builds & Exports
+# -----------------------------
+export/
+builds/
+*.tmp

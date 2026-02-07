@@ -1,0 +1,13 @@
+# Godot-specific ignores
+.godot/
+*.import
+
+# Mono/C# ignores
+.mono/
+*.sln
+*.csproj
+.vs/
+
+# System ignores
+.DS_Store
+Thumbs.db
