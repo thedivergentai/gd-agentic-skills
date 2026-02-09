@@ -101,3 +101,7 @@ After installation, verify the MCP tools are available by checking if `mcp_godot
 ## Reference
 - Godot MCP Server: [GitHub Repository](https://github.com/modelcontextprotocol/servers/tree/main/src/godot)
 - MCP Protocol: [Official Documentation](https://modelcontextprotocol.io/)
+
+
+### Related
+- Master Skill: [godot-master](../godot-master/SKILL.md)

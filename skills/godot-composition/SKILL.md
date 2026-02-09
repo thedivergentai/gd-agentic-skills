@@ -30,7 +30,7 @@ In Godot, Nodes **are** components. A complex entity (Player) is simply an Orche
 ### 1. Connection Strategy: Typed Exports
 Do not rely on tree order. Use explicit dependency injection via `@export` with static typing.
 
-**The "Godot Way" for strict composition:**
+**The "Godot Way" for strict godot-composition:**
 ```gdscript
 # The Orchestrator (e.g., player.gd)
 class_name Player extends CharacterBody3D
@@ -167,3 +167,7 @@ func _on_death():
 
 ## Performance Note
 Nodes are lightweight. Do not fear adding 10-20 nodes per entity. The organizational benefit of Composition vastly outweighs the negligible memory cost of `Node` instances.
+
+
+## Reference
+- Master Skill: [godot-master](../godot-master/SKILL.md)

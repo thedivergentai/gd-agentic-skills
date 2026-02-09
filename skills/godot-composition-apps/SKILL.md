@@ -121,3 +121,7 @@ func _on_copy_success():
     # Orchestrator managing UI state based on signal
     %ToastNotification.show("Link Copied!")
 ```
+
+
+## Reference
+- Master Skill: [godot-master](../godot-master/SKILL.md)
