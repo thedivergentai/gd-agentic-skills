@@ -16,8 +16,7 @@
       "procedural animation",
       "animation state machine",
       "advance(0)"
-    ],
-    "path": "skills/godot-2d-animation"
+    ]
   },
   {
     "name": "godot-2d-physics",
@@ -39,8 +38,7 @@
       "direct_space_state",
       "move_and_collide",
       "move_and_slide"
-    ],
-    "path": "skills/godot-2d-physics"
+    ]
   },
   {
     "name": "godot-3d-lighting",
@@ -62,8 +60,7 @@
       "ReflectionProbe",
       "Environment",
       "WorldEnvironment"
-    ],
-    "path": "skills/godot-3d-lighting"
+    ]
   },
   {
     "name": "godot-3d-materials",
@@ -85,8 +82,7 @@
       "cull_mode",
       "ShaderMaterial",
       "shader parameters"
-    ],
-    "path": "skills/godot-3d-materials"
+    ]
   },
   {
     "name": "godot-3d-world-building",
@@ -109,8 +105,7 @@
       "PanoramaSkyMaterial",
       "fog_enabled",
       "volumetric_fog_enabled"
-    ],
-    "path": "skills/godot-3d-world-building"
+    ]
   },
   {
     "name": "godot-ability-system",
@@ -129,8 +124,7 @@
       "global_cooldown",
       "charge_system",
       "upgrade_path"
-    ],
-    "path": "skills/godot-ability-system"
+    ]
   },
   {
     "name": "godot-adapt-2d-to-3d",
@@ -143,8 +137,7 @@
       "collision_layer migration",
       "sprite to MeshInstance3D",
       "2D to 3D conversion"
-    ],
-    "path": "skills/godot-adapt-2d-to-3d"
+    ]
   },
   {
     "name": "godot-adapt-3d-to-2d",
@@ -157,8 +150,7 @@
       "orthogonal projection",
       "3D to sprite conversion",
       "performance optimization"
-    ],
-    "path": "skills/godot-adapt-3d-to-2d"
+    ]
   },
   {
     "name": "godot-adapt-desktop-to-mobile",
@@ -173,8 +165,7 @@
       "battery_saving",
       "adaptive_performance",
       "MOBILE_ENABLED"
-    ],
-    "path": "skills/godot-adapt-desktop-to-mobile"
+    ]
   },
   {
     "name": "godot-adapt-mobile-to-desktop",
@@ -188,8 +179,7 @@
       "window_modes",
       "Steam_integration",
       "desktop_optimization"
-    ],
-    "path": "skills/godot-adapt-mobile-to-desktop"
+    ]
   },
   {
     "name": "godot-adapt-single-to-multiplayer",
@@ -206,8 +196,7 @@
       "server_reconciliation",
       "lag_compensation",
       "rollback"
-    ],
-    "path": "skills/godot-adapt-single-to-multiplayer"
+    ]
   },
   {
     "name": "godot-animation-player",
@@ -223,8 +212,7 @@
       "animation_set_next",
       "queue",
       "blend_times"
-    ],
-    "path": "skills/godot-animation-player"
+    ]
   },
   {
     "name": "godot-animation-tree-mastery",
@@ -241,8 +229,7 @@
       "AnimationNodeAdd2",
       "AnimationNodeBlend2",
       "root_motion"
-    ],
-    "path": "skills/godot-animation-tree-mastery"
+    ]
   },
   {
     "name": "godot-audio-systems",
@@ -259,8 +246,7 @@
       "positional_audio",
       "reverb",
       "bus_volume"
-    ],
-    "path": "skills/godot-audio-systems"
+    ]
   },
   {
     "name": "godot-autoload-architecture",
@@ -275,40 +261,38 @@
       "autoload_order",
       "signal_bus",
       "dependency_injection"
-    ],
-    "path": "skills/godot-autoload-architecture"
+    ]
   },
   {
     "name": "godot-camera-systems",
     "description": "Expert patterns for 2D/3D camera control including smooth following (lerp, position_smoothing), camera shake (trauma system), screen shake with frequency parameters, deadzone/drag for platformers, look-ahead prediction, and camera transitions. Use for player cameras, cin",
     "keywords": [
-      "drag",
-      "control",
-      "system",
-      "following",
-      "shake",
+      "trauma",
       "platformers",
-      "cameras",
-      "ahead",
-      "transitions",
       "parameters",
-      "lerp",
-      "frequency",
-      "deadzone",
+      "with",
+      "cameras",
+      "position_smoothing",
       "patterns",
       "camera",
-      "player",
+      "system",
+      "control",
+      "ahead",
+      "including",
       "smooth",
+      "drag",
+      "following",
+      "lerp",
       "expert",
-      "position_smoothing",
-      "trauma",
+      "frequency",
+      "transitions",
+      "shake",
       "screen",
-      "with",
       "prediction",
       "look",
-      "including"
-    ],
-    "path": "skills/godot-camera-systems"
+      "player",
+      "deadzone"
+    ]
   },
   {
     "name": "godot-characterbody-2d",
@@ -323,8 +307,7 @@
       "get_slide_collision",
       "one_way_platforms",
       "state_machine"
-    ],
-    "path": "skills/godot-characterbody-2d"
+    ]
   },
   {
     "name": "godot-combat-system",
@@ -339,8 +322,7 @@
       "ability_cooldown",
       "invincibility_frames",
       "damage_popup"
-    ],
-    "path": "skills/godot-combat-system"
+    ]
   },
   {
     "name": "godot-composition",
@@ -356,42 +338,40 @@
       "Hitboxes",
       "Game Loop",
       "Level Design"
-    ],
-    "path": "skills/godot-composition"
+    ]
   },
   {
     "name": "godot-composition-apps",
     "description": "Expert architectural standards for building scalable Godot applications (Apps, Tools, UI, or Games) using the Composition pattern. Use when designing node structures, refactoring monolithic scripts, or implementing complex behaviors. Enforces \"Has-A\" relationships over \"Is-A\" inheritance.",
     "keywords": [
+      "relationships",
+      "monolithic",
       "composition",
-      "pattern",
-      "godot",
-      "when",
-      "scalable",
-      "behaviors",
-      "using",
       "enforces",
-      "structures",
+      "designing",
+      "godot",
+      "scalable",
+      "node",
       "implementing",
-      "refactoring",
-      "complex",
-      "architectural",
-      "tools",
+      "structures",
+      "standards",
+      "pattern",
+      "applications",
+      "behaviors",
       "inheritance",
+      "using",
+      "refactoring",
+      "scripts",
       "over",
       "games",
-      "designing",
+      "complex",
       "expert",
-      "building",
-      "node",
+      "tools",
       "apps",
-      "applications",
-      "standards",
-      "scripts",
-      "monolithic",
-      "relationships"
-    ],
-    "path": "skills/godot-composition-apps"
+      "building",
+      "when",
+      "architectural"
+    ]
   },
   {
     "name": "godot-debugging-profiling",
@@ -406,8 +386,7 @@
       "memory_leak",
       "orphan_nodes",
       "Performance"
-    ],
-    "path": "skills/godot-debugging-profiling"
+    ]
   },
   {
     "name": "godot-dialogue-system",
@@ -422,8 +401,7 @@
       "dialogue_flags",
       "localization",
       "voice_acting"
-    ],
-    "path": "skills/godot-dialogue-system"
+    ]
   },
   {
     "name": "godot-economy-system",
@@ -438,8 +416,7 @@
       "currency_sink",
       "inflation",
       "item_rarity"
-    ],
-    "path": "skills/godot-economy-system"
+    ]
   },
   {
     "name": "godot-export-builds",
@@ -454,8 +431,7 @@
       "build_optimization",
       "codesign",
       "Android_SDK"
-    ],
-    "path": "skills/godot-export-builds"
+    ]
   },
   {
     "name": "godot-gdscript-mastery",
@@ -468,8 +444,7 @@
       "class_name",
       "signal_up_call_down",
       "gdscript_style_guide"
-    ],
-    "path": "skills/godot-gdscript-mastery"
+    ]
   },
   {
     "name": "godot-genre-action-rpg",
@@ -484,8 +459,7 @@
       "equipment_slots",
       "ability_cooldown",
       "stat_scaling"
-    ],
-    "path": "skills/godot-genre-action-rpg"
+    ]
   },
   {
     "name": "godot-genre-battle-royale",
@@ -499,8 +473,7 @@
       "networking_optimization",
       "relevancy_system",
       "snapshot_interpolation"
-    ],
-    "path": "skills/godot-genre-battle-royale"
+    ]
   },
   {
     "name": "godot-genre-card-game",
@@ -515,8 +488,7 @@
       "command_pattern",
       "draw_pile",
       "discard_pile"
-    ],
-    "path": "skills/godot-genre-card-game"
+    ]
   },
   {
     "name": "godot-genre-educational",
@@ -529,8 +501,7 @@
       "student_profile",
       "curriculum_tree",
       "mastery_tracking"
-    ],
-    "path": "skills/godot-genre-educational"
+    ]
   },
   {
     "name": "godot-genre-fighting",
@@ -545,8 +516,7 @@
       "rollback_netcode",
       "cancel_system",
       "advantage_frames"
-    ],
-    "path": "skills/godot-genre-fighting"
+    ]
   },
   {
     "name": "godot-genre-horror",
@@ -559,8 +529,7 @@
       "sanity_system",
       "volumetric_fog",
       "AI_reaction_time"
-    ],
-    "path": "skills/godot-genre-horror"
+    ]
   },
   {
     "name": "godot-genre-idle-clicker",
@@ -573,8 +542,7 @@
       "offline_progress",
       "prestige_system",
       "number_formatting"
-    ],
-    "path": "skills/godot-genre-idle-clicker"
+    ]
   },
   {
     "name": "godot-genre-metroidvania",
@@ -588,8 +556,7 @@
       "persistent_state",
       "room_transition",
       "soft_locks"
-    ],
-    "path": "skills/godot-genre-metroidvania"
+    ]
   },
   {
     "name": "godot-genre-moba",
@@ -603,8 +570,7 @@
       "ability_cooldowns",
       "fog_of_war",
       "comeback_mechanics"
-    ],
-    "path": "skills/godot-genre-moba"
+    ]
   },
   {
     "name": "godot-genre-open-world",
@@ -617,8 +583,7 @@
       "persistent_state",
       "POI_discovery",
       "threaded_loading"
-    ],
-    "path": "skills/godot-genre-open-world"
+    ]
   },
   {
     "name": "godot-genre-party",
@@ -630,8 +595,7 @@
       "asymmetric_gameplay",
       "split_screen",
       "dynamic_input_mapping"
-    ],
-    "path": "skills/godot-genre-party"
+    ]
   },
   {
     "name": "godot-genre-platformer",
@@ -643,8 +607,7 @@
       "game_feel",
       "level_design",
       "precision_movement"
-    ],
-    "path": "skills/godot-genre-platformer"
+    ]
   },
   {
     "name": "godot-genre-puzzle",
@@ -656,8 +619,7 @@
       "grid_logic",
       "non_verbal_tutorial",
       "state_management"
-    ],
-    "path": "skills/godot-genre-puzzle"
+    ]
   },
   {
     "name": "godot-genre-racing",
@@ -669,8 +631,7 @@
       "rubber_banding",
       "drifting_mechanics",
       "camera_feel"
-    ],
-    "path": "skills/godot-genre-racing"
+    ]
   },
   {
     "name": "godot-genre-rhythm",
@@ -683,8 +644,7 @@
       "combo_system",
       "BPM_conductor",
       "latency_compensation"
-    ],
-    "path": "skills/godot-genre-rhythm"
+    ]
   },
   {
     "name": "godot-genre-roguelike",
@@ -697,8 +657,7 @@
       "seeded_RNG",
       "relic_system",
       "run_state"
-    ],
-    "path": "skills/godot-genre-roguelike"
+    ]
   },
   {
     "name": "godot-genre-rts",
@@ -711,8 +670,7 @@
       "pathfinding_RVO",
       "resource_economy",
       "command_queue"
-    ],
-    "path": "skills/godot-genre-rts"
+    ]
   },
   {
     "name": "godot-genre-sandbox",
@@ -725,8 +683,7 @@
       "chunk management",
       "emergent behavior",
       "creative mode"
-    ],
-    "path": "skills/godot-genre-sandbox"
+    ]
   },
   {
     "name": "godot-genre-shooter",
@@ -739,8 +696,7 @@
       "weapon archetype",
       "projectile physics",
       "hit registration"
-    ],
-    "path": "skills/godot-genre-shooter"
+    ]
   },
   {
     "name": "godot-genre-simulation",
@@ -753,8 +709,7 @@
       "feedback loop",
       "progression unlock",
       "simulation tick"
-    ],
-    "path": "skills/godot-genre-simulation"
+    ]
   },
   {
     "name": "godot-genre-sports",
@@ -766,8 +721,7 @@
       "team tactics",
       "contextual controls",
       "steering behaviors"
-    ],
-    "path": "skills/godot-genre-sports"
+    ]
   },
   {
     "name": "godot-genre-stealth",
@@ -780,8 +734,7 @@
       "light level",
       "systemic AI",
       "gradual detection"
-    ],
-    "path": "skills/godot-genre-stealth"
+    ]
   },
   {
     "name": "godot-genre-survival",
@@ -794,8 +747,7 @@
       "hunger",
       "resource gathering",
       "base building"
-    ],
-    "path": "skills/godot-genre-survival"
+    ]
   },
   {
     "name": "godot-genre-tower-defense",
@@ -807,8 +759,7 @@
       "targeting priority",
       "mazing",
       "NavigationServer baking"
-    ],
-    "path": "skills/godot-genre-tower-defense"
+    ]
   },
   {
     "name": "godot-genre-visual-novel",
@@ -821,8 +772,7 @@
       "rollback",
       "bbcode",
       "RichTextLabel"
-    ],
-    "path": "skills/godot-genre-visual-novel"
+    ]
   },
   {
     "name": "godot-input-handling",
@@ -835,8 +785,7 @@
       "rebinding",
       "deadzone",
       "input buffer"
-    ],
-    "path": "skills/godot-input-handling"
+    ]
   },
   {
     "name": "godot-inventory-system",
@@ -850,8 +799,7 @@
       "item",
       "Resource",
       "drag-drop"
-    ],
-    "path": "skills/godot-inventory-system"
+    ]
   },
   {
     "name": "godot-master",
@@ -863,8 +811,7 @@
       "library map",
       "skill discovery",
       "Godot skills list"
-    ],
-    "path": "skills/godot-master"
+    ]
   },
   {
     "name": "godot-mcp-scene-builder",
@@ -874,8 +821,7 @@
       "scene automation",
       "programmatic scene building",
       "node hierarchy"
-    ],
-    "path": "skills/godot-mcp-scene-builder"
+    ]
   },
   {
     "name": "godot-mcp-setup",
@@ -886,8 +832,7 @@
       "scene automation",
       "npx",
       "claude_desktop_config"
-    ],
-    "path": "skills/godot-mcp-setup"
+    ]
   },
   {
     "name": "godot-multiplayer-networking",
@@ -900,8 +845,7 @@
       "authority",
       "client prediction",
       "rollback"
-    ],
-    "path": "skills/godot-multiplayer-networking"
+    ]
   },
   {
     "name": "godot-navigation-pathfinding",
@@ -914,8 +858,7 @@
       "avoidance",
       "baking",
       "NavigationObstacle"
-    ],
-    "path": "skills/godot-navigation-pathfinding"
+    ]
   },
   {
     "name": "godot-particles",
@@ -927,8 +870,7 @@
       "color_ramp",
       "sub_emitter",
       "one_shot"
-    ],
-    "path": "skills/godot-particles"
+    ]
   },
   {
     "name": "godot-performance-optimization",
@@ -941,8 +883,7 @@
       "VisibleOnScreenNotifier",
       "draw calls",
       "MultiMesh"
-    ],
-    "path": "skills/godot-performance-optimization"
+    ]
   },
   {
     "name": "godot-physics-3d",
@@ -959,8 +900,7 @@
       "Generic6DOFJoint3D",
       "RayCast3D",
       "PhysicsDirectSpaceState3D"
-    ],
-    "path": "skills/godot-physics-3d"
+    ]
   },
   {
     "name": "godot-platform-console",
@@ -976,8 +916,7 @@
       "controller",
       "gamepad",
       "achievements"
-    ],
-    "path": "skills/godot-platform-console"
+    ]
   },
   {
     "name": "godot-platform-desktop",
@@ -993,8 +932,7 @@
       "DisplayServer",
       "Steam",
       "fullscreen"
-    ],
-    "path": "skills/godot-platform-desktop"
+    ]
   },
   {
     "name": "godot-platform-mobile",
@@ -1010,8 +948,7 @@
       "battery",
       "app store",
       "orientation"
-    ],
-    "path": "skills/godot-platform-mobile"
+    ]
   },
   {
     "name": "godot-platform-vr",
@@ -1026,8 +963,7 @@
       "locomotion",
       "XRController3D",
       "foveated rendering"
-    ],
-    "path": "skills/godot-platform-vr"
+    ]
   },
   {
     "name": "godot-platform-web",
@@ -1041,8 +977,7 @@
       "localStorage",
       "canvas",
       "browser API"
-    ],
-    "path": "skills/godot-platform-web"
+    ]
   },
   {
     "name": "godot-procedural-generation",
@@ -1056,8 +991,7 @@
       "drunkard walk",
       "Wave Function Collapse",
       "seeding"
-    ],
-    "path": "skills/godot-procedural-generation"
+    ]
   },
   {
     "name": "godot-project-foundations",
@@ -1068,8 +1002,7 @@
       "snake_case",
       "PascalCase",
       "feature-based"
-    ],
-    "path": "skills/godot-project-foundations"
+    ]
   },
   {
     "name": "godot-project-templates",
@@ -1082,8 +1015,7 @@
       "FPS",
       "AutoLoad",
       "scene structure"
-    ],
-    "path": "skills/godot-project-templates"
+    ]
   },
   {
     "name": "godot-quest-system",
@@ -1097,8 +1029,7 @@
       "branching",
       "rewards",
       "AutoLoad"
-    ],
-    "path": "skills/godot-quest-system"
+    ]
   },
   {
     "name": "godot-resource-data-patterns",
@@ -1112,8 +1043,7 @@
       "serialization",
       "@export",
       "typed arrays"
-    ],
-    "path": "skills/godot-resource-data-patterns"
+    ]
   },
   {
     "name": "godot-rpg-stats",
@@ -1127,8 +1057,7 @@
       "derived stats",
       "damage calculation",
       "XP"
-    ],
-    "path": "skills/godot-rpg-stats"
+    ]
   },
   {
     "name": "godot-save-load-systems",
@@ -1142,8 +1071,7 @@
       "serialization",
       "version migration",
       "PERSIST group"
-    ],
-    "path": "skills/godot-save-load-systems"
+    ]
   },
   {
     "name": "godot-scene-management",
@@ -1158,8 +1086,7 @@
       "preload",
       "PackedScene",
       "fade"
-    ],
-    "path": "skills/godot-scene-management"
+    ]
   },
   {
     "name": "godot-server-architecture",
@@ -1173,8 +1100,7 @@
       "body_create",
       "low-level",
       "performance"
-    ],
-    "path": "skills/godot-server-architecture"
+    ]
   },
   {
     "name": "godot-shaders-basics",
@@ -1191,8 +1117,7 @@
       "COLOR",
       "ALBEDO",
       "post-processing"
-    ],
-    "path": "skills/godot-shaders-basics"
+    ]
   },
   {
     "name": "godot-signal-architecture",
@@ -1206,8 +1131,7 @@
       "event bus",
       "AutoLoad",
       "decoupling"
-    ],
-    "path": "skills/godot-signal-architecture"
+    ]
   },
   {
     "name": "godot-skill-discovery",
@@ -1218,8 +1142,7 @@
       "search",
       "metadata",
       "skill registry"
-    ],
-    "path": "skills/godot-skill-discovery"
+    ]
   },
   {
     "name": "godot-skill-judge",
@@ -1230,8 +1153,7 @@
       "quality_assurance",
       "syntax_check",
       "metadata_check"
-    ],
-    "path": "skills/godot-skill-judge"
+    ]
   },
   {
     "name": "godot-state-machine-advanced",
@@ -1244,8 +1166,7 @@
       "state stack",
       "FSM",
       "AI behavior"
-    ],
-    "path": "skills/godot-state-machine-advanced"
+    ]
   },
   {
     "name": "godot-testing-patterns",
@@ -1260,8 +1181,7 @@
       "GutTest",
       "watch_signals",
       "TDD"
-    ],
-    "path": "skills/godot-testing-patterns"
+    ]
   },
   {
     "name": "godot-tilemap-mastery",
@@ -1274,8 +1194,7 @@
       "atlas",
       "physics layer",
       "custom data"
-    ],
-    "path": "skills/godot-tilemap-mastery"
+    ]
   },
   {
     "name": "godot-turn-system",
@@ -1288,8 +1207,7 @@
       "round",
       "turn order",
       "combat"
-    ],
-    "path": "skills/godot-turn-system"
+    ]
   },
   {
     "name": "godot-tweening",
@@ -1302,8 +1220,7 @@
       "TRANS_CUBIC",
       "tween_property",
       "tween_callback"
-    ],
-    "path": "skills/godot-tweening"
+    ]
   },
   {
     "name": "godot-ui-containers",
@@ -1317,8 +1234,7 @@
       "EXPAND_FILL",
       "anchors",
       "responsive"
-    ],
-    "path": "skills/godot-ui-containers"
+    ]
   },
   {
     "name": "godot-ui-rich-text",
@@ -1332,8 +1248,7 @@
       "meta_clicked",
       "RichTextEffect",
       "dialogue"
-    ],
-    "path": "skills/godot-ui-rich-text"
+    ]
   },
   {
     "name": "godot-ui-theming",
@@ -1346,7 +1261,6 @@
       "font",
       "theme inheritance",
       "dark mode"
-    ],
-    "path": "skills/godot-ui-theming"
+    ]
   }
 ]

@@ -58,11 +58,11 @@ def update_index():
                         # Get keywords from description or frontmatter (if someone added it there)
                         keywords = get_keywords(description)
 
+
                         skill_data = {
                             "name": name,
                             "description": description,
-                            "keywords": keywords,
-                            "path": f"skills/{item}"
+                            "keywords": keywords
                         }
                         
                         skills_list.append(skill_data)
