@@ -16,7 +16,7 @@ This library is optimized for the [skills.sh](https://skills.sh) protocol. To ad
 
 ```bash
 # Install via skills.sh
-npx skills add divergent-ai/gd-agentic-skills
+npx skills add thedivergentai/gd-agentic-skills
 ```
 
 ---
