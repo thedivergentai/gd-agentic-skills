@@ -1,6 +1,6 @@
 ---
 name: godot-procedural-generation
-description: Expert blueprint for procedural content generation (dungeons, terrain, loot, levels) using FastNoiseLite, random walks, BSP trees, Wave Function Collapse, and seeded randomization. Use when creating roguelikes, sandbox games, or dynamic content. Keywords procedural, generation, FastNoiseLite, Perlin noise, BSP, drunkard walk, Wave Function Collapse, seeding.
+description: "Expert blueprint for procedural content generation (dungeons, terrain, loot, levels) using FastNoiseLite, random walks, BSP trees, Wave Function Collapse, and seeded randomization. Use when creating roguelikes, sandbox games, or dynamic content. Keywords procedural, generation, FastNoiseLite, Perlin noise, BSP, drunkard walk, Wave Function Collapse, seeding."
 ---
 
 # Procedural Generation

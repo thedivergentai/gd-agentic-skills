@@ -1,6 +1,6 @@
 ---
 name: godot-adapt-mobile-to-desktop
-description: Expert patterns for scaling mobile games to desktop including mouse/keyboard controls, increased resolution and graphical fidelity, expanded UI layouts, settings menus, window management, and platform-specific features. Use when creating desktop ports or cross-platform releases. Trigger keywords: mouse_controls, keyboard_shortcuts, resolution_scaling, graphics_settings, fullscreen_toggle, window_modes, Steam_integration, desktop_optimization.
+description: "Expert patterns for scaling mobile games to desktop including mouse/keyboard controls, increased resolution and graphical fidelity, expanded UI layouts, settings menus, window management, and platform-specific features. Use when creating desktop ports or cross-platform releases. Trigger keywords: mouse_controls, keyboard_shortcuts, resolution_scaling, graphics_settings, fullscreen_toggle, window_modes, Steam_integration, desktop_optimization."
 ---
 
 # Adapt: Mobile to Desktop

@@ -1,6 +1,6 @@
 ---
 name: godot-platform-console
-description: Expert blueprint for console platforms (PlayStation, Xbox, Nintendo Switch) covering controller-first UI, certification requirements (TRCs/TCRs), platform services (achievements, cloud saves), and performance compliance. Use when targeting console releases or implementing gamepad-only interfaces. Keywords console, PlayStation, Xbox, Switch, TRC, TCR, certification, controller, gamepad, achievements.
+description: "Expert blueprint for console platforms (PlayStation, Xbox, Nintendo Switch) covering controller-first UI, certification requirements (TRCs/TCRs), platform services (achievements, cloud saves), and performance compliance. Use when targeting console releases or implementing gamepad-only interfaces. Keywords console, PlayStation, Xbox, Switch, TRC, TCR, certification, controller, gamepad, achievements."
 ---
 
 # Platform: Console

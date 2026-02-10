@@ -1,6 +1,6 @@
 ---
 name: godot-skill-discovery
-description: Expert blueprint for GDSkills skill discovery and indexing system. Enables AI agents to find relevant skills by topic/keyword. Use when building skill libraries OR implementing search functionality. Keywords skill discovery, indexing, search, metadata, skill registry.
+description: "Expert blueprint for GDSkills skill discovery and indexing system. Enables AI agents to find relevant skills by topic/keyword. Use when building skill libraries OR implementing search functionality. Keywords skill discovery, indexing, search, metadata, skill registry."
 ---
 
 # Skill Discovery

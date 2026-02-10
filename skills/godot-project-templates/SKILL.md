@@ -1,6 +1,6 @@
 ---
 name: godot-project-templates
-description: Expert blueprint for genre-specific project boilerplates (2D platformer, top-down RPG, 3D FPS) including directory structures, AutoLoad patterns, and core systems. Use when bootstrapping new projects or migrating architecture. Keywords project templates, boilerplate, 2D platformer, RPG, FPS, AutoLoad, scene structure.
+description: "Expert blueprint for genre-specific project boilerplates (2D platformer, top-down RPG, 3D FPS) including directory structures, AutoLoad patterns, and core systems. Use when bootstrapping new projects or migrating architecture. Keywords project templates, boilerplate, 2D platformer, RPG, FPS, AutoLoad, scene structure."
 ---
 
 # Project Templates

@@ -1,6 +1,6 @@
 ---
 name: godot-genre-sports
-description: Expert blueprint for sports games (FIFA, NBA 2K, Rocket League, Tony Hawk) covering physics-based ball interaction, team AI formations, contextual input, and broadcast camera systems. Use when building soccer, basketball, hockey, racing sports, or arcade sports games. Keywords ball physics, magnus effect, formation AI, team tactics, contextual controls, steering behaviors.
+description: "Expert blueprint for sports games (FIFA, NBA 2K, Rocket League, Tony Hawk) covering physics-based ball interaction, team AI formations, contextual input, and broadcast camera systems. Use when building soccer, basketball, hockey, racing sports, or arcade sports games. Keywords ball physics, magnus effect, formation AI, team tactics, contextual controls, steering behaviors."
 ---
 
 # Genre: Sports

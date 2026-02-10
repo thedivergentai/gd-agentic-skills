@@ -1,6 +1,6 @@
 ---
 name: godot-genre-survival
-description: Expert blueprint for survival games (Minecraft, Don't Starve, The Forest, Rust) covering needs systems, resource gathering, crafting recipes, base building, and progression balancing. Use when building open-world survival, crafting-focused, or resource management games. Keywords survival, needs system, crafting, inventory, hunger, resource gathering, base building.
+description: "Expert blueprint for survival games (Minecraft, Don't Starve, The Forest, Rust) covering needs systems, resource gathering, crafting recipes, base building, and progression balancing. Use when building open-world survival, crafting-focused, or resource management games. Keywords survival, needs system, crafting, inventory, hunger, resource gathering, base building."
 ---
 
 # Genre: Survival

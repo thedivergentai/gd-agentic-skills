@@ -1,6 +1,6 @@
 ---
 name: godot-ui-containers
-description: Expert blueprint for responsive UI layouts using Container nodes (HBoxContainer, VBoxContainer, GridContainer, MarginContainer, ScrollContainer). Covers size flags, anchors, split containers, and dynamic layouts. Use when building adaptive interfaces OR implementing responsive menus. Keywords Container, HBoxContainer, VBoxContainer, GridContainer, size_flags, EXPAND_FILL, anchors, responsive.
+description: "Expert blueprint for responsive UI layouts using Container nodes (HBoxContainer, VBoxContainer, GridContainer, MarginContainer, ScrollContainer). Covers size flags, anchors, split containers, and dynamic layouts. Use when building adaptive interfaces OR implementing responsive menus. Keywords Container, HBoxContainer, VBoxContainer, GridContainer, size_flags, EXPAND_FILL, anchors, responsive."
 ---
 
 # UI Containers

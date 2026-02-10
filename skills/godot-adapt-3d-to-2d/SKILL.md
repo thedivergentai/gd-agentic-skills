@@ -1,6 +1,6 @@
 ---
 name: godot-adapt-3d-to-2d
-description: Expert patterns for simplifying 3D games to 2D including dimension reduction strategies, camera flattening, physics conversion, 3D-to-sprite art pipeline, and control simplification. Use when porting 3D to 2D, creating 2D versions for mobile, or prototyping. Trigger keywords: CharacterBody3D to CharacterBody2D, Camera3D to Camera2D, Vector3 to Vector2, flatten Z-axis, orthogonal projection, 3D to sprite conversion, performance optimization.
+description: "Expert patterns for simplifying 3D games to 2D including dimension reduction strategies, camera flattening, physics conversion, 3D-to-sprite art pipeline, and control simplification. Use when porting 3D to 2D, creating 2D versions for mobile, or prototyping. Trigger keywords: CharacterBody3D to CharacterBody2D, Camera3D to Camera2D, Vector3 to Vector2, flatten Z-axis, orthogonal projection, 3D to sprite conversion, performance optimization."
 ---
 
 # Adapt: 3D to 2D

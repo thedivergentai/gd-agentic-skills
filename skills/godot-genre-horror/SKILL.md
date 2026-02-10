@@ -1,6 +1,6 @@
 ---
 name: godot-genre-horror
-description: Expert blueprint for horror games including tension pacing (sawtooth wave: buildup/peak/relief), Director system (macro AI controlling pacing), sensory AI (vision/sound detection), sanity/stress systems (camera shake, audio distortion), lighting atmosphere (volumetric fog, dynamic shadows), and "dual brain" AI (cheating director + honest senses). Use for psychological horror, survival horror, or atmospheric games. Trigger keywords: horror_game, tension_pacing, director_system, sensory_perception, sanity_system, volumetric_fog, AI_reaction_time.
+description: "Expert blueprint for horror games including tension pacing (sawtooth wave: buildup/peak/relief), Director system (macro AI controlling pacing), sensory AI (vision/sound detection), sanity/stress systems (camera shake, audio distortion), lighting atmosphere (volumetric fog, dynamic shadows), and \"dual brain\" AI (cheating director + honest senses). Use for psychological horror, survival horror, or atmospheric games. Trigger keywords: horror_game, tension_pacing, director_system, sensory_perception, sanity_system, volumetric_fog, AI_reaction_time."
 ---
 
 # Genre: Horror

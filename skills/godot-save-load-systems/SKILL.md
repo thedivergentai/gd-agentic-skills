@@ -1,6 +1,6 @@
 ---
 name: godot-save-load-systems
-description: Expert blueprint for save/load systems using JSON/binary serialization, PERSIST group pattern, versioning, and migration. Covers player progress, settings, game state persistence, and error recovery. Use when implementing save systems OR data persistence. Keywords save, load, JSON, FileAccess, user://, serialization, version migration, PERSIST group.
+description: "Expert blueprint for save/load systems using JSON/binary serialization, PERSIST group pattern, versioning, and migration. Covers player progress, settings, game state persistence, and error recovery. Use when implementing save systems OR data persistence. Keywords save, load, JSON, FileAccess, user://, serialization, version migration, PERSIST group."
 ---
 
 # Save/Load Systems

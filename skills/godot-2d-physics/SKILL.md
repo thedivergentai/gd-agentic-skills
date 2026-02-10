@@ -1,6 +1,6 @@
 ---
 name: godot-2d-physics
-description: Expert patterns for Godot 2D physics including collision layers/masks, Area2D triggers, raycasting, and PhysicsDirectSpaceState2D queries. Use when implementing collision detection, trigger zones, line-of-sight systems, or manual physics queries. Trigger keywords: CollisionShape2D, CollisionPolygon2D, collision_layer, collision_mask, set_collision_layer_value, set_collision_mask_value, Area2D, body_entered, body_exited, RayCast2D, force_raycast_update, PhysicsPointQueryParameters2D, PhysicsShapeQueryParameters2D, direct_space_state, move_and_collide, move_and_slide.
+description: "Expert patterns for Godot 2D physics including collision layers/masks, Area2D triggers, raycasting, and PhysicsDirectSpaceState2D queries. Use when implementing collision detection, trigger zones, line-of-sight systems, or manual physics queries. Trigger keywords: CollisionShape2D, CollisionPolygon2D, collision_layer, collision_mask, set_collision_layer_value, set_collision_mask_value, Area2D, body_entered, body_exited, RayCast2D, force_raycast_update, PhysicsPointQueryParameters2D, PhysicsShapeQueryParameters2D, direct_space_state, move_and_collide, move_and_slide."
 ---
 
 # 2D Physics

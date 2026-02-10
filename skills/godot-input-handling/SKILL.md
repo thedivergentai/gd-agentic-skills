@@ -1,6 +1,6 @@
 ---
 name: godot-input-handling
-description: Expert patterns for input handling covering InputMap actions, InputEvent processing, controller support, rebinding, deadzones, and input buffering. Use when setting up player controls, implementing input systems, or adding gamepad/accessibility features. Keywords InputMap, InputEvent, gamepad, controller, rebinding, deadzone, input buffer.
+description: "Expert patterns for input handling covering InputMap actions, InputEvent processing, controller support, rebinding, deadzones, and input buffering. Use when setting up player controls, implementing input systems, or adding gamepad/accessibility features. Keywords InputMap, InputEvent, gamepad, controller, rebinding, deadzone, input buffer."
 ---
 
 # Input Handling

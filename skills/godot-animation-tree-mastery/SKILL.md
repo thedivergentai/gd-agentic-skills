@@ -1,6 +1,6 @@
 ---
 name: godot-animation-tree-mastery
-description: Expert patterns for AnimationTree including StateMachine transitions, BlendSpace2D for directional movement, BlendTree for layered animations, root motion, transition conditions, advance expressions, and state machine sub-states. Use for complex character animation systems with movement blending and state management. Trigger keywords: AnimationTree, AnimationNodeStateMachine, BlendSpace2D, BlendSpace1D, BlendTree, transition_request, blend_position, advance_expression, AnimationNodeAdd2, AnimationNodeBlend2, root_motion.
+description: "Expert patterns for AnimationTree including StateMachine transitions, BlendSpace2D for directional movement, BlendTree for layered animations, root motion, transition conditions, advance expressions, and state machine sub-states. Use for complex character animation systems with movement blending and state management. Trigger keywords: AnimationTree, AnimationNodeStateMachine, BlendSpace2D, BlendSpace1D, BlendTree, transition_request, blend_position, advance_expression, AnimationNodeAdd2, AnimationNodeBlend2, root_motion."
 ---
 
 # AnimationTree Mastery

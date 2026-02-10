@@ -1,6 +1,6 @@
 ---
 name: godot-genre-battle-royale
-description: Expert blueprint for Battle Royale games including shrinking zone/storm mechanics (phase-based, damage scaling), large-scale networking (relevancy, tick rate optimization), deployment systems (plane, freefall, parachute), loot spawning (weighted tables, rarity), and performance optimization (LOD, occlusion culling, object pooling). Use for multiplayer survival games or last-one-standing formats. Trigger keywords: battle_royale, zone_shrink, storm_damage, deployment_system, loot_spawn, networking_optimization, relevancy_system, snapshot_interpolation.
+description: "Expert blueprint for Battle Royale games including shrinking zone/storm mechanics (phase-based, damage scaling), large-scale networking (relevancy, tick rate optimization), deployment systems (plane, freefall, parachute), loot spawning (weighted tables, rarity), and performance optimization (LOD, occlusion culling, object pooling). Use for multiplayer survival games or last-one-standing formats. Trigger keywords: battle_royale, zone_shrink, storm_damage, deployment_system, loot_spawn, networking_optimization, relevancy_system, snapshot_interpolation."
 ---
 
 # Genre: Battle Royale

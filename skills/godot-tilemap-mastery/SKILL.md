@@ -1,6 +1,6 @@
 ---
 name: godot-tilemap-mastery
-description: Expert blueprint for TileMapLayer and TileSet systems for efficient 2D level design. Covers terrain autotiling, physics layers, custom data, navigation integration, and runtime manipulation. Use when building grid-based levels OR implementing destructible tiles. Keywords TileMapLayer, TileSet, terrain, autotiling, atlas, physics layer, custom data.
+description: "Expert blueprint for TileMapLayer and TileSet systems for efficient 2D level design. Covers terrain autotiling, physics layers, custom data, navigation integration, and runtime manipulation. Use when building grid-based levels OR implementing destructible tiles. Keywords TileMapLayer, TileSet, terrain, autotiling, atlas, physics layer, custom data."
 ---
 
 # TileMap Mastery

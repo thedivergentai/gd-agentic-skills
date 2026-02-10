@@ -1,6 +1,6 @@
 ---
 name: godot-navigation-pathfinding
-description: Expert blueprint for AI pathfinding (tower defense, RTS, stealth) using NavigationAgent2D/3D, NavigationServer, avoidance, and dynamic navigation mesh generation. Use when implementing enemy AI, NPC movement, or obstacle avoidance. Keywords NavigationAgent2D, NavigationRegion2D, pathfinding, NavigationServer, avoidance, baking, NavigationObstacle.
+description: "Expert blueprint for AI pathfinding (tower defense, RTS, stealth) using NavigationAgent2D/3D, NavigationServer, avoidance, and dynamic navigation mesh generation. Use when implementing enemy AI, NPC movement, or obstacle avoidance. Keywords NavigationAgent2D, NavigationRegion2D, pathfinding, NavigationServer, avoidance, baking, NavigationObstacle."
 ---
 
 # Navigation & Pathfinding

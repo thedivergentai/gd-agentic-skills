@@ -1,6 +1,6 @@
 ---
 name: godot-particles
-description: Expert blueprint for GPU particle systems (explosions, magic effects, weather, trails) using GPUParticles2D/3D, ParticleProcessMaterial, gradients, sub-emitters, and custom shaders. Use when creating VFX, environmental effects, or visual feedback. Keywords GPUParticles2D, ParticleProcessMaterial, emission_shape, color_ramp, sub_emitter, one_shot.
+description: "Expert blueprint for GPU particle systems (explosions, magic effects, weather, trails) using GPUParticles2D/3D, ParticleProcessMaterial, gradients, sub-emitters, and custom shaders. Use when creating VFX, environmental effects, or visual feedback. Keywords GPUParticles2D, ParticleProcessMaterial, emission_shape, color_ramp, sub_emitter, one_shot."
 ---
 
 # Particle Systems

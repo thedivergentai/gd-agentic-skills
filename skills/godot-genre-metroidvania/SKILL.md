@@ -1,6 +1,6 @@
 ---
 name: godot-genre-metroidvania
-description: Expert blueprint for Metroidvanias including ability-gated exploration (locks/keys), interconnected world design (backtracking with shortcuts), persistent state tracking (collectibles, boss defeats), room transitions (seamless loading), map systems (grid-based revelation), and ability versatility (combat + traversal). Use for exploration platformers or action-adventure games. Trigger keywords: metroidvania, ability_gating, interconnected_world, backtracking, map_system, persistent_state, room_transition, soft_locks.
+description: "Expert blueprint for Metroidvanias including ability-gated exploration (locks/keys), interconnected world design (backtracking with shortcuts), persistent state tracking (collectibles, boss defeats), room transitions (seamless loading), map systems (grid-based revelation), and ability versatility (combat + traversal). Use for exploration platformers or action-adventure games. Trigger keywords: metroidvania, ability_gating, interconnected_world, backtracking, map_system, persistent_state, room_transition, soft_locks."
 ---
 
 # Genre: Metroidvania

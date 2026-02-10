@@ -1,6 +1,6 @@
 ---
 name: godot-genre-sandbox
-description: Expert blueprint for sandbox games (Minecraft, Terraria, Garry's Mod) with physics-based interactions, cellular automata, emergent gameplay, and creative tools. Use when building open-world creation games with voxels, element systems, player-created structures, or procedural worlds. Keywords voxel, sandbox, cellular automata, MultiMesh, chunk management, emergent behavior, creative mode.
+description: "Expert blueprint for sandbox games (Minecraft, Terraria, Garry's Mod) with physics-based interactions, cellular automata, emergent gameplay, and creative tools. Use when building open-world creation games with voxels, element systems, player-created structures, or procedural worlds. Keywords voxel, sandbox, cellular automata, MultiMesh, chunk management, emergent behavior, creative mode."
 ---
 
 # Genre: Sandbox

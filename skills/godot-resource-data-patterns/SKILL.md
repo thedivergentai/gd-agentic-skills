@@ -1,6 +1,6 @@
 ---
 name: godot-resource-data-patterns
-description: Expert blueprint for data-oriented design using Resource/RefCounted classes (item databases, character stats, reusable data structures). Covers typed arrays, serialization, nested resources, and resource caching. Use when implementing data systems OR inventory/stats/dialogue databases. Keywords Resource, RefCounted, ItemData, CharacterStats, database, serialization, @export, typed arrays.
+description: "Expert blueprint for data-oriented design using Resource/RefCounted classes (item databases, character stats, reusable data structures). Covers typed arrays, serialization, nested resources, and resource caching. Use when implementing data systems OR inventory/stats/dialogue databases. Keywords Resource, RefCounted, ItemData, CharacterStats, database, serialization, @export, typed arrays."
 ---
 
 # Resource & Data Patterns

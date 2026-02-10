@@ -1,6 +1,6 @@
 ---
 name: godot-genre-tower-defense
-description: Expert blueprint for tower defense games (Bloons TD, Kingdom Rush, Fieldrunners) covering wave management, tower targeting logic, path algorithms, economy balance, and mazing mechanics. Use when building TD, lane defense, or tower placement strategy games. Keywords tower defense, wave spawner, pathfinding, targeting priority, mazing, NavigationServer baking.
+description: "Expert blueprint for tower defense games (Bloons TD, Kingdom Rush, Fieldrunners) covering wave management, tower targeting logic, path algorithms, economy balance, and mazing mechanics. Use when building TD, lane defense, or tower placement strategy games. Keywords tower defense, wave spawner, pathfinding, targeting priority, mazing, NavigationServer baking."
 ---
 
 # Genre: Tower Defense

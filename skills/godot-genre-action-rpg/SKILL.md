@@ -1,6 +1,6 @@
 ---
 name: godot-genre-action-rpg
-description: Comprehensive blueprint for Action RPGs including real-time combat (hitbox/hurtbox, stat-based damage), character progression (RPG stats, leveling, skill trees), loot systems (procedural item generation, affixes, rarity tiers), equipment systems (gear slots, stat modifiers), and ability systems (cooldowns, mana cost, AOE). Based on expert ARPG design from Diablo, Path of Exile, Souls-like developers. Trigger keywords: action_rpg, loot_generator, rpg_stats, skill_tree, hitbox_combat, item_affixes, equipment_slots, ability_cooldown, stat_scaling.
+description: "Comprehensive blueprint for Action RPGs including real-time combat (hitbox/hurtbox, stat-based damage), character progression (RPG stats, leveling, skill trees), loot systems (procedural item generation, affixes, rarity tiers), equipment systems (gear slots, stat modifiers), and ability systems (cooldowns, mana cost, AOE). Based on expert ARPG design from Diablo, Path of Exile, Souls-like developers. Trigger keywords: action_rpg, loot_generator, rpg_stats, skill_tree, hitbox_combat, item_affixes, equipment_slots, ability_cooldown, stat_scaling."
 ---
 
 # Genre: Action RPG

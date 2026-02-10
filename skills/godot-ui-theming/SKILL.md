@@ -1,6 +1,6 @@
 ---
 name: godot-ui-theming
-description: Expert blueprint for UI themes using Theme resources, StyleBoxes, custom fonts, and theme overrides for consistent visual styling. Covers StyleBoxFlat/Texture, theme inheritance, dynamic theme switching, and font variations. Use when implementing consistent UI styling OR supporting multiple themes. Keywords Theme, StyleBox, StyleBoxFlat, add_theme_override, font, theme inheritance, dark mode.
+description: "Expert blueprint for UI themes using Theme resources, StyleBoxes, custom fonts, and theme overrides for consistent visual styling. Covers StyleBoxFlat/Texture, theme inheritance, dynamic theme switching, and font variations. Use when implementing consistent UI styling OR supporting multiple themes. Keywords Theme, StyleBox, StyleBoxFlat, add_theme_override, font, theme inheritance, dark mode."
 ---
 
 # UI Theming

@@ -1,6 +1,6 @@
 ---
 name: godot-characterbody-2d
-description: Expert patterns for CharacterBody2D including platformer movement (coyote time, jump buffering, variable jump height), top-down movement (8-way, tank controls), collision handling, one-way platforms, and state machines. Use for player characters, NPCs, or enemies. Trigger keywords: CharacterBody2D, move_and_slide, is_on_floor, coyote_time, jump_buffer, velocity, get_slide_collision, one_way_platforms, state_machine.
+description: "Expert patterns for CharacterBody2D including platformer movement (coyote time, jump buffering, variable jump height), top-down movement (8-way, tank controls), collision handling, one-way platforms, and state machines. Use for player characters, NPCs, or enemies. Trigger keywords: CharacterBody2D, move_and_slide, is_on_floor, coyote_time, jump_buffer, velocity, get_slide_collision, one_way_platforms, state_machine."
 ---
 
 # CharacterBody2D Implementation

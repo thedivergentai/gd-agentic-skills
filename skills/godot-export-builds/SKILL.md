@@ -1,6 +1,6 @@
 ---
 name: godot-export-builds
-description: Expert patterns for multi-platform exports including export templates (Windows/Linux/macOS/Android/iOS/Web), command-line exports (headless mode), platform-specific settings (codesign, notarization, Android SDK), feature flags (OS.has_feature), CI/CD pipelines (GitHub Actions), and build optimization (size reduction, debug stripping). Use for release preparation or automated deployment. Trigger keywords: export_preset, export_template, headless_export, platform_specific, feature_flag, CI_CD, build_optimization, codesign, Android_SDK.
+description: "Expert patterns for multi-platform exports including export templates (Windows/Linux/macOS/Android/iOS/Web), command-line exports (headless mode), platform-specific settings (codesign, notarization, Android SDK), feature flags (OS.has_feature), CI/CD pipelines (GitHub Actions), and build optimization (size reduction, debug stripping). Use for release preparation or automated deployment. Trigger keywords: export_preset, export_template, headless_export, platform_specific, feature_flag, CI_CD, build_optimization, codesign, Android_SDK."
 ---
 
 # Export & Builds

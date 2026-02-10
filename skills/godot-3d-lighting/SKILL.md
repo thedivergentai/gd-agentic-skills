@@ -1,6 +1,6 @@
 ---
 name: godot-3d-lighting
-description: Expert patterns for Godot 3D lighting including DirectionalLight3D shadow cascades, OmniLight3D attenuation, SpotLight3D projectors, VoxelGI vs SDFGI, and LightmapGI baking. Use when implementing realistic 3D lighting, shadow optimization, global illumination, or light probes. Trigger keywords: DirectionalLight3D, OmniLight3D, SpotLight3D, shadow_enabled, directional_shadow_mode, directional_shadow_split, omni_range, omni_attenuation, spot_range, spot_angle, VoxelGI, SDFGI, LightmapGI, ReflectionProbe, Environment, WorldEnvironment.
+description: "Expert patterns for Godot 3D lighting including DirectionalLight3D shadow cascades, OmniLight3D attenuation, SpotLight3D projectors, VoxelGI vs SDFGI, and LightmapGI baking. Use when implementing realistic 3D lighting, shadow optimization, global illumination, or light probes. Trigger keywords: DirectionalLight3D, OmniLight3D, SpotLight3D, shadow_enabled, directional_shadow_mode, directional_shadow_split, omni_range, omni_attenuation, spot_range, spot_angle, VoxelGI, SDFGI, LightmapGI, ReflectionProbe, Environment, WorldEnvironment."
 ---
 
 # 3D Lighting

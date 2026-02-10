@@ -1,6 +1,6 @@
 ---
 name: godot-skill-judge
-description: Meta-skill for validating the integrity and quality of other skills. automatically checks for SKILL.md existence, script syntax errors (via Godot CLI), and metadata completeness. Use this skill to verify the entire skill library. Trigger keywords: validation, continuous_integration, quality_assurance, syntax_check, metadata_check.
+description: "Meta-skill for validating the integrity and quality of other skills. automatically checks for SKILL.md existence, script syntax errors (via Godot CLI), and metadata completeness. Use this skill to verify the entire skill library. Trigger keywords: validation, continuous_integration, quality_assurance, syntax_check, metadata_check."
 ---
 
 # Skill Judge

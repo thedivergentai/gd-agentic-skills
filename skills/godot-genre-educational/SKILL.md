@@ -1,6 +1,6 @@
 ---
 name: godot-genre-educational
-description: Expert blueprint for educational games including gamification loops (learn/apply/feedback/adapt), progress tracking (student profiles, mastery %), adaptive difficulty (target 70% success rate), spaced repetition, curriculum trees (prerequisite system), and visual feedback (confetti, XP bars). Use for learning apps, training simulations, or edutainment. Trigger keywords: educational_game, gamification, adaptive_difficulty, spaced_repetition, student_profile, curriculum_tree, mastery_tracking.
+description: "Expert blueprint for educational games including gamification loops (learn/apply/feedback/adapt), progress tracking (student profiles, mastery %), adaptive difficulty (target 70% success rate), spaced repetition, curriculum trees (prerequisite system), and visual feedback (confetti, XP bars). Use for learning apps, training simulations, or edutainment. Trigger keywords: educational_game, gamification, adaptive_difficulty, spaced_repetition, student_profile, curriculum_tree, mastery_tracking."
 ---
 
 # Genre: Educational / Gamification

@@ -1,6 +1,6 @@
 ---
 name: godot-3d-world-building
-description: Expert patterns for 3D level design using GridMap with MeshLibrary, CSG constructive solid geometry, WorldEnvironment setup, ProceduralSkyMaterial, and volumetric fog. Use when building 3D levels, modular tilesets, BSP-style geometry, or environmental effects. Trigger keywords: GridMap, MeshLibrary, set_cell_item, get_cell_item, map_to_local, local_to_map, CSGCombiner3D, CSGBox3D, CSGSphere3D, CSGPolygon3D, WorldEnvironment, Environment, Sky, ProceduralSkyMaterial, PanoramaSkyMaterial, fog_enabled, volumetric_fog_enabled.
+description: "Expert patterns for 3D level design using GridMap with MeshLibrary, CSG constructive solid geometry, WorldEnvironment setup, ProceduralSkyMaterial, and volumetric fog. Use when building 3D levels, modular tilesets, BSP-style geometry, or environmental effects. Trigger keywords: GridMap, MeshLibrary, set_cell_item, get_cell_item, map_to_local, local_to_map, CSGCombiner3D, CSGBox3D, CSGSphere3D, CSGPolygon3D, WorldEnvironment, Environment, Sky, ProceduralSkyMaterial, PanoramaSkyMaterial, fog_enabled, volumetric_fog_enabled."
 ---
 
 # 3D World Building

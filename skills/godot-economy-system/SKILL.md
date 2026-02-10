@@ -1,6 +1,6 @@
 ---
 name: godot-economy-system
-description: Expert patterns for game economies including currency management (multi-currency, wallet system), shop systems (buy/sell prices, stock limits), dynamic pricing (supply/demand), loot tables (weighted drops, rarity tiers), and economic balance (inflation control, currency sinks). Use for RPGs, trading games, or resource management systems. Trigger keywords: EconomyManager, currency, shop_item, loot_table, dynamic_pricing, buy_sell_spread, currency_sink, inflation, item_rarity.
+description: "Expert patterns for game economies including currency management (multi-currency, wallet system), shop systems (buy/sell prices, stock limits), dynamic pricing (supply/demand), loot tables (weighted drops, rarity tiers), and economic balance (inflation control, currency sinks). Use for RPGs, trading games, or resource management systems. Trigger keywords: EconomyManager, currency, shop_item, loot_table, dynamic_pricing, buy_sell_spread, currency_sink, inflation, item_rarity."
 ---
 
 # Economy System

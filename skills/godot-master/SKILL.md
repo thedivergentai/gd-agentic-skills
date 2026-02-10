@@ -1,6 +1,6 @@
 ---
 name: godot-master
-description: Master Map of Content (MOC) for the GDSkills library. This skill acts as a central index and discovery hub for all 80+ Godot-focused agentic skills. Use this to identify relevant skills for architecture, 2D/3D systems, gameplay mechanics, and optimization. Trigger keywords: MOC, index, table of contents, library map, skill discovery, Godot skills list.
+description: "Master Map of Content (MOC) for the GDSkills library. This skill acts as a central index and discovery hub for all 80+ Godot-focused agentic skills. Use this to identify relevant skills for architecture, 2D/3D systems, gameplay mechanics, and optimization. Trigger keywords: MOC, index, table of contents, library map, skill discovery, Godot skills list."
 ---
 
 # GDSkills Master Map of Content (MOC)

@@ -1,6 +1,6 @@
 ---
 name: godot-physics-3d
-description: Expert patterns for Godot 3D physics (Jolt/PhysX), including Ragdolls, PhysicalBones, Joint3D constraints, RayCasting optimizations, and collision layers. Use for rigid body simulations, character physics, or complex interactions. Trigger keywords: RigidBody3D, PhysicalBone3D, Jolt, Ragdoll, Skeleton3D, Joint3D, PinJoint3D, HingeJoint3D, Generic6DOFJoint3D, RayCast3D, PhysicsDirectSpaceState3D.
+description: "Expert patterns for Godot 3D physics (Jolt/PhysX), including Ragdolls, PhysicalBones, Joint3D constraints, RayCasting optimizations, and collision layers. Use for rigid body simulations, character physics, or complex interactions. Trigger keywords: RigidBody3D, PhysicalBone3D, Jolt, Ragdoll, Skeleton3D, Joint3D, PinJoint3D, HingeJoint3D, Generic6DOFJoint3D, RayCast3D, PhysicsDirectSpaceState3D."
 ---
 
 # 3D Physics (Jolt/Native)

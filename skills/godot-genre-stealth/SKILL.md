@@ -1,6 +1,6 @@
 ---
 name: godot-genre-stealth
-description: Expert blueprint for stealth games (Splinter Cell, Hitman, Dishonored, Thief) covering AI detection systems, vision cones, sound propagation, alert states, light/shadow mechanics, and systemic design. Use when building stealth-action, tactical infiltration, or immersive sim games requiring enemy awareness systems. Keywords vision cone, detection, alert state, sound propagation, light level, systemic AI, gradual detection.
+description: "Expert blueprint for stealth games (Splinter Cell, Hitman, Dishonored, Thief) covering AI detection systems, vision cones, sound propagation, alert states, light/shadow mechanics, and systemic design. Use when building stealth-action, tactical infiltration, or immersive sim games requiring enemy awareness systems. Keywords vision cone, detection, alert state, sound propagation, light level, systemic AI, gradual detection."
 ---
 
 # Genre: Stealth

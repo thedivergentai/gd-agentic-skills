@@ -1,6 +1,6 @@
 ---
 name: godot-genre-open-world
-description: Expert blueprint for open world games including chunk-based streaming (load/unload regions dynamically), floating origin (prevent precision jitter beyond 5000 units), HLOD (hierarchical LOD for distant meshes), persistent state (track entity changes across unloaded chunks), POI discovery systems (compass, markers), and threaded loading (prevent stutters). Use for RPGs, sandboxes, or exploration games. Trigger keywords: open_world, chunk_streaming, floating_origin, HLOD, persistent_state, POI_discovery, threaded_loading.
+description: "Expert blueprint for open world games including chunk-based streaming (load/unload regions dynamically), floating origin (prevent precision jitter beyond 5000 units), HLOD (hierarchical LOD for distant meshes), persistent state (track entity changes across unloaded chunks), POI discovery systems (compass, markers), and threaded loading (prevent stutters). Use for RPGs, sandboxes, or exploration games. Trigger keywords: open_world, chunk_streaming, floating_origin, HLOD, persistent_state, POI_discovery, threaded_loading."
 ---
 
 # Genre: Open World

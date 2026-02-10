@@ -1,6 +1,6 @@
 ---
 name: godot-composition-apps
-description: Expert architectural standards for building scalable Godot applications (Apps, Tools, UI, or Games) using the Composition pattern. Use when designing node structures, refactoring monolithic scripts, or implementing complex behaviors. Enforces "Has-A" relationships over "Is-A" inheritance.
+description: "Expert architectural standards for building scalable Godot applications (Apps, Tools, UI, or Games) using the Composition pattern. Use when designing node structures, refactoring monolithic scripts, or implementing complex behaviors. Enforces \"Has-A\" relationships over \"Is-A\" inheritance."
 ---
 
 # Godot Composition & Architecture (Apps & UI)

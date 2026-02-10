@@ -1,6 +1,6 @@
 ---
 name: godot-genre-simulation
-description: Expert blueprint for simulation and tycoon games (SimCity, RollerCoaster Tycoon, Factorio, Two Point Hospital) covering economy management, time progression, interconnected systems, NPC simulation, and feedback loops. Use when building management sims, tycoon games, city builders, or resource optimization games. Keywords tycoon, economy system, resource management, time scale, feedback loop, progression unlock, simulation tick.
+description: "Expert blueprint for simulation and tycoon games (SimCity, RollerCoaster Tycoon, Factorio, Two Point Hospital) covering economy management, time progression, interconnected systems, NPC simulation, and feedback loops. Use when building management sims, tycoon games, city builders, or resource optimization games. Keywords tycoon, economy system, resource management, time scale, feedback loop, progression unlock, simulation tick."
 ---
 
 # Genre: Simulation / Tycoon

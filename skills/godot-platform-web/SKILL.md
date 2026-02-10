@@ -1,6 +1,6 @@
 ---
 name: godot-platform-web
-description: Expert blueprint for web/browser platforms (HTML5 export) covering WebGL/WebGPU rendering, custom loading screens, JavaScriptBridge integration, LocalStorage saves, and size optimization. Use when exporting to web or implementing browser-specific features. Keywords web, HTML5, WebGL, WebGPU, JavaScriptBridge, localStorage, canvas, browser API.
+description: "Expert blueprint for web/browser platforms (HTML5 export) covering WebGL/WebGPU rendering, custom loading screens, JavaScriptBridge integration, LocalStorage saves, and size optimization. Use when exporting to web or implementing browser-specific features. Keywords web, HTML5, WebGL, WebGPU, JavaScriptBridge, localStorage, canvas, browser API."
 ---
 
 # Platform: Web

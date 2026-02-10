@@ -1,6 +1,6 @@
 ---
 name: godot-gdscript-mastery
-description: Expert GDScript best practices including static typing (var x\: int, func -> void), signal architecture (signal up call down), unique node access (%NodeName, @onready), script structure (extends, class_name, signals, exports, methods), and performance patterns (dict.get with defaults, avoid get_node in loops). Use for code review, refactoring, or establishing project standards. Trigger keywords: static_typing, signal_architecture, unique_nodes, @onready, class_name, signal_up_call_down, gdscript_style_guide.
+description: "Expert GDScript best practices including static typing (var x: int, func returns void), signal architecture (signal up call down), unique node access (%NodeName, @onready), script structure (extends, class_name, signals, exports, methods), and performance patterns (dict.get with defaults, avoid get_node in loops). Use for code review, refactoring, or establishing project standards. Trigger keywords: static_typing, signal_architecture, unique_nodes, @onready, class_name, signal_up_call_down, gdscript_style_guide."
 ---
 
 # GDScript Mastery

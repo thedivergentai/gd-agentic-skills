@@ -1,6 +1,6 @@
 ---
 name: godot-genre-visual-novel
-description: Expert blueprint for visual novels (Doki Doki Literature Club, Phoenix Wright, Steins;Gate) focusing on branching narratives, dialogue systems, choice consequences, rollback mechanics, and persistent flags. Use when building story-driven, choice-based, or dating sim games. Keywords visual novel, dialogue system, branching narrative, typewriter effect, rollback, bbcode, RichTextLabel.
+description: "Expert blueprint for visual novels (Doki Doki Literature Club, Phoenix Wright, Steins;Gate) focusing on branching narratives, dialogue systems, choice consequences, rollback mechanics, and persistent flags. Use when building story-driven, choice-based, or dating sim games. Keywords visual novel, dialogue system, branching narrative, typewriter effect, rollback, bbcode, RichTextLabel."
 ---
 
 # Genre: Visual Novel

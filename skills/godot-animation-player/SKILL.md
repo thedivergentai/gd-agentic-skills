@@ -1,6 +1,6 @@
 ---
 name: godot-animation-player
-description: Expert patterns for AnimationPlayer including track types (Value, Method, Audio, Bezier), root motion extraction, animation callbacks, procedural animation generation, call mode optimization, and RESET tracks. Use for timeline-based animations, cutscenes, or UI transitions. Trigger keywords: AnimationPlayer, Animation, track_insert_key, root_motion, animation_finished, RESET_track, call_mode, animation_set_next, queue, blend_times.
+description: "Expert patterns for AnimationPlayer including track types (Value, Method, Audio, Bezier), root motion extraction, animation callbacks, procedural animation generation, call mode optimization, and RESET tracks. Use for timeline-based animations, cutscenes, or UI transitions. Trigger keywords: AnimationPlayer, Animation, track_insert_key, root_motion, animation_finished, RESET_track, call_mode, animation_set_next, queue, blend_times."
 ---
 
 # AnimationPlayer

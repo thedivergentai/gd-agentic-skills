@@ -1,6 +1,6 @@
 ---
 name: godot-debugging-profiling
-description: Expert debugging workflows including print debugging (push_warning, push_error, assert), breakpoints (conditional breakpoints), Godot Debugger (stack trace, variables, remote debug), profiler (time profiler, memory monitor), error handling patterns, and performance optimization. Use for bug fixing, performance tuning, or development diagnostics. Trigger keywords: breakpoint, print_debug, push_error, assert, profiler, remote_debug, memory_leak, orphan_nodes, Performance.get_monitor.
+description: "Expert debugging workflows including print debugging (push_warning, push_error, assert), breakpoints (conditional breakpoints), Godot Debugger (stack trace, variables, remote debug), profiler (time profiler, memory monitor), error handling patterns, and performance optimization. Use for bug fixing, performance tuning, or development diagnostics. Trigger keywords: breakpoint, print_debug, push_error, assert, profiler, remote_debug, memory_leak, orphan_nodes, Performance.get_monitor."
 ---
 
 # Debugging & Profiling

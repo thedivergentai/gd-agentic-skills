@@ -1,6 +1,6 @@
 ---
 name: godot-adapt-desktop-to-mobile
-description: Expert patterns for porting desktop games to mobile including touch control schemes (virtual joystick, gesture detection), UI scaling for small screens, performance optimization for mobile GPUs, battery life management, and platform-specific features. Use when creating mobile ports or cross-platform mobile builds. Trigger keywords: TouchScreenButton, virtual_joystick, gesture_detector, InputEventScreenTouch, InputEventScreenDrag, mobile_optimization, battery_saving, adaptive_performance, MOBILE_ENABLED.
+description: "Expert patterns for porting desktop games to mobile including touch control schemes (virtual joystick, gesture detection), UI scaling for small screens, performance optimization for mobile GPUs, battery life management, and platform-specific features. Use when creating mobile ports or cross-platform mobile builds. Trigger keywords: TouchScreenButton, virtual_joystick, gesture_detector, InputEventScreenTouch, InputEventScreenDrag, mobile_optimization, battery_saving, adaptive_performance, MOBILE_ENABLED."
 ---
 
 # Adapt: Desktop to Mobile

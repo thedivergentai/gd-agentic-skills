@@ -1,6 +1,6 @@
 ---
 name: godot-genre-card-game
-description: Expert blueprint for digital card games (CCG/Deckbuilders) including card data structures (Resource-based), deck management (draw/discard/reshuffle), turn logic, hand layout (arcing), drag-and-drop UI, effect resolution (Command pattern), and visual polish (godot-tweening, shaders). Use for CCG, deckbuilders, or tactical card games. Trigger keywords: card_game, deck_manager, card_data, hand_layout, drag_drop_cards, effect_resolution, command_pattern, draw_pile, discard_pile.
+description: "Expert blueprint for digital card games (CCG/Deckbuilders) including card data structures (Resource-based), deck management (draw/discard/reshuffle), turn logic, hand layout (arcing), drag-and-drop UI, effect resolution (Command pattern), and visual polish (godot-tweening, shaders). Use for CCG, deckbuilders, or tactical card games. Trigger keywords: card_game, deck_manager, card_data, hand_layout, drag_drop_cards, effect_resolution, command_pattern, draw_pile, discard_pile."
 ---
 
 # Genre: Card Game

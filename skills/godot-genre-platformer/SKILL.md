@@ -1,6 +1,6 @@
 ---
 name: godot-genre-platformer
-description: Expert blueprint for platformer games including precision movement (coyote time, jump buffering, variable jump height), game feel polish (squash/stretch, particle trails, camera shake), level design principles (difficulty curves, checkpoint placement), collectible systems (progression rewards), and accessibility options (assist mode, remappable controls). Based on Celeste/Hollow Knight design research. Trigger keywords: platformer, coyote_time, jump_buffer, game_feel, level_design, precision_movement.
+description: "Expert blueprint for platformer games including precision movement (coyote time, jump buffering, variable jump height), game feel polish (squash/stretch, particle trails, camera shake), level design principles (difficulty curves, checkpoint placement), collectible systems (progression rewards), and accessibility options (assist mode, remappable controls). Based on Celeste/Hollow Knight design research. Trigger keywords: platformer, coyote_time, jump_buffer, game_feel, level_design, precision_movement."
 ---
 
 # Genre: Platformer

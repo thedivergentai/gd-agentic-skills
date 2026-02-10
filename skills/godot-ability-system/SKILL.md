@@ -1,6 +1,6 @@
 ---
 name: godot-ability-system
-description: Expert patterns for RPG/action ability systems including cooldown strategies, combo systems, ability chaining, skill trees with prerequisites, upgrade paths, and resource management. Use when implementing unlockable abilities, character progression, or complex skill systems. Trigger keywords: PlayerAbility, AbilityManager, cooldown, SkillTree, SkillNode, prerequisites, can_use, execute, ComboSystem, ability_chain, global_cooldown, charge_system, upgrade_path.
+description: "Expert patterns for RPG/action ability systems including cooldown strategies, combo systems, ability chaining, skill trees with prerequisites, upgrade paths, and resource management. Use when implementing unlockable abilities, character progression, or complex skill systems. Trigger keywords: PlayerAbility, AbilityManager, cooldown, SkillTree, SkillNode, prerequisites, can_use, execute, ComboSystem, ability_chain, global_cooldown, charge_system, upgrade_path."
 ---
 
 # Ability System

@@ -1,6 +1,6 @@
 ---
 name: godot-platform-desktop
-description: Expert blueprint for desktop platforms (Windows/Linux/macOS) covering keyboard/mouse controls, settings menus, window management (fullscreen, resolution), keybind remapping, and Steam integration. Use when targeting PC platforms or implementing desktop-specific features. Keywords desktop, Windows, Linux, macOS, settings, keybinds, ConfigFile, DisplayServer, Steam, fullscreen.
+description: "Expert blueprint for desktop platforms (Windows/Linux/macOS) covering keyboard/mouse controls, settings menus, window management (fullscreen, resolution), keybind remapping, and Steam integration. Use when targeting PC platforms or implementing desktop-specific features. Keywords desktop, Windows, Linux, macOS, settings, keybinds, ConfigFile, DisplayServer, Steam, fullscreen."
 ---
 
 # Platform: Desktop

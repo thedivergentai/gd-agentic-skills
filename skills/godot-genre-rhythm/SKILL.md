@@ -1,6 +1,6 @@
 ---
 name: godot-genre-rhythm
-description: Expert blueprint for rhythm games including audio synchronization (BPM conductor, latency compensation with AudioServer.get_time_since_last_mix), note highways (scroll speed, timing windows), judgment systems (Perfect/Great/Good/Bad/Miss), scoring with combo multipliers, input processing (lane-based, hold note detection), and chart/beatmap loading. Based on DDR/osu!/Beat Saber research. Trigger keywords: rhythm_game, audio_sync, timing_judgment, note_highway, combo_system, BPM_conductor, latency_compensation.
+description: "Expert blueprint for rhythm games including audio synchronization (BPM conductor, latency compensation with AudioServer.get_time_since_last_mix), note highways (scroll speed, timing windows), judgment systems (Perfect/Great/Good/Bad/Miss), scoring with combo multipliers, input processing (lane-based, hold note detection), and chart/beatmap loading. Based on DDR/osu!/Beat Saber research. Trigger keywords: rhythm_game, audio_sync, timing_judgment, note_highway, combo_system, BPM_conductor, latency_compensation."
 ---
 
 # Genre: Rhythm

@@ -1,6 +1,6 @@
 ---
 name: godot-genre-fighting
-description: Expert blueprint for fighting games including frame data (startup/active/recovery frames, advantage on hit/block), hitbox/hurtbox systems, input buffering (5-10 frames), motion input detection (QCF, DP), combo systems (damage scaling, cancel hierarchy), character states (idle/attacking/hitstun/blockstun), and rollback netcode. Based on FGC competitive design. Trigger keywords: fighting_game, frame_data, hitbox_hurtbox, input_buffer, motion_inputs, combo_system, rollback_netcode, cancel_system, advantage_frames.
+description: "Expert blueprint for fighting games including frame data (startup/active/recovery frames, advantage on hit/block), hitbox/hurtbox systems, input buffering (5-10 frames), motion input detection (QCF, DP), combo systems (damage scaling, cancel hierarchy), character states (idle/attacking/hitstun/blockstun), and rollback netcode. Based on FGC competitive design. Trigger keywords: fighting_game, frame_data, hitbox_hurtbox, input_buffer, motion_inputs, combo_system, rollback_netcode, cancel_system, advantage_frames."
 ---
 
 # Genre: Fighting Game

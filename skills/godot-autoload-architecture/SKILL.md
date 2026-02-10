@@ -1,6 +1,6 @@
 ---
 name: godot-autoload-architecture
-description: Expert patterns for Godot AutoLoad (singleton) architecture including global state management, scene transitions, signal-based communication, dependency injection, autoload initialization order, and anti-patterns to avoid. Use for game managers, save systems, audio controllers, or cross-scene resources. Trigger keywords: AutoLoad, singleton, GameManager, SceneTransitioner, SaveManager, global_state, autoload_order, signal_bus, dependency_injection.
+description: "Expert patterns for Godot AutoLoad (singleton) architecture including global state management, scene transitions, signal-based communication, dependency injection, autoload initialization order, and anti-patterns to avoid. Use for game managers, save systems, audio controllers, or cross-scene resources. Trigger keywords: AutoLoad, singleton, GameManager, SceneTransitioner, SaveManager, global_state, autoload_order, signal_bus, dependency_injection."
 ---
 
 # AutoLoad Architecture

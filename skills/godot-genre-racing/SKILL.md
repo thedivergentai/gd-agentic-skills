@@ -1,6 +1,6 @@
 ---
 name: godot-genre-racing
-description: Expert blueprint for racing games including vehicle physics (VehicleBody3D, suspension, friction), checkpoint systems (prevent shortcuts), rubber-banding AI (keep races competitive), drifting mechanics (reduce friction, boost on exit), camera feel (FOV increase with speed, motion blur), and UI (speedometer, lap timer, minimap). Use for arcade racers, kart racing, or realistic sims. Trigger keywords: racing_game, vehicle_physics, checkpoint_system, rubber_banding, drifting_mechanics, camera_feel.
+description: "Expert blueprint for racing games including vehicle physics (VehicleBody3D, suspension, friction), checkpoint systems (prevent shortcuts), rubber-banding AI (keep races competitive), drifting mechanics (reduce friction, boost on exit), camera feel (FOV increase with speed, motion blur), and UI (speedometer, lap timer, minimap). Use for arcade racers, kart racing, or realistic sims. Trigger keywords: racing_game, vehicle_physics, checkpoint_system, rubber_banding, drifting_mechanics, camera_feel."
 ---
 
 # Genre: Racing
