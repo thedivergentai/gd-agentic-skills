@@ -2,10 +2,8 @@
 
 <div align="center">
   <img src="assets/hero_banner.webp" alt="GD Agentic Skills - Godot 4.x Mastery Library" width="100%" />
-</div>
 
-
-<div align="center">
+<br/>
 
 [![GitHub Stars](https://img.shields.io/github/stars/thedivergentai/gd-agentic-skills?style=for-the-badge&logo=github&color=58A6FF)](https://github.com/thedivergentai/gd-agentic-skills/stargazers)
 [![License](https://img.shields.io/github/license/thedivergentai/gd-agentic-skills?style=for-the-badge&color=79C0FF)](LICENSE)
@@ -16,6 +14,40 @@
 **"A skill forgotten is a power lost." — The Code Architect**
 
 **Brought to you by [Divergent AI](https://github.com/thedivergentai)**
+
+---
+
+<img src="assets/banner_0_0_3.webp" alt="The Romance Update - v0.0.3" width="100%" />
+
+#### v0.0.3 — The Romance Update
+- **New Genre Mastery**: Introduced the comprehensive Romance & Dating Sim skill set.
+- **Affection Systems**: Detailed patterns for relationship tracking, event flagging, and narrative branching.
+- **Visual Improvements**: Banner engine refined with jittered grid distribution and proportional 1:1 icon shapes.
+
+---
+
+<details>
+<summary><b>📜 Update Archive</b></summary>
+
+<br/>
+
+<img src="assets/banner_0_0_2.webp" alt="Master Skill Evolution - v0.0.2" width="100%" />
+
+#### v0.0.2 — Master Skill Evolution
+- **Unified Architecture**: Upgraded `godot-master` to an all-in-one orchestration layer for all 86 micro-skills.
+- **Decision Matrix**: Integrated expert-level Godot 4 architectural decision trees and anti-pattern guides.
+- **Workflow Scaffolding**: Added programmatic scene building and project initialization patterns.
+
+<br/>
+
+<img src="assets/banner_0_0_1.webp" alt="Initial Launch - v0.0.1" width="100%" />
+
+#### v0.0.1 — Initial Launch
+- **The Foundation**: Released the initial library of 80+ Godot 4.x Agentic Skills.
+- **Agent-First Design**: Established the DIA (Discovery-Ingestion-Application) loop for AI Coding Agents.
+- **Core Systems**: Atomic implementations for 2D, 3D, UI, and Gameplay fundamentals.
+
+</details>
 
 </div>
 
