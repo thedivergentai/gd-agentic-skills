@@ -8,21 +8,25 @@
 [![GitHub Stars](https://img.shields.io/github/stars/thedivergentai/gd-agentic-skills?style=for-the-badge&logo=github&color=58A6FF)](https://github.com/thedivergentai/gd-agentic-skills/stargazers)
 [![License](https://img.shields.io/github/license/thedivergentai/gd-agentic-skills?style=for-the-badge&color=79C0FF)](LICENSE)
 [![Godot Version](https://img.shields.io/badge/Godot-4.5%2B-478CBF?style=for-the-badge&logo=godotengine&logoColor=white)](https://godotengine.org/)
-[![Skills](https://img.shields.io/badge/Skills-86-green?style=for-the-badge)](skills_index.json)
+[![Skills](https://img.shields.io/badge/Skills-87-green?style=for-the-badge)](skills_index.json)
 [![Last Commit](https://img.shields.io/github/last-commit/thedivergentai/gd-agentic-skills?style=for-the-badge&color=purple)](https://github.com/thedivergentai/gd-agentic-skills/commits/main)
 
 **"A skill forgotten is a power lost." — The Code Architect**
 
 **Brought to you by [Divergent AI](https://github.com/thedivergentai)**
 
+</div>
+
 ---
 
-<img src="assets/banner_0_0_3.webp" alt="The Romance Update - v0.0.3" width="100%" />
+<div align="center">
+  <img src="assets/banner_0_0_3.webp" alt="The Romance Update - v0.0.3" width="100%" />
+</div>
 
 #### v0.0.3 — The Romance Update
-- **New Genre Mastery**: Introduced the comprehensive Romance & Dating Sim skill set.
-- **Affection Systems**: Detailed patterns for relationship tracking, event flagging, and narrative branching.
-- **Visual Improvements**: Banner engine refined with jittered grid distribution and proportional 1:1 icon shapes.
+- **New Genre Mastery**: Introduced the comprehensive [Romance & Dating Sim](skills/godot-genre-romance/SKILL.md) skill set.
+- **Master Integration**: Unified the Romance skill into the [godot-master](skills/godot-master/SKILL.md) orchestration layer.
+- **Production Scripts**: Added battle-tested GDScript patterns for affection tracking, relationship routing, and date events.
 
 ---
 
@@ -31,16 +35,20 @@
 
 <br/>
 
-<img src="assets/banner_0_0_2.webp" alt="Master Skill Evolution - v0.0.2" width="100%" />
+<div align="center">
+  <img src="assets/banner_0_0_2.webp" alt="Master Skill Evolution - v0.0.2" width="100%" />
+</div>
 
 #### v0.0.2 — Master Skill Evolution
-- **Unified Architecture**: Upgraded `godot-master` to an all-in-one orchestration layer for all 86 micro-skills.
+- **Unified Architecture**: Upgraded `godot-master` to an all-in-one orchestration layer for all 87 specialized skills.
 - **Decision Matrix**: Integrated expert-level Godot 4 architectural decision trees and anti-pattern guides.
 - **Workflow Scaffolding**: Added programmatic scene building and project initialization patterns.
 
 <br/>
 
-<img src="assets/banner_0_0_1.webp" alt="Initial Launch - v0.0.1" width="100%" />
+<div align="center">
+  <img src="assets/banner_0_0_1.webp" alt="Initial Launch - v0.0.1" width="100%" />
+</div>
 
 #### v0.0.1 — Initial Launch
 - **The Foundation**: Released the initial library of 80+ Godot 4.x Agentic Skills.
@@ -48,8 +56,6 @@
 - **Core Systems**: Atomic implementations for 2D, 3D, UI, and Gameplay fundamentals.
 
 </details>
-
-</div>
 
 ---
 
@@ -85,15 +91,15 @@ npx skills add thedivergentai/gd-agentic-skills
 
 ## 🏆 Godot Master — Your Lead Architect
 
-The **godot-master** skill is the crown jewel of this repository—a consolidated expert library that orchestrates all 86 specialized skills into a unified architectural framework.
+The **[godot-master](skills/godot-master/SKILL.md)** skill is the crown jewel of this repository—a consolidated expert library that orchestrates all 87 specialized skills into a unified architectural framework.
 
 ### 🎯 What Makes Godot Master Special?
 
 Unlike individual micro-skills that focus on isolated features, **godot-master** is your *system architect*. It provides:
 
 **📚 Comprehensive Knowledge Base**
-- **85 Reference Documents**: Complete markdown guides for every skill, from foundations to advanced genres
-- **170 Production Scripts**: Battle-tested, production-ready GDScript implementations
+- **87 Reference Documents**: Complete markdown guides for every skill, from foundations to advanced genres
+- **173 Production Scripts**: Battle-tested, production-ready GDScript implementations
 - **10 Workflow Patterns**: Step-by-step architectural workflows (scaffolding, entity orchestration, persistence, optimization, multiplayer, etc.)
 
 **🧠 Expert Frameworks**
@@ -164,8 +170,8 @@ flowchart LR
 skills/godot-master/SKILL.md
 
 # Contains
-├── 85 reference markdown files (references/)
-├── 170 production scripts (scripts/)
+├── 87 reference markdown files (references/)
+├── 173 production scripts (scripts/)
 └── Complete architectural decision trees
 ```
 
@@ -180,99 +186,99 @@ Think of micro-skills as your **component library**: Drop them into your project
 <details>
 <summary><b>🏗️ Architecture & Foundation (11 skills)</b></summary>
 
-- **godot-autoload-architecture**: Singleton patterns, global state management, signal-based communication
-- **godot-composition**: Entity-Component architecture for scalable game systems (NPCs, weapons, actors)
-- **godot-composition-apps**: Composition patterns for applications and tools (UI-focused)
-- **godot-debugging-profiling**: Print debugging, breakpoints, profiler, memory leak detection
-- **godot-gdscript-mastery**: Static typing, signal architecture, unique nodes, style guide
-- **godot-mcp-scene-builder**: Programmatic scene hierarchy generation via MCP
-- **godot-mcp-setup**: MCP server configuration for Godot integration
-- **godot-project-foundations**: Feature-driven folder structure, project scaffolding, conventions
-- **godot-project-templates**: Base `.gitignore`, export presets, input maps
-- **godot-resource-data-patterns**: `.tres` workflows, data-driven design, resource factories
-- **godot-signal-architecture**: Global vs scoped signal buses, signal-driven decoupling
+- **[godot-autoload-architecture](skills/godot-autoload-architecture/SKILL.md)**: Singleton patterns, global state management, signal-based communication
+- **[godot-composition](skills/godot-composition/SKILL.md)**: Entity-Component architecture for scalable game systems (NPCs, weapons, actors)
+- **[godot-composition-apps](skills/godot-composition-apps/SKILL.md)**: Composition patterns for applications and tools (UI-focused)
+- **[godot-debugging-profiling](skills/godot-debugging-profiling/SKILL.md)**: Print debugging, breakpoints, profiler, memory leak detection
+- **[godot-gdscript-mastery](skills/godot-gdscript-mastery/SKILL.md)**: Static typing, signal architecture, unique nodes, style guide
+- **[godot-mcp-scene-builder](skills/godot-mcp-scene-builder/SKILL.md)**: Programmatic scene hierarchy generation via MCP
+- **[godot-mcp-setup](skills/godot-mcp-setup/SKILL.md)**: MCP server configuration for Godot integration
+- **[godot-project-foundations](skills/godot-project-foundations/SKILL.md)**: Feature-driven folder structure, project scaffolding, conventions
+- **[godot-project-templates](skills/godot-project-templates/SKILL.md)**: Base `.gitignore`, export presets, input maps
+- **[godot-resource-data-patterns](skills/godot-resource-data-patterns/SKILL.md)**: `.tres` workflows, data-driven design, resource factories
+- **[godot-signal-architecture](skills/godot-signal-architecture/SKILL.md)**: Global vs scoped signal buses, signal-driven decoupling
 
 </details>
 
 <details>
 <summary><b>🎮 2D Systems (10 skills)</b></summary>
 
-- **godot-2d-animation**: `AnimatedSprite2D`, skeletal cutout rigs, procedural animation
-- **godot-2d-physics**: Collision layers/masks, `Area2D` triggers, raycasting, `PhysicsDirectSpaceState2D`
-- **godot-animation-player**: Timeline animations, track types, root motion, RESET tracks
-- **godot-animation-tree-mastery**: `AnimationTree`, `StateMachine`, `BlendSpace2D`, layered animations
-- **godot-camera-systems**: Smooth following, camera shake, trauma system, deadzone logic
-- **godot-characterbody-2d**: Platformer movement (coyote time, jump buffer), collision handling
-- **godot-particles**: `GPUParticles2D/3D` vs `CPUParticles`, visibility AABB, particle effects
-- **godot-shaders-basics**: `CanvasItem` shaders, post-processing, parameter animation
-- **godot-tilemap-mastery**: `TileMap`, autotiling, chunking, runtime modification
-- **godot-tweening**: `Tween` API, juice/game feel, easing functions
+- **[godot-2d-animation](skills/godot-2d-animation/SKILL.md)**: `AnimatedSprite2D`, skeletal cutout rigs, procedural animation
+- **[godot-2d-physics](skills/godot-2d-physics/SKILL.md)**: Collision layers/masks, `Area2D` triggers, raycasting, `PhysicsDirectSpaceState2D`
+- **[godot-animation-player](skills/godot-animation-player/SKILL.md)**: Timeline animations, track types, root motion, RESET tracks
+- **[godot-animation-tree-mastery](skills/godot-animation-tree-mastery/SKILL.md)**: `AnimationTree`, `StateMachine`, `BlendSpace2D`, layered animations
+- **[godot-camera-systems](skills/godot-camera-systems/SKILL.md)**: Smooth following, camera shake, trauma system, deadzone logic
+- **[godot-characterbody-2d](skills/godot-characterbody-2d/SKILL.md)**: Platformer movement (coyote time, jump buffer), collision handling
+- **[godot-particles](skills/godot-particles/SKILL.md)**: `GPUParticles2D/3D` vs `CPUParticles`, visibility AABB, particle effects
+- **[godot-shaders-basics](skills/godot-shaders-basics/SKILL.md)**: `CanvasItem` shaders, post-processing, parameter animation
+- **[godot-tilemap-mastery](skills/godot-tilemap-mastery/SKILL.md)**: `TileMap`, autotiling, chunking, runtime modification
+- **[godot-tweening](skills/godot-tweening/SKILL.md)**: `Tween` API, juice/game feel, easing functions
 
 </details>
 
 <details>
 <summary><b>🌍 3D Systems (6 skills)</b></summary>
 
-- **godot-3d-lighting**: `DirectionalLight3D`, shadow cascades, `VoxelGI` vs `SDFGI`, `LightmapGI`
-- **godot-3d-materials**: `StandardMaterial3D`, PBR workflows, ORM textures, transparency modes
-- **godot-3d-world-building**: `GridMap`, `CSG` geometry, `WorldEnvironment`, volumetric fog
-- **godot-navigation-pathfinding**: `NavigationAgent2D/3D`, RVO avoidance, async NavMesh baking
-- **godot-physics-3d**: `CharacterBody3D`, `RigidBody3D`, ragdoll physics, collision shapes
-- **godot-procedural-generation**: `FastNoiseLite`, WFC (Wave Function Collapse), chunk loading
+- **[godot-3d-lighting](skills/godot-3d-lighting/SKILL.md)**: `DirectionalLight3D`, shadow cascades, `VoxelGI` vs `SDFGI`, `LightmapGI`
+- **[godot-3d-materials](skills/godot-3d-materials/SKILL.md)**: `StandardMaterial3D`, PBR workflows, ORM textures, transparency modes
+- **[godot-3d-world-building](skills/godot-3d-world-building/SKILL.md)**: `GridMap`, `CSG` geometry, `WorldEnvironment`, volumetric fog
+- **[godot-navigation-pathfinding](skills/godot-navigation-pathfinding/SKILL.md)**: `NavigationAgent2D/3D`, RVO avoidance, async NavMesh baking
+- **[godot-physics-3d](skills/godot-physics-3d/SKILL.md)**: `CharacterBody3D`, `RigidBody3D`, ragdoll physics, collision shapes
+- **[godot-procedural-generation](skills/godot-procedural-generation/SKILL.md)**: `FastNoiseLite`, WFC (Wave Function Collapse), chunk loading
 
 </details>
 
 <details>
 <summary><b>⚔️ Gameplay Mechanics (10 skills)</b></summary>
 
-- **godot-ability-system**: Cooldowns, skill trees, combo systems, upgrade paths
-- **godot-combat-system**: Hitbox/hurtbox architecture, damage calculation, invincibility frames
-- **godot-dialogue-system**: Branching dialogue, character portraits, typewriter effects, localization
-- **godot-economy-system**: Multi-currency, shop systems, dynamic pricing, loot tables
-- **godot-inventory-system**: Slot-based containers, stacking logic, drag-drop UI
-- **godot-quest-system**: Quest graphs, prerequisites, state tracking
-- **godot-rpg-stats**: Stat modifiers, attribute scaling, damage formulas
-- **godot-save-load-systems**: Dictionary serialization, delta-save patterns, encryption
-- **godot-scene-management**: Async scene loading, transitions, pooling
-- **godot-turn-system**: Turn-based combat, active time battle (ATB), timeline management
+- **[godot-ability-system](skills/godot-ability-system/SKILL.md)**: Cooldowns, skill trees, combo systems, upgrade paths
+- **[godot-combat-system](skills/godot-combat-system/SKILL.md)**: Hitbox/hurtbox architecture, damage calculation, invincibility frames
+- **[godot-dialogue-system](skills/godot-dialogue-system/SKILL.md)**: Branching dialogue, character portraits, typewriter effects, localization
+- **[godot-economy-system](skills/godot-economy-system/SKILL.md)**: Multi-currency, shop systems, dynamic pricing, loot tables
+- **[godot-inventory-system](skills/godot-inventory-system/SKILL.md)**: Slot-based containers, stacking logic, drag-drop UI
+- **[godot-quest-system](skills/godot-quest-system/SKILL.md)**: Quest graphs, prerequisites, state tracking
+- **[godot-rpg-stats](skills/godot-rpg-stats/SKILL.md)**: Stat modifiers, attribute scaling, damage formulas
+- **[godot-save-load-systems](skills/godot-save-load-systems/SKILL.md)**: Dictionary serialization, delta-save patterns, encryption
+- **[godot-scene-management](skills/godot-scene-management/SKILL.md)**: Async scene loading, transitions, pooling
+- **[godot-turn-system](skills/godot-turn-system/SKILL.md)**: Turn-based combat, active time battle (ATB), timeline management
 
 </details>
 
 <details>
 <summary><b>🎨 UI & UX (4 skills)</b></summary>
 
-- **godot-input-handling**: `InputMap`, controller support, rebinding, input buffering
-- **godot-ui-containers**: Responsive layouts, anchor presets, margin containers
-- **godot-ui-rich-text**: `RichTextLabel`, BBCode, custom effects
-- **godot-ui-theming**: `.theme` resources, style inheritance, global skinning
+- **[godot-input-handling](skills/godot-input-handling/SKILL.md)**: `InputMap`, controller support, rebinding, input buffering
+- **[godot-ui-containers](skills/godot-ui-containers/SKILL.md)**: Responsive layouts, anchor presets, margin containers
+- **[godot-ui-rich-text](skills/godot-ui-rich-text/SKILL.md)**: `RichTextLabel`, BBCode, custom effects
+- **[godot-ui-theming](skills/godot-ui-theming/SKILL.md)**: `.theme` resources, style inheritance, global skinning
 
 </details>
 
 <details>
 <summary><b>🌐 Connectivity & Platforms (9 skills)</b></summary>
 
-- **godot-audio-systems**: `AudioBus` routing, positional audio, music crossfades, audio pooling
-- **godot-export-builds**: Multi-platform exports, CI/CD, codesigning, headless mode
-- **godot-multiplayer-networking**: `MultiplayerSynchronizer`, client prediction, server reconciliation
-- **godot-performance-optimization**: Profiling, draw call batching, `MultiMesh`, LOD systems
-- **godot-platform-console**: Console certification, controller compliance
-- **godot-platform-desktop**: Steam integration, window management, settings menus
-- **godot-platform-mobile**: Touch controls, safe areas, battery optimization
-- **godot-platform-vr**: XR toolkit, VR physics, hand tracking
-- **godot-platform-web**: HTML5 exports, JavaScript bridge, browser limitations
-- **godot-server-architecture**: Headless servers, authoritative networking, RID patterns
-- **godot-testing-patterns**: GUT framework, unit tests, integration tests, CI/CD testing
+- **[godot-audio-systems](skills/godot-audio-systems/SKILL.md)**: `AudioBus` routing, positional audio, music crossfades, audio pooling
+- **[godot-export-builds](skills/godot-export-builds/SKILL.md)**: Multi-platform exports, CI/CD, codesigning, headless mode
+- **[godot-multiplayer-networking](skills/godot-multiplayer-networking/SKILL.md)**: `MultiplayerSynchronizer`, client prediction, server reconciliation
+- **[godot-performance-optimization](skills/godot-performance-optimization/SKILL.md)**: Profiling, draw call batching, `MultiMesh`, LOD systems
+- **[godot-platform-console](skills/godot-platform-console/SKILL.md)**: Console certification, controller compliance
+- **[godot-platform-desktop](skills/godot-platform-desktop/SKILL.md)**: Steam integration, window management, settings menus
+- **[godot-platform-mobile](skills/godot-platform-mobile/SKILL.md)**: Touch controls, safe areas, battery optimization
+- **[godot-platform-vr](skills/godot-platform-vr/SKILL.md)**: XR toolkit, VR physics, hand tracking
+- **[godot-platform-web](skills/godot-platform-web/SKILL.md)**: HTML5 exports, JavaScript bridge, browser limitations
+- **[godot-server-architecture](skills/godot-server-architecture/SKILL.md)**: Headless servers, authoritative networking, RID patterns
+- **[godot-testing-patterns](skills/godot-testing-patterns/SKILL.md)**: GUT framework, unit tests, integration tests, CI/CD testing
 
 </details>
 
 <details>
 <summary><b>🔄 Adaptation Guides (5 skills)</b></summary>
 
-- **godot-adapt-2d-to-3d**: Dimension conversion, camera migration, sprite-to-model pipeline
-- **godot-adapt-3d-to-2d**: Flattening 3D to 2D, orthogonal projection, performance gains
-- **godot-adapt-desktop-to-mobile**: Touch controls, UI scaling, battery optimization
-- **godot-adapt-mobile-to-desktop**: Mouse/keyboard, resolution scaling, Steam features
-- **godot-adapt-single-to-multiplayer**: Client-server architecture, lag compensation, anti-cheat
+- **[godot-adapt-2d-to-3d](skills/godot-adapt-2d-to-3d/SKILL.md)**: Dimension conversion, camera migration, sprite-to-model pipeline
+- **[godot-adapt-3d-to-2d](skills/godot-adapt-3d-to-2d/SKILL.md)**: Flattening 3D to 2D, orthogonal projection, performance gains
+- **[godot-adapt-desktop-to-mobile](skills/godot-adapt-desktop-to-mobile/SKILL.md)**: Touch controls, UI scaling, battery optimization
+- **[godot-adapt-mobile-to-desktop](skills/godot-adapt-mobile-to-desktop/SKILL.md)**: Mouse/keyboard, resolution scaling, Steam features
+- **[godot-adapt-single-to-multiplayer](skills/godot-adapt-single-to-multiplayer/SKILL.md)**: Client-server architecture, lag compensation, anti-cheat
 
 </details>
 
@@ -280,40 +286,41 @@ Think of micro-skills as your **component library**: Drop them into your project
 <summary><b>🎯 Genre Blueprints (26 skills)</b></summary>
 
 **Action & Combat**
-- **godot-genre-action-rpg**: Loot generation, skill trees, stat-based combat, equipment systems
-- **godot-genre-fighting**: Frame data, hitbox/hurtbox, motion inputs, rollback netcode
-- **godot-genre-platformer**: Coyote time, jump buffer, game feel polish, level design
-- **godot-genre-shooter**: Hitscan, recoil patterns, weapon archetypes, hit registration
+- **[godot-genre-action-rpg](skills/godot-genre-action-rpg/SKILL.md)**: Loot generation, skill trees, stat-based combat, equipment systems
+- **[godot-genre-fighting](skills/godot-genre-fighting/SKILL.md)**: Frame data, hitbox/hurtbox, motion inputs, rollback netcode
+- **[godot-genre-platformer](skills/godot-genre-platformer/SKILL.md)**: Coyote time, jump buffer, game feel polish, level design
+- **[godot-genre-shooter](skills/godot-genre-shooter/SKILL.md)**: Hitscan, recoil patterns, weapon archetypes, hit registration
 
 **Strategy & Tactics**
-- **godot-genre-moba**: Lane management, tower aggro, fog of war, ability cooldowns
-- **godot-genre-rts**: Unit selection, command queues, fog of war, pathfinding
-- **godot-genre-tower-defense**: Wave spawning, targeting priority, mazing mechanics
-- **godot-genre-turn-system**: Turn-based combat, initiative systems, action economies
+- **[godot-genre-moba](skills/godot-genre-moba/SKILL.md)**: Lane management, tower aggro, fog of war, ability cooldowns
+- **[godot-genre-rts](skills/godot-genre-rts/SKILL.md)**: Unit selection, command queues, fog of war, pathfinding
+- **[godot-genre-tower-defense](skills/godot-genre-tower-defense/SKILL.md)**: Wave spawning, targeting priority, mazing mechanics
+- **[godot-genre-turn-system](skills/godot-genre-turn-system/SKILL.md)**: Turn-based combat, initiative systems, action economies
 
 **Exploration & Adventure**
-- **godot-genre-metroidvania**: Ability gating, interconnected worlds, map revelation
-- **godot-genre-open-world**: Chunk streaming, floating origin, HLOD, POI discovery
-- **godot-genre-roguelike**: Procedural generation, permadeath, meta-progression, seeded RNG
-- **godot-genre-survival**: Needs systems, crafting recipes, base building, resource gathering
+- **[godot-genre-metroidvania](skills/godot-genre-metroidvania/SKILL.md)**: Ability gating, interconnected worlds, map revelation
+- **[godot-genre-open-world](skills/godot-genre-open-world/SKILL.md)**: Chunk streaming, floating origin, HLOD, POI discovery
+- **[godot-genre-roguelike](skills/godot-genre-roguelike/SKILL.md)**: Procedural generation, permadeath, meta-progression, seeded RNG
+- **[godot-genre-survival](skills/godot-genre-survival/SKILL.md)**: Needs systems, crafting recipes, base building, resource gathering
 
 **Narrative & Puzzle**
-- **godot-genre-card-game**: Deck management, effect resolution, hand layouts, Command pattern
-- **godot-genre-educational**: Adaptive difficulty, spaced repetition, mastery tracking
-- **godot-genre-horror**: Tension pacing, Director AI, sanity systems, sensory perception
-- **godot-genre-puzzle**: Undo systems, grid logic, non-verbal tutorials
-- **godot-genre-visual-novel**: Branching narratives, rollback, typewriter effects
+- **[godot-genre-card-game](skills/godot-genre-card-game/SKILL.md)**: Deck management, effect resolution, hand layouts, Command pattern
+- **[godot-genre-educational](skills/godot-genre-educational/SKILL.md)**: Adaptive difficulty, spaced repetition, mastery tracking
+- **[godot-genre-horror](skills/godot-genre-horror/SKILL.md)**: Tension pacing, Director AI, sanity systems, sensory perception
+- **[godot-genre-puzzle](skills/godot-genre-puzzle/SKILL.md)**: Undo systems, grid logic, non-verbal tutorials
+- **[godot-genre-visual-novel](skills/godot-genre-visual-novel/SKILL.md)**: Branching narratives, rollback, typewriter effects
+- **[godot-genre-romance](skills/godot-genre-romance/SKILL.md)**: Relationship tracking, affection systems, dating mechanics
 
 **Simulation & Social**
-- **godot-genre-battle-royale**: Shrinking zones, deployment systems, relevancy networking
-- **godot-genre-idle-clicker**: Big number handling, exponential growth, prestige systems
-- **godot-genre-party**: Minigame collections, local multiplayer, split-screen
-- **godot-genre-racing**: Vehicle physics, checkpoint systems, rubber-banding AI
-- **godot-genre-rhythm**: BPM conductors, timing judgments, latency compensation
-- **godot-genre-sandbox**: Voxel systems, cellular automata, emergent gameplay
-- **godot-genre-simulation**: Economy systems, time progression, feedback loops
-- **godot-genre-sports**: Ball physics, team AI, formation systems
-- **godot-genre-stealth**: Vision cones, alert states, sound propagation, gradual detection
+- **[godot-genre-battle-royale](skills/godot-genre-battle-royale/SKILL.md)**: Shrinking zones, deployment systems, relevancy networking
+- **[godot-genre-idle-clicker](skills/godot-genre-idle-clicker/SKILL.md)**: Big number handling, exponential growth, prestige systems
+- **[godot-genre-party](skills/godot-genre-party/SKILL.md)**: Minigame collections, local multiplayer, split-screen
+- **[godot-genre-racing](skills/godot-genre-racing/SKILL.md)**: Vehicle physics, checkpoint systems, rubber-banding AI
+- **[godot-genre-rhythm](skills/godot-genre-rhythm/SKILL.md)**: BPM conductors, timing judgments, latency compensation
+- **[godot-genre-sandbox](skills/godot-genre-sandbox/SKILL.md)**: Voxel systems, cellular automata, emergent gameplay
+- **[godot-genre-simulation](skills/godot-genre-simulation/SKILL.md)**: Economy systems, time progression, feedback loops
+- **[godot-genre-sports](skills/godot-genre-sports/SKILL.md)**: Ball physics, team AI, formation systems
+- **[godot-genre-stealth](skills/godot-genre-stealth/SKILL.md)**: Vision cones, alert states, sound propagation, gradual detection
 
 </details>
 
@@ -404,12 +411,22 @@ If this project accelerates your Godot development or empowers your AI agents, c
 
 | Metric | Value |
 |:---|:---|
-| **Total Skills** | 86 |
-| **Genre Blueprints** | 26 |
-| **Production Scripts** | 170+ |
-| **Reference Documents** | 85+ |
+| **Total Skills** | 87 |
+| **Genre Blueprints** | 27 |
+| **Production Scripts** | 173 |
+| **Reference Documents** | 87 |
 | **Target Engine** | Godot 4.5+ |
 | **License** | MIT |
+
+---
+
+## 🤝 Sponsorship & Partnerships
+
+We are actively seeking **strategic and technical partnerships** to accelerate the development of the Godot Agentic Ecosystem. Whether you are an infrastructure provider, an educational platform, or an individual supporter, we invite you to join our mission.
+
+🚀 **View our [Partnership Tiers & Opportunities](PARTNERS.md)**
+
+**Get in Touch**: [sponsor+github@thedivergentai.com](mailto:sponsor+github@thedivergentai.com)
 
 ---
 
