@@ -54,6 +54,10 @@ Organize every feature into four layers. Signals travel UP, never down:
 | **Mobile/Web Port** | Adaptive-Responsive | **READ**: [UI Containers](references/godot-ui-containers.md) → [Adapt Desk→Mobile](references/godot-adapt-desktop-to-mobile.md) → [Platform Mobile](references/godot-platform-mobile.md). | UI complexity, broad reach |
 | **Application / Tool** | App-Composition | **READ**: [App Composition](references/godot-composition-apps.md) → [Theming](references/godot-ui-theming.md). **Do NOT load** game-specific refs. | Different paradigm than games |
 | **Romance / Dating Sim** | Affection Economy | **READ**: [Romance](references/romance.md) → [Dialogue](references/godot-dialogue-system.md) → [UI Rich Text](references/godot-ui-rich-text.md). | High UI/Narrative density |
+| **Secrets / Easter Eggs** | Intentional Obfuscation | **READ**: [Secrets](references/mechanic-secrets.md) → [Persistence](references/godot-save-load-systems.md). | Community engagement, debug risk |
+| **Collection Quest** | Scavenger Logic | **READ**: [Collections](references/game-loop-collection.md) → [Marker3D Placement](references/godot-3d-world-building.md). | Player retention, exploration drive |
+| **Seasonal Event** | Runtime Injection | **READ**: [Easter Theming](references/theme-easter.md) → [Material Swapping](references/godot-3d-materials.md). | Fast branding, no asset pollution |
+| **Souls-like Mortality** | Risk-Reward Revival | **READ**: [Revival/Corpse Run](references/mechanic-revival.md) → [Physics 3D](references/godot-physics-3d.md). | High tension, player frustration risk |
 
 ### The "When NOT to Use a Node" Decision
 One of the most impactful expert-only decisions. The Godot docs explicitly say "avoid using nodes for everything":
@@ -311,10 +315,10 @@ func _load_chunk_threaded(chunk_pos: Vector2i) -> void:
 [3D Lighting](references/godot-3d-lighting.md) | [3D Materials](references/godot-3d-materials.md) | [3D World Building](references/godot-3d-world-building.md) | [Physics 3D](references/godot-physics-3d.md) | [Navigation/Pathfinding](references/godot-navigation-pathfinding.md) | [Procedural Generation](references/godot-procedural-generation.md)
 
 ### Gameplay Mechanics
-[Abilities](references/godot-ability-system.md) | [Combat](references/godot-combat-system.md) | [Dialogue](references/godot-dialogue-system.md) | [Economy](references/godot-economy-system.md) | [Inventory](references/godot-inventory-system.md) | [Questing](references/godot-quest-system.md) | [RPG Stats](references/godot-rpg-stats.md) | [Turn System](references/godot-turn-system.md) | [Audio](references/godot-audio-systems.md) | [Scene Transitions](references/godot-scene-management.md) | [Save/Load](references/godot-save-load-systems.md)
+[Abilities](references/godot-ability-system.md) | [Combat](references/godot-combat-system.md) | [Dialogue](references/godot-dialogue-system.md) | [Economy](references/godot-economy-system.md) | [Inventory](references/godot-inventory-system.md) | [Questing](references/godot-quest-system.md) | [RPG Stats](references/godot-rpg-stats.md) | [Turn System](references/godot-turn-system.md) | [Audio](references/godot-audio-systems.md) | [Scene Transitions](references/godot-scene-management.md) | [Save/Load](references/godot-save-load-systems.md) | [Secrets](references/mechanic-secrets.md) | [Collections](references/game-loop-collection.md) | [Revival](references/mechanic-revival.md)
 
 ### UI & UX
-[UI Containers](references/godot-ui-containers.md) | [Rich Text](references/godot-ui-rich-text.md) | [Theming](references/godot-ui-theming.md) | [Input Handling](references/godot-input-handling.md)
+[UI Containers](references/godot-ui-containers.md) | [Rich Text](references/godot-ui-rich-text.md) | [Theming](references/godot-ui-theming.md) | [Input Handling](references/godot-input-handling.md) | [Seasonal Theming](references/theme-easter.md)
 
 ### Connectivity & Platforms
 [Multiplayer](references/godot-multiplayer-networking.md) | [Server Logic](references/godot-server-architecture.md) | [Export Builds](references/godot-export-builds.md) | [Desktop](references/godot-platform-desktop.md) | [Mobile](references/godot-platform-mobile.md) | [Web](references/godot-platform-web.md) | [Console](references/godot-platform-console.md) | [VR](references/godot-platform-vr.md)

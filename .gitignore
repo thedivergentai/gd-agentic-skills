@@ -56,3 +56,4 @@ export/
 builds/
 *.tmp
 .scripts/
+.notes/

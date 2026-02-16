@@ -11,18 +11,28 @@ To provide structured, deterministic, and expert-level patterns and skills that 
 
 ### 🏗️ Technical Partnership
 For organizations providing the infrastructure that powers agentic development.
+- **Investment**: **$250 - $1,250 / month** (or equivalent infrastructure credits)
 - **Scope**: LLM API credits, Cloud GPU infrastructure, or Core Engineering contributions.
-- **Benefits**: Featured placement in `README.md`, priority integration of your tools/APIs into our skill sets, and a dedicated showcase in our documentation.
+- **Benefits**: 
+  - Priority integration of your tools/APIs into our skill sets.
+  - Dedicated showcase in our documentation.
+  - **$500+ Tier**: Featured logo placement in the `README.md` header.
 
 ### 🤝 Strategic Partnership
 For educational platforms, tool creators, or game engines seeking deep ecosystem integration.
+- **Investment**: **$1,000 / month** (minimum 3-month commitment)
 - **Scope**: Collaborative skill sets, educational curriculum integration, or specialized plugin/MCP development.
-- **Benefits**: Joint marketing opportunities, co-authored skills, and placement in our "Strategic Partners" directory.
+- **Benefits**: 
+  - Co-authored skills and "Official Partner" badge.
+  - Joint marketing campaigns.
+  - **Exclusive**: Featured placement in the `README.md` **"Latest Updates"** section for the duration of the partnership.
 
 ### 💖 Financial Sponsorship
 For individuals and corporations who believe in open-source AI productivity.
-- **Scope**: Funding for project maintenance, research into new Godot 4 APIs, and comprehensive documentation.
-- **Benefits**: GitHub Sponsor badge, recognition in our "Hall of Fame," and the warm glow of supporting the future of agentic coding.
+- **Individual Supporter**: **$5 / month** - Listing in "Hall of Fame".
+- **Bronze Sponsor**: **$50 / month** - Small logo in `README.md` footer.
+- **Silver Sponsor**: **$125 / month** - Large logo in `README.md` footer + Link.
+- **Update Sponsor**: **$250 / one-time** - "Sponsored by [Your Brand]" on a specific version update banner in the `README.md`.
 
 ---
 
@@ -30,7 +40,7 @@ For individuals and corporations who believe in open-source AI productivity.
 
 Ready to collaborate? We funnel all inbound inquiries through our dedicated partnership desk.
 
-**Email**: [sponsor+github@thedivergentai.com](mailto:sponsor+github@thedivergentai.com)
+**Email**: [sponsor@thedivergentai.com](mailto:sponsor+github@thedivergentai.com)
 
 **Instructions**:
 To ensure your inquiry is routed correctly and passes our automated filters, please use one of the following subject line prefixes:

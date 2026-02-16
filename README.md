@@ -8,7 +8,7 @@
 [![GitHub Stars](https://img.shields.io/github/stars/thedivergentai/gd-agentic-skills?style=for-the-badge&logo=github&color=58A6FF)](https://github.com/thedivergentai/gd-agentic-skills/stargazers)
 [![License](https://img.shields.io/github/license/thedivergentai/gd-agentic-skills?style=for-the-badge&color=79C0FF)](LICENSE)
 [![Godot Version](https://img.shields.io/badge/Godot-4.5%2B-478CBF?style=for-the-badge&logo=godotengine&logoColor=white)](https://godotengine.org/)
-[![Skills](https://img.shields.io/badge/Skills-87-green?style=for-the-badge)](skills_index.json)
+[![Skills](https://img.shields.io/badge/Skills-91-green?style=for-the-badge)](skills_index.json)
 [![Last Commit](https://img.shields.io/github/last-commit/thedivergentai/gd-agentic-skills?style=for-the-badge&color=purple)](https://github.com/thedivergentai/gd-agentic-skills/commits/main)
 
 **"A skill forgotten is a power lost." — The Code Architect**
@@ -20,6 +20,22 @@
 ---
 
 <div align="center">
+  <img src="assets/banner_0_0_4.webp" alt="The Easter & Renewal Update - v0.0.4" width="100%" />
+</div>
+
+#### v0.0.4 — The Easter & Renewal Update
+- **Seasonal Theming Identity**: Introduced `godot-theme-easter` for safe, runtime aesthetic injection (StyleBox duplication & material swapping).
+- **Core Loop Expansion**: Added `godot-game-loop-collection` for volumetric procedural spawning and `godot-mechanic-revival` for "Souls-like" mortality.
+- **Interaction Secrets**: Implemented `godot-mechanic-secrets` for input sequence buffering (Konami code) and hidden discovery persistence.
+
+---
+
+<details>
+<summary><b>📜 Update Archive</b></summary>
+
+<br/>
+
+<div align="center">
   <img src="assets/banner_0_0_3.webp" alt="The Romance Update - v0.0.3" width="100%" />
 </div>
 
@@ -27,11 +43,6 @@
 - **New Genre Mastery**: Introduced the comprehensive [Romance & Dating Sim](skills/godot-genre-romance/SKILL.md) skill set.
 - **Master Integration**: Unified the Romance skill into the [godot-master](skills/godot-master/SKILL.md) orchestration layer.
 - **Production Scripts**: Added battle-tested GDScript patterns for affection tracking, relationship routing, and date events.
-
----
-
-<details>
-<summary><b>📜 Update Archive</b></summary>
 
 <br/>
 
@@ -229,13 +240,16 @@ Think of micro-skills as your **component library**: Drop them into your project
 </details>
 
 <details>
-<summary><b>⚔️ Gameplay Mechanics (10 skills)</b></summary>
+<summary><b>⚔️ Gameplay Mechanics (13 skills)</b></summary>
 
 - **[godot-ability-system](skills/godot-ability-system/SKILL.md)**: Cooldowns, skill trees, combo systems, upgrade paths
 - **[godot-combat-system](skills/godot-combat-system/SKILL.md)**: Hitbox/hurtbox architecture, damage calculation, invincibility frames
 - **[godot-dialogue-system](skills/godot-dialogue-system/SKILL.md)**: Branching dialogue, character portraits, typewriter effects, localization
 - **[godot-economy-system](skills/godot-economy-system/SKILL.md)**: Multi-currency, shop systems, dynamic pricing, loot tables
+- **[godot-game-loop-collection](skills/godot-game-loop-collection/SKILL.md)**: Scavenger hunt logic, volumetric spawning, collection tracking
 - **[godot-inventory-system](skills/godot-inventory-system/SKILL.md)**: Slot-based containers, stacking logic, drag-drop UI
+- **[godot-mechanic-revival](skills/godot-mechanic-revival/SKILL.md)**: Souls-like mortality, corpse runs, revival charges, consequence tracking
+- **[godot-mechanic-secrets](skills/godot-mechanic-secrets/SKILL.md)**: Input sequence buffering (Konami code), interaction thresholds, secret persistence
 - **[godot-quest-system](skills/godot-quest-system/SKILL.md)**: Quest graphs, prerequisites, state tracking
 - **[godot-rpg-stats](skills/godot-rpg-stats/SKILL.md)**: Stat modifiers, attribute scaling, damage formulas
 - **[godot-save-load-systems](skills/godot-save-load-systems/SKILL.md)**: Dictionary serialization, delta-save patterns, encryption
@@ -245,11 +259,12 @@ Think of micro-skills as your **component library**: Drop them into your project
 </details>
 
 <details>
-<summary><b>🎨 UI & UX (4 skills)</b></summary>
+<summary><b>🎨 UI & UX (5 skills)</b></summary>
 
 - **[godot-input-handling](skills/godot-input-handling/SKILL.md)**: `InputMap`, controller support, rebinding, input buffering
 - **[godot-ui-containers](skills/godot-ui-containers/SKILL.md)**: Responsive layouts, anchor presets, margin containers
 - **[godot-ui-rich-text](skills/godot-ui-rich-text/SKILL.md)**: `RichTextLabel`, BBCode, custom effects
+- **[godot-theme-easter](skills/godot-theme-easter/SKILL.md)**: Seasonal theming, runtime StyleBox duplication, juice components (wobble/bounce)
 - **[godot-ui-theming](skills/godot-ui-theming/SKILL.md)**: `.theme` resources, style inheritance, global skinning
 
 </details>
@@ -411,10 +426,10 @@ If this project accelerates your Godot development or empowers your AI agents, c
 
 | Metric | Value |
 |:---|:---|
-| **Total Skills** | 87 |
+| **Total Skills** | 91 |
 | **Genre Blueprints** | 27 |
-| **Production Scripts** | 173 |
-| **Reference Documents** | 87 |
+| **Production Scripts** | 185 |
+| **Reference Documents** | 91 |
 | **Target Engine** | Godot 4.5+ |
 | **License** | MIT |
 
@@ -426,7 +441,7 @@ We are actively seeking **strategic and technical partnerships** to accelerate t
 
 🚀 **View our [Partnership Tiers & Opportunities](PARTNERS.md)**
 
-**Get in Touch**: [sponsor+github@thedivergentai.com](mailto:sponsor+github@thedivergentai.com)
+**Get in Touch**: [sponsor@thedivergentai.com](mailto:sponsor+github@thedivergentai.com)
 
 ---
 
