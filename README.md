@@ -102,15 +102,15 @@ npx skills add thedivergentai/gd-agentic-skills
 
 ## 🏆 Godot Master — Your Lead Architect
 
-The **[godot-master](skills/godot-master/SKILL.md)** skill is the crown jewel of this repository—a consolidated expert library that orchestrates all 87 specialized skills into a unified architectural framework.
+The **[godot-master](skills/godot-master/SKILL.md)** skill is the crown jewel of this repository—a consolidated expert library that orchestrates all 91 specialized skills into a unified architectural framework.
 
 ### 🎯 What Makes Godot Master Special?
 
 Unlike individual micro-skills that focus on isolated features, **godot-master** is your *system architect*. It provides:
 
 **📚 Comprehensive Knowledge Base**
-- **87 Reference Documents**: Complete markdown guides for every skill, from foundations to advanced genres
-- **173 Production Scripts**: Battle-tested, production-ready GDScript implementations
+- **91 Reference Documents**: Complete markdown guides for every skill, from foundations to advanced genres
+- **185 Production Scripts**: Battle-tested, production-ready GDScript implementations
 - **10 Workflow Patterns**: Step-by-step architectural workflows (scaffolding, entity orchestration, persistence, optimization, multiplayer, etc.)
 
 **🧠 Expert Frameworks**
@@ -181,8 +181,8 @@ flowchart LR
 skills/godot-master/SKILL.md
 
 # Contains
-├── 87 reference markdown files (references/)
-├── 173 production scripts (scripts/)
+├── 91 reference markdown files (references/)
+├── 185 production scripts (scripts/)
 └── Complete architectural decision trees
 ```
 
