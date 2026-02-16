@@ -50,4 +50,4 @@ This skill is designed for agents to:
 
 ## Reference
 - [Godot Docs: Developing with MCP](https://docs.mcp.run/godot)
-- [Master Skill: godot-master](../godot-master/SKILL.md)
+- [Master Skill: godot-master](../SKILL.md)

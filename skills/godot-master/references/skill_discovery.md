@@ -53,4 +53,4 @@ The `skill_index_generator` follows these steps:
 
 ## Reference
 - [Godot Docs: FileAccess API](https://docs.godotengine.org/en/stable/classes/class_fileaccess.html)
-- [Master Skill: godot-master](../godot-master/SKILL.md)
+- [Master Skill: godot-master](../SKILL.md)

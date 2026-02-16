@@ -248,7 +248,7 @@ ui_cancel=Keys: Escape, Gamepad B
 5. Begin development
 
 ## Reference
-- [GDSkills godot-project-foundations](file:///D:/Development/GDSkills/skills/godot-project-foundations/SKILL.md)
+- [GDSkills godot-project-foundations](../godot-project-foundations/SKILL.md)
 
 
 ### Related

@@ -41,4 +41,4 @@ Integrate the Skill Judge into your GitHub Actions:
 
 ## Reference
 - [Godot Docs: Command Line Interface](https://docs.godotengine.org/en/stable/tutorials/editor/command_line_interface.html)
-- [Master Skill: godot-master](../godot-master/SKILL.md)
+- [Master Skill: godot-master](../SKILL.md)

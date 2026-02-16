@@ -21,7 +21,7 @@ Expert guidance for collision detection, triggers, and raycasting in Godot 2D.
 
 > **MANDATORY**: Read the script matching your use case before implementation.
 
-### [collision_matrix.gd](scripts/collision_matrix.gd)
+### [collision_setup.gd](scripts/collision_setup.gd)
 Programmatic layer/mask management with named layer constants and debug visualization.
 
 ### [physics_query_cache.gd](scripts/physics_query_cache.gd)
