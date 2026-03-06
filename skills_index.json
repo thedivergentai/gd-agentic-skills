@@ -1303,5 +1303,47 @@
       "theme inheritance",
       "dark mode"
     ]
+  },
+  {
+    "name": "godot-game-loop-harvest",
+    "description": "\"Expert patterns for resource gathering mechanics in Godot including node-based depletion (trees, rocks, ore), interactive gathering time, drop calculation with rarity tables, and visual feedback for harvesting. Use when implementing survival gathering, RPG resource nodes, or crafting-based gameplay. Trigger keywords: Harvestable, gather_time, depletion, resource_drop, loot_table, interactive_node, gathering_state, harvest_finished.\"",
+    "keywords": [
+      "Harvestable",
+      "gather_time",
+      "depletion",
+      "resource_drop",
+      "loot_table",
+      "interactive_node",
+      "gathering_state",
+      "harvest_finished"
+    ]
+  },
+  {
+    "name": "godot-game-loop-time-trial",
+    "description": "\"Expert patterns for timed challenges in Godot including ghost recording (recording player transforms), race start/finish logic with checkpoint validation, precise timing systems with millisecond formatting, and leaderboard integration. Use when implementing racing games, speed-run challenges, or platformer trials. Trigger keywords: TimeTrial, ghost_recorder, checkpoint_system, race_timer, finish_line, best_time, ghost_playback, race_state.\"",
+    "keywords": [
+      "TimeTrial",
+      "ghost_recorder",
+      "checkpoint_system",
+      "race_timer",
+      "finish_line",
+      "best_time",
+      "ghost_playback",
+      "race_state"
+    ]
+  },
+  {
+    "name": "godot-game-loop-waves",
+    "description": "\"Expert patterns for wave-based spawning in Godot including round-based difficulty scaling, dynamic enemy distribution per wave, spawn point management, and wave completion triggers. Use when implementing horde shooters, tower defense waves, or arena survival games. Trigger keywords: WaveManager, wave_spawner, difficulty_scaling, round_number, enemies_remaining, spawn_timer, wave_completed, enemy_pool.\"",
+    "keywords": [
+      "WaveManager",
+      "wave_spawner",
+      "difficulty_scaling",
+      "round_number",
+      "enemies_remaining",
+      "spawn_timer",
+      "wave_completed",
+      "enemy_pool"
+    ]
   }
-]
+]

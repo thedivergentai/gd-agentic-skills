@@ -8,7 +8,7 @@
 [![GitHub Stars](https://img.shields.io/github/stars/thedivergentai/gd-agentic-skills?style=for-the-badge&logo=github&color=58A6FF)](https://github.com/thedivergentai/gd-agentic-skills/stargazers)
 [![License](https://img.shields.io/github/license/thedivergentai/gd-agentic-skills?style=for-the-badge&color=79C0FF)](LICENSE)
 [![Godot Version](https://img.shields.io/badge/Godot-4.5%2B-478CBF?style=for-the-badge&logo=godotengine&logoColor=white)](https://godotengine.org/)
-[![Skills](https://img.shields.io/badge/Skills-91-green?style=for-the-badge)](skills_index.json)
+[![Skills](https://img.shields.io/badge/Skills-94-green?style=for-the-badge)](skills_index.json)
 [![Last Commit](https://img.shields.io/github/last-commit/thedivergentai/gd-agentic-skills?style=for-the-badge&color=purple)](https://github.com/thedivergentai/gd-agentic-skills/commits/main)
 
 **"A skill forgotten is a power lost." — The Code Architect**
@@ -18,6 +18,17 @@
 </div>
 
 ---
+
+<div align="center">
+  <img src="assets/banner_0_0_5.webp" alt="The Looper Update - v0.0.5" width="100%" />
+</div>
+
+#### v0.0.5 — The Looper Update
+- **Gameloop Evolution**: Expanded core loop patterns with `godot-game-loop-harvest`, `godot-game-loop-time-trial`, and `godot-game-loop-waves`.
+- **Master Synchronization**: Updated `godot-master` to orchestrate the new loop-centric skill sets.
+- **Aesthetic Refinement**: Introduced the "Loop" iconography for project-wide visual identity.
+
+<br/>
 
 <div align="center">
   <img src="assets/banner_0_0_4.webp" alt="The Easter & Renewal Update - v0.0.4" width="100%" />
@@ -102,15 +113,15 @@ npx skills add thedivergentai/gd-agentic-skills
 
 ## 🏆 Godot Master — Your Lead Architect
 
-The **[godot-master](skills/godot-master/SKILL.md)** skill is the crown jewel of this repository—a consolidated expert library that orchestrates all 91 specialized skills into a unified architectural framework.
+The **[godot-master](skills/godot-master/SKILL.md)** skill is the crown jewel of this repository—a consolidated expert library that orchestrates all 94 specialized skills into a unified architectural framework.
 
 ### 🎯 What Makes Godot Master Special?
 
 Unlike individual micro-skills that focus on isolated features, **godot-master** is your *system architect*. It provides:
 
 **📚 Comprehensive Knowledge Base**
-- **91 Reference Documents**: Complete markdown guides for every skill, from foundations to advanced genres
-- **185 Production Scripts**: Battle-tested, production-ready GDScript implementations
+- **94 Reference Documents**: Complete markdown guides for every skill, from foundations to advanced genres
+- **191 Production Scripts**: Battle-tested, production-ready GDScript implementations
 - **10 Workflow Patterns**: Step-by-step architectural workflows (scaffolding, entity orchestration, persistence, optimization, multiplayer, etc.)
 
 **🧠 Expert Frameworks**
@@ -247,6 +258,9 @@ Think of micro-skills as your **component library**: Drop them into your project
 - **[godot-dialogue-system](skills/godot-dialogue-system/SKILL.md)**: Branching dialogue, character portraits, typewriter effects, localization
 - **[godot-economy-system](skills/godot-economy-system/SKILL.md)**: Multi-currency, shop systems, dynamic pricing, loot tables
 - **[godot-game-loop-collection](skills/godot-game-loop-collection/SKILL.md)**: Scavenger hunt logic, volumetric spawning, collection tracking
+- **[godot-game-loop-harvest](skills/godot-game-loop-harvest/SKILL.md)**: Resource depletion, interactive gathering, drop calculation
+- **[godot-game-loop-time-trial](skills/godot-game-loop-time-trial/SKILL.md)**: Ghost recording, race logic, checkpoint-based timing
+- **[godot-game-loop-waves](skills/godot-game-loop-waves/SKILL.md)**: Wave-based spawning, difficulty scaling, round management
 - **[godot-inventory-system](skills/godot-inventory-system/SKILL.md)**: Slot-based containers, stacking logic, drag-drop UI
 - **[godot-mechanic-revival](skills/godot-mechanic-revival/SKILL.md)**: Souls-like mortality, corpse runs, revival charges, consequence tracking
 - **[godot-mechanic-secrets](skills/godot-mechanic-secrets/SKILL.md)**: Input sequence buffering (Konami code), interaction thresholds, secret persistence
@@ -426,10 +440,10 @@ If this project accelerates your Godot development or empowers your AI agents, c
 
 | Metric | Value |
 |:---|:---|
-| **Total Skills** | 91 |
+| **Total Skills** | 94 |
 | **Genre Blueprints** | 27 |
-| **Production Scripts** | 185 |
-| **Reference Documents** | 91 |
+| **Production Scripts** | 191 |
+| **Reference Documents** | 94 |
 | **Target Engine** | Godot 4.5+ |
 | **License** | MIT |
 

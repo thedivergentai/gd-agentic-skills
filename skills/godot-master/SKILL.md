@@ -1,6 +1,6 @@
 ---
 name: godot-master
-description: "Consolidated expert library for professional Godot 4.x game and application development. Orchestrates 86 specialized blueprints through architectural workflows, anti-pattern catalogs, performance budgets, and Server API patterns. Use when: (1) starting a new Godot project, (2) designing game or app architecture, (3) building entity/component systems, (4) debugging performance or physics issues, (5) choosing between 2D/3D approaches, (6) implementing multiplayer, (7) optimizing draw calls or script time, (8) porting between platforms. Primary entry point for ALL Godot development tasks."
+description: "Consolidated expert library for professional Godot 4.x game and application development. Orchestrates 94 specialized blueprints through architectural workflows, anti-pattern catalogs, performance budgets, and Server API patterns. Use when: (1) starting a new Godot project, (2) designing game or app architecture, (3) building entity/component systems, (4) debugging performance or physics issues, (5) choosing between 2D/3D approaches, (6) implementing multiplayer, (7) optimizing draw calls or script time, (8) porting between platforms. Primary entry point for ALL Godot development tasks."
 ---
 
 # Godot Master: Lead Architect Knowledge Hub
@@ -58,6 +58,9 @@ Organize every feature into four layers. Signals travel UP, never down:
 | **Collection Quest** | Scavenger Logic | **READ**: [Collections](references/game-loop-collection.md) → [Marker3D Placement](references/godot-3d-world-building.md). | Player retention, exploration drive |
 | **Seasonal Event** | Runtime Injection | **READ**: [Easter Theming](references/theme-easter.md) → [Material Swapping](references/godot-3d-materials.md). | Fast branding, no asset pollution |
 | **Souls-like Mortality** | Risk-Reward Revival | **READ**: [Revival/Corpse Run](references/mechanic-revival.md) → [Physics 3D](references/godot-physics-3d.md). | High tension, player frustration risk |
+| **Wave-based Action** | Combat Pacing Loop | **READ**: [Waves](references/game-loop-waves.md) → [Combat](references/godot-combat-system.md). | Escalating tension, encounter design |
+| **Survival Economy** | Harvesting Loop | **READ**: [Harvesting](references/game-loop-harvest.md) → [Inventory](references/godot-inventory-system.md). | Resource scarcity, loop persistence |
+| **Racing / Speedrun** | Validation Loop | **READ**: [Time Trials](references/game-loop-time-trial.md) → [Input Buffer](references/godot-input-handling.md). | High precision, ghost record drive |
 
 ### The "When NOT to Use a Node" Decision
 One of the most impactful expert-only decisions. The Godot docs explicitly say "avoid using nodes for everything":
@@ -315,7 +318,7 @@ func _load_chunk_threaded(chunk_pos: Vector2i) -> void:
 [3D Lighting](references/godot-3d-lighting.md) | [3D Materials](references/godot-3d-materials.md) | [3D World Building](references/godot-3d-world-building.md) | [Physics 3D](references/godot-physics-3d.md) | [Navigation/Pathfinding](references/godot-navigation-pathfinding.md) | [Procedural Generation](references/godot-procedural-generation.md)
 
 ### Gameplay Mechanics
-[Abilities](references/godot-ability-system.md) | [Combat](references/godot-combat-system.md) | [Dialogue](references/godot-dialogue-system.md) | [Economy](references/godot-economy-system.md) | [Inventory](references/godot-inventory-system.md) | [Questing](references/godot-quest-system.md) | [RPG Stats](references/godot-rpg-stats.md) | [Turn System](references/godot-turn-system.md) | [Audio](references/godot-audio-systems.md) | [Scene Transitions](references/godot-scene-management.md) | [Save/Load](references/godot-save-load-systems.md) | [Secrets](references/mechanic-secrets.md) | [Collections](references/game-loop-collection.md) | [Revival](references/mechanic-revival.md)
+[Abilities](references/godot-ability-system.md) | [Combat](references/godot-combat-system.md) | [Dialogue](references/godot-dialogue-system.md) | [Economy](references/godot-economy-system.md) | [Inventory](references/godot-inventory-system.md) | [Questing](references/godot-quest-system.md) | [RPG Stats](references/godot-rpg-stats.md) | [Turn System](references/godot-turn-system.md) | [Audio](references/godot-audio-systems.md) | [Scene Transitions](references/godot-scene-management.md) | [Save/Load](references/godot-save-load-systems.md) | [Secrets](references/mechanic-secrets.md) | [Collections](references/game-loop-collection.md) | [Waves](references/game-loop-waves.md) | [Harvesting](references/game-loop-harvest.md) | [Time Trials](references/game-loop-time-trial.md) | [Revival](references/mechanic-revival.md)
 
 ### UI & UX
 [UI Containers](references/godot-ui-containers.md) | [Rich Text](references/godot-ui-rich-text.md) | [Theming](references/godot-ui-theming.md) | [Input Handling](references/godot-input-handling.md) | [Seasonal Theming](references/theme-easter.md)
