@@ -450,11 +450,11 @@ If this project accelerates your Godot development or empowers your AI agents, c
 
 ---
 
-## 🤝 Sponsorship & Partnerships
+## 💖 Sponsorship & Support
 
-We are actively seeking **strategic and technical partnerships** to accelerate the development of the Godot Agentic Ecosystem. Whether you are an infrastructure provider, an educational platform, or an individual supporter, we invite you to join our mission.
+We are seeking **financial sponsors and infrastructure partners** to sustain the Godot Agentic Ecosystem. Every contribution helps us maintain these skills and keep them free for the community.
 
-🚀 **View our [Partnership Tiers & Opportunities](PARTNERS.md)**
+🚀 **View our [Sponsorship & Support Opportunities](PARTNERS.md)**
 
 **Get in Touch**: [sponsor@thedivergentai.com](mailto:sponsor+github@thedivergentai.com)
 

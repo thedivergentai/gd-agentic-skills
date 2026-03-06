@@ -1,51 +1,40 @@
-# Partnerships & Sponsorships
+# Support & Sponsorship
 
-Welcome to the **GD Agentic Skills** partnership program. We are building the world's most comprehensive, agent-first knowledge library for Godot 4.5+, and we invite organizations and individuals to join us in this mission.
+Welcome to the **GD Agentic Skills** support program. We are building a comprehensive, agent-first knowledge library for Godot 4.5+, and we invite individuals and organizations to help sustain this open-source ecosystem.
 
-## Our Mission
-To provide structured, deterministic, and expert-level patterns and skills that empower AI Coding Agents and Human Developers to build professional Godot 4 games and applications with unprecedented efficiency.
+## How to Support Us
+
+Our primary goal is to keep this library free, up-to-date, and high-quality. You can support us through financial sponsorship or by providing technical infrastructure.
 
 ---
 
-## Partnership Tiers
+## 💖 Financial Sponsorship
+This is the most direct way to help us cover development time and maintenance costs.
 
-### 🏗️ Technical Partnership
-For organizations providing the infrastructure that powers agentic development.
-- **Investment**: **$250 - $1,250 / month** (or equivalent infrastructure credits)
-- **Scope**: LLM API credits, Cloud GPU infrastructure, or Core Engineering contributions.
-- **Benefits**: 
-  - Priority integration of your tools/APIs into our skill sets.
-  - Dedicated showcase in our documentation.
-  - **$500+ Tier**: Featured logo placement in the `README.md` header.
-
-### 🤝 Strategic Partnership
-For educational platforms, tool creators, or game engines seeking deep ecosystem integration.
-- **Investment**: **$1,000 / month** (minimum 3-month commitment)
-- **Scope**: Collaborative skill sets, educational curriculum integration, or specialized plugin/MCP development.
-- **Benefits**: 
-  - Co-authored skills and "Official Partner" badge.
-  - Joint marketing campaigns.
-  - **Exclusive**: Featured placement in the `README.md` **"Latest Updates"** section for the duration of the partnership.
-
-### 💖 Financial Sponsorship
-For individuals and corporations who believe in open-source AI productivity.
-- **Individual Supporter**: **$5 / month** - Listing in "Hall of Fame".
+- **Individual Supporter**: **$5 / month** - Listing in our "Hall of Fame".
 - **Bronze Sponsor**: **$50 / month** - Small logo in `README.md` footer.
 - **Silver Sponsor**: **$125 / month** - Large logo in `README.md` footer + Link.
 - **Update Sponsor**: **$250 / one-time** - "Sponsored by [Your Brand]" on a specific version update banner in the `README.md`.
 
 ---
 
+## 🏗️ Infrastructure & Technical Support
+If you prefer to contribute resources rather than direct funding, we appreciate help in these areas:
+
+- **LLM API Credits**: Helping us test and refine skills across various models (Anthropic, Google, etc.).
+- **Cloud Infrastructure**: Providing resources for automated testing or build systems.
+- **Support**: Reach out to us if you have other ways to help.
+
+---
+
 ## Contact Information
 
-Ready to collaborate? We funnel all inbound inquiries through our dedicated partnership desk.
+Ready to support the project? Send us an email at:
 
 **Email**: [sponsor@thedivergentai.com](mailto:sponsor+github@thedivergentai.com)
 
-**Instructions**:
-To ensure your inquiry is routed correctly and passes our automated filters, please use one of the following subject line prefixes:
-- `[Partnership-Technical]`
-- `[Partnership-Strategic]`
-- `[Sponsorship-Financial]`
+**Subject Lines**:
+- `[Sponsorship-Financial]` — For monthly or one-time financial support.
+- `[Sponsorship-Infrastructure]` — For API credits or technical resources.
 
-We look forward to building the future of Godot development with you.
+Thank you for helping us build the future of agentic Godot development.
