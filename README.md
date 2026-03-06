@@ -24,9 +24,16 @@
 </div>
 
 #### v0.0.5 — The Looper Update
-- **Gameloop Evolution**: Expanded core loop patterns with `godot-game-loop-harvest`, `godot-game-loop-time-trial`, and `godot-game-loop-waves`.
-- **Master Synchronization**: Updated `godot-master` to orchestrate the new loop-centric skill sets.
-- **Aesthetic Refinement**: Introduced the "Loop" iconography for project-wide visual identity.
+- **Resource Harvesting**: Introduced `godot-game-loop-harvest` for interactive gathering, node depletion, and rarity-based drop tables.
+- **Time Trials & Ghosts**: Added `godot-game-loop-time-trial` with precise millisecond timing and ghost transform recording/playback.
+- **Wave-Based Survival**: Implemented `godot-game-loop-waves` for round-based difficulty scaling and dynamic enemy pool management.
+
+<br/>
+
+---
+
+<details>
+<summary><b>📜 Update Archive</b></summary>
 
 <br/>
 
@@ -39,12 +46,6 @@
 - **Core Loop Expansion**: Added `godot-game-loop-collection` for volumetric procedural spawning and `godot-mechanic-revival` for "Souls-like" mortality.
 - **Interaction Secrets**: Implemented `godot-mechanic-secrets` for input sequence buffering (Konami code) and hidden discovery persistence.
 
----
-
-<details>
-<summary><b>📜 Update Archive</b></summary>
-
-<br/>
 
 <div align="center">
   <img src="assets/banner_0_0_3.webp" alt="The Romance Update - v0.0.3" width="100%" />
