@@ -10,7 +10,7 @@ Async loading, transitions, instance pooling, and caching define smooth scene wo
 ### [async_scene_manager.gd](../scripts/scene_management_async_scene_manager.gd)
 Expert async scene loader with progress tracking, error handling, and transition callbacks.
 
-### [scene_pool.gd](../scripts/scene_pool.gd)
+### [scene_pool.gd](../scripts/scene_management_scene_pool.gd)
 Object pooling for frequently spawned scenes (bullets, particles, enemies).
 
 ### [scene_state_manager.gd](../scripts/scene_management_scene_state_manager.gd)

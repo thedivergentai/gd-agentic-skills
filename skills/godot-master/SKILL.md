@@ -47,20 +47,20 @@ Organize every feature into four layers. Signals travel UP, never down:
 
 | Scenario | Strategy | **MANDATORY** Skill Chain | Trade-off |
 | :--- | :--- | :--- | :--- |
-| **Rapid Prototype** | Event-Driven Mono | **READ**: [Foundations](references/godot-project-foundations.md) → [Autoloads](references/godot-autoload-architecture.md). **Do NOT load** genre or platform refs. | Fast start, spaghetti risk |
-| **Complex RPG** | Component-Driven | **READ**: [Composition](references/godot-composition.md) → [States](references/godot-state-machine-advanced.md) → [RPG Stats](references/godot-rpg-stats.md). **Do NOT load** multiplayer or platform refs. | Heavy setup, infinite scaling |
-| **Massive Open World** | Resource-Streaming | **READ**: [Open World](references/godot-genre-open-world.md) → [Save/Load](references/godot-save-load-systems.md). Also load [Performance](references/godot-performance-optimization.md). | Complex I/O, float precision jitter past 10K units |
-| **Server-Auth Multi** | Deterministic | **READ**: [Server Arch](references/godot-server-architecture.md) → [Multiplayer](references/godot-multiplayer-networking.md). **Do NOT load** single-player genre refs. | High latency, anti-cheat secure |
-| **Mobile/Web Port** | Adaptive-Responsive | **READ**: [UI Containers](references/godot-ui-containers.md) → [Adapt Desk→Mobile](references/godot-adapt-desktop-to-mobile.md) → [Platform Mobile](references/godot-platform-mobile.md). | UI complexity, broad reach |
-| **Application / Tool** | App-Composition | **READ**: [App Composition](references/godot-composition-apps.md) → [Theming](references/godot-ui-theming.md). **Do NOT load** game-specific refs. | Different paradigm than games |
-| **Romance / Dating Sim** | Affection Economy | **READ**: [Romance](references/romance.md) → [Dialogue](references/godot-dialogue-system.md) → [UI Rich Text](references/godot-ui-rich-text.md). | High UI/Narrative density |
-| **Secrets / Easter Eggs** | Intentional Obfuscation | **READ**: [Secrets](references/mechanic-secrets.md) → [Persistence](references/godot-save-load-systems.md). | Community engagement, debug risk |
-| **Collection Quest** | Scavenger Logic | **READ**: [Collections](references/game-loop-collection.md) → [Marker3D Placement](references/godot-3d-world-building.md). | Player retention, exploration drive |
-| **Seasonal Event** | Runtime Injection | **READ**: [Easter Theming](references/theme-easter.md) → [Material Swapping](references/godot-3d-materials.md). | Fast branding, no asset pollution |
-| **Souls-like Mortality** | Risk-Reward Revival | **READ**: [Revival/Corpse Run](references/mechanic-revival.md) → [Physics 3D](references/godot-physics-3d.md). | High tension, player frustration risk |
-| **Wave-based Action** | Combat Pacing Loop | **READ**: [Waves](references/game-loop-waves.md) → [Combat](references/godot-combat-system.md). | Escalating tension, encounter design |
-| **Survival Economy** | Harvesting Loop | **READ**: [Harvesting](references/game-loop-harvest.md) → [Inventory](references/godot-inventory-system.md). | Resource scarcity, loop persistence |
-| **Racing / Speedrun** | Validation Loop | **READ**: [Time Trials](references/game-loop-time-trial.md) → [Input Buffer](references/godot-input-handling.md). | High precision, ghost record drive |
+| **Rapid Prototype** | Event-Driven Mono | **READ**: [Foundations](references/project_foundations.md) → [Autoloads](references/autoload_architecture.md). **Do NOT load** genre or platform refs. | Fast start, spaghetti risk |
+| **Complex RPG** | Component-Driven | **READ**: [Composition](references/composition.md) → [States](references/state_machine_advanced.md) → [RPG Stats](references/rpg_stats.md). **Do NOT load** multiplayer or platform refs. | Heavy setup, infinite scaling |
+| **Massive Open World** | Resource-Streaming | **READ**: [Open World](references/open_world.md) → [Save/Load](references/save_load_systems.md). Also load [Performance](references/performance_optimization.md). | Complex I/O, float precision jitter past 10K units |
+| **Server-Auth Multi** | Deterministic | **READ**: [Server Arch](references/server_architecture.md) → [Multiplayer](references/multiplayer_networking.md). **Do NOT load** single-player genre refs. | High latency, anti-cheat secure |
+| **Mobile/Web Port** | Adaptive-Responsive | **READ**: [UI Containers](references/ui_containers.md) → [Adapt Desk→Mobile](references/adapt_desktop_mobile.md) → [Platform Mobile](references/platform_mobile.md). | UI complexity, broad reach |
+| **Application / Tool** | App-Composition | **READ**: [App Composition](references/composition_apps.md) → [Theming](references/ui_theming.md). **Do NOT load** game-specific refs. | Different paradigm than games |
+| **Romance / Dating Sim** | Affection Economy | **READ**: [Romance](references/romance.md) → [Dialogue](references/dialogue_system.md) → [UI Rich Text](references/ui_rich_text.md). | High UI/Narrative density |
+| **Secrets / Easter Eggs** | Intentional Obfuscation | **READ**: [Secrets](references/mechanic-secrets.md) → [Persistence](references/save_load_systems.md). | Community engagement, debug risk |
+| **Collection Quest** | Scavenger Logic | **READ**: [Collections](references/game-loop-collection.md) → [Marker3D Placement](references/3d_world_building.md). | Player retention, exploration drive |
+| **Seasonal Event** | Runtime Injection | **READ**: [Easter Theming](references/theme-easter.md) → [Material Swapping](references/3d_materials.md). | Fast branding, no asset pollution |
+| **Souls-like Mortality** | Risk-Reward Revival | **READ**: [Revival/Corpse Run](references/mechanic-revival.md) → [Physics 3D](references/physics_3d.md). | High tension, player frustration risk |
+| **Wave-based Action** | Combat Pacing Loop | **READ**: [Waves](references/game-loop-waves.md) → [Combat](references/combat_system.md). | Escalating tension, encounter design |
+| **Survival Economy** | Harvesting Loop | **READ**: [Harvesting](references/game-loop-harvest.md) → [Inventory](references/inventory_system.md). | Resource scarcity, loop persistence |
+| **Racing / Speedrun** | Validation Loop | **READ**: [Time Trials](references/game-loop-time-trial.md) → [Input Buffer](references/input_handling.md). | High precision, ghost record drive |
 
 ### The "When NOT to Use a Node" Decision
 One of the most impactful expert-only decisions. The Godot docs explicitly say "avoid using nodes for everything":
@@ -81,18 +81,18 @@ One of the most impactful expert-only decisions. The Godot docs explicitly say "
 ### Workflow 1: Professional Scaffolding
 *From empty project to production-ready container.*
 
-**MANDATORY — READ ENTIRE FILE**: [Foundations](references/godot-project-foundations.md)
+**MANDATORY — READ ENTIRE FILE**: [Foundations](references/project_foundations.md)
 1. Organize by **Feature** (`/features/player/`, `/features/combat/`), not by class type. A `player/` folder contains the scene, script, resources, and tests for the player.
-2. **READ**: [Signal Architecture](references/godot-signal-architecture.md) — Create `GlobalSignalBus` autoload with < 15 events.
-3. **READ**: [GDScript Mastery](references/godot-gdscript-mastery.md) — Enable `untyped_declaration` warning in Project Settings → GDScript → Debugging.
-4. Apply **[Project Templates](references/godot-project-templates.md)** for base `.gitignore`, export presets, and input map.
-5. Use **[MCP Scene Builder](references/godot-mcp-scene-builder.md)** if available to generate scene hierarchies programmatically.
+2. **READ**: [Signal Architecture](references/signal_architecture.md) — Create `GlobalSignalBus` autoload with < 15 events.
+3. **READ**: [GDScript Mastery](references/gdscript_mastery.md) — Enable `untyped_declaration` warning in Project Settings → GDScript → Debugging.
+4. Apply **[Project Templates](references/project_templates.md)** for base `.gitignore`, export presets, and input map.
+5. Use **[MCP Scene Builder](references/mcp_scene_builder.md)** if available to generate scene hierarchies programmatically.
 **Do NOT load** combat, multiplayer, genre, or platform references during scaffolding.
 
 ### Workflow 2: Entity Orchestration
 *Building modular, testable characters.*
 
-**MANDATORY Chain — READ ALL**: [Composition](references/godot-composition.md) → [State Machine](references/godot-state-machine-advanced.md) → [CharacterBody2D](references/godot-characterbody-2d.md) or [Physics 3D](references/godot-physics-3d.md) → [Animation Tree](references/godot-animation-tree-mastery.md)
+**MANDATORY Chain — READ ALL**: [Composition](references/composition.md) → [State Machine](references/state_machine_advanced.md) → [CharacterBody2D](references/characterbody_2d.md) or [Physics 3D](references/physics_3d.md) → [Animation Tree](references/animation_tree_mastery.md)
 **Do NOT load** UI, Audio, or Save/Load references for entity work.
 
 - The State Machine queries an `InputComponent`, never handles input directly. This allows AI/Player swap with zero refactoring.
@@ -102,45 +102,45 @@ One of the most impactful expert-only decisions. The Godot docs explicitly say "
 ### Workflow 3: Data-Driven Systems
 *Connecting Combat, Inventory, Stats through Resources.*
 
-**MANDATORY Chain — READ ALL**: [Resource Patterns](references/godot-resource-data-patterns.md) → [RPG Stats](references/godot-rpg-stats.md) → [Combat](references/godot-combat-system.md) → [Inventory](references/godot-inventory-system.md)
+**MANDATORY Chain — READ ALL**: [Resource Patterns](references/resource_data_patterns.md) → [RPG Stats](references/rpg_stats.md) → [Combat](references/combat_system.md) → [Inventory](references/inventory_system.md)
 
 - Create ONE `ItemData.gd` extending `Resource`. Instantiate it as 100 `.tres` files instead of 100 scripts.
 - The HUD NEVER references the Player directly. It listens for `player_health_changed` on the Signal Bus.
 - Enable "Local to Scene" on ALL `@export Resource` variables, or call `resource.duplicate()` in `_ready()`. Failure to do this is Bug #1 in Part 8.
 
 ### Workflow 4: Persistence Pipeline
-**MANDATORY**: [Autoload Architecture](references/godot-autoload-architecture.md) → [Save/Load](references/godot-save-load-systems.md) → [Scene Management](references/godot-scene-management.md)
+**MANDATORY**: [Autoload Architecture](references/autoload_architecture.md) → [Save/Load](references/save_load_systems.md) → [Scene Management](references/scene_management.md)
 
 - Use dictionary-mapped serialization. Old save files MUST not corrupt when new fields are added — use `.get("key", default_value)`.
 - For procedural worlds: save the **Seed** plus a **Delta-List** of modifications, not the entire map. A 100MB world becomes a 50KB save.
 
 ### Workflow 5: Performance Optimization
-**MANDATORY**: [Debugging/Profiling](references/godot-debugging-profiling.md) → [Performance Optimization](references/godot-performance-optimization.md)
+**MANDATORY**: [Debugging/Profiling](references/debugging_profiling.md) → [Performance Optimization](references/performance_optimization.md)
 
 **Diagnosis-first approach** (NEVER optimize blindly):
 1. **High Script Time** → Profile with built-in Profiler. Check if `_process` is being called on hundreds of nodes. Move to single-manager pattern or Server APIs (see Part 6).
 2. **High Draw Calls** → Use `MultiMeshInstance` for repetitive geometry. Batch materials with ORM textures.
-3. **Physics Stutter** → Simplify collisions to primitive shapes. Load [2D Physics](references/godot-2d-physics.md) or [3D Physics](references/godot-physics-3d.md). Check if `_process` is used instead of `_physics_process` for movement.
+3. **Physics Stutter** → Simplify collisions to primitive shapes. Load [2D Physics](references/2d_physics.md) or [3D Physics](references/physics_3d.md). Check if `_process` is used instead of `_physics_process` for movement.
 4. **VRAM Overuse** → Switch textures to VRAM Compression (BPTC/S3TC for desktop, ETC2 for mobile). Never ship raw PNG.
 5. **Intermittent Frame Spikes** → Usually GC pass, synchronous `load()`, or NavigationServer recalculation. Use `ResourceLoader.load_threaded_request()`.
 
 ### Workflow 6: Cross-Platform Adaptation
-**MANDATORY**: [Input Handling](references/godot-input-handling.md) → [Adapt Desktop→Mobile](references/godot-adapt-desktop-to-mobile.md) → [Platform Mobile](references/godot-platform-mobile.md)
-**Also read**: [Platform Desktop](references/godot-platform-desktop.md), [Platform Web](references/godot-platform-web.md), [Platform Console](references/godot-platform-console.md), [Platform VR](references/godot-platform-vr.md) as needed.
+**MANDATORY**: [Input Handling](references/input_handling.md) → [Adapt Desktop→Mobile](references/adapt_desktop_mobile.md) → [Platform Mobile](references/platform_mobile.md)
+**Also read**: [Platform Desktop](references/platform_desktop.md), [Platform Web](references/platform_web.md), [Platform Console](references/platform_console.md), [Platform VR](references/platform_vr.md) as needed.
 
 - Use an `InputManager` autoload that translates all input types into normalized actions. NEVER read `Input.is_key_pressed()` directly — it blocks controller and touch support.
 - Mobile touch targets: minimum 44px physical size. Use `MarginContainer` with Safe Area logic for notch/cutout devices.
 - Web exports: Godot's `AudioServer` requires user interaction before first play (browser policy). Handle this with a "Click to Start" screen.
 
 ### Workflow 7: Procedural Generation
-**MANDATORY**: [Procedural Gen](references/godot-procedural-generation.md) → [Tilemap Mastery](references/godot-tilemap-mastery.md) or [3D World Building](references/godot-3d-world-building.md) → [Navigation](references/godot-navigation-pathfinding.md)
+**MANDATORY**: [Procedural Gen](references/procedural_generation.md) → [Tilemap Mastery](references/tilemap_mastery.md) or [3D World Building](references/3d_world_building.md) → [Navigation](references/navigation_pathfinding.md)
 
 - ALWAYS use `FastNoiseLite` resource with a fixed `seed` for deterministic generation.
 - Never bake NavMesh on the main thread. Use `NavigationServer3D.parse_source_geometry_data()` + `NavigationServer3D.bake_from_source_geometry_data_async()`.
 - For infinite worlds: chunk loading MUST happen on a background thread using `WorkerThreadPool`. Build the scene chunk off-tree, then `add_child.call_deferred()` on the main thread.
 
 ### Workflow 8: Multiplayer Architecture
-**MANDATORY — READ ALL**: [Multiplayer Networking](references/godot-multiplayer-networking.md) → [Server Architecture](references/godot-server-architecture.md) → [Adapt Single→Multi](references/godot-adapt-single-to-multiplayer.md)
+**MANDATORY — READ ALL**: [Multiplayer Networking](references/multiplayer_networking.md) → [Server Architecture](references/server_architecture.md) → [Adapt Single→Multi](references/adapt_single_multiplayer.md)
 **Do NOT load** single-player genre blueprints.
 
 - Client sends Input, Server calculates Outcome. The Client NEVER determines damage, position deltas, or inventory changes.
@@ -148,14 +148,14 @@ One of the most impactful expert-only decisions. The Godot docs explicitly say "
 - `MultiplayerSpawner` handles replication in Godot 4. Configure it per scene, not globally.
 
 ### Workflow 9: Premium UI/UX
-**MANDATORY**: [UI Theming](references/godot-ui-theming.md) → [UI Containers](references/godot-ui-containers.md) → [Tweening](references/godot-tweening.md) → [Rich Text](references/godot-ui-rich-text.md)
+**MANDATORY**: [UI Theming](references/ui_theming.md) → [UI Containers](references/ui_containers.md) → [Tweening](references/tweening.md) → [Rich Text](references/ui_rich_text.md)
 
 - NEVER override colors in Inspector. Create a `.theme` resource as the single source of truth for global skinning.
 - Every interactive element should have micro-animation: `Tween` scale pulse on buttons, `RichTextEffect` on damage numbers, `AnimationPlayer` on panel transitions.
 - Use `Control.FOCUS_MODE_ALL` and test full keyboard/gamepad navigation. Inaccessible UI blocks console certification.
 
 ### Workflow 10: Graphics & Atmosphere
-**MANDATORY**: [3D Lighting](references/godot-3d-lighting.md) → [3D Materials](references/godot-3d-materials.md) → [Shader Basics](references/godot-shaders-basics.md) → [Particles](references/godot-particles.md)
+**MANDATORY**: [3D Lighting](references/3d_lighting.md) → [3D Materials](references/3d_materials.md) → [Shader Basics](references/shaders_basics.md) → [Particles](references/particles.md)
 
 - Use `GPUParticles3D` for environment effects (rain, fog, fire). Use `CPUParticles` ONLY when script must read/write individual particle positions.
 - Always set `visibility_aabb` manually on GPU particles. The auto-calculated AABB is often wrong, causing particles to disappear when the emitter is off-screen.
@@ -196,7 +196,7 @@ Each rule includes the **non-obvious reason** — the thing only shipping experi
 | **Script Time** | < 4ms per frame | < 8ms per frame | Move hot loops to Server APIs |
 | **Physics Bodies** | < 200 active | < 1000 active | Use `PhysicsServer` direct API for mass sim |
 | **Particles** | < 2000 total | < 10000 total | GPU particles, set `visibility_aabb` manually |
-| **Audio Buses** | < 8 simultaneous | < 32 simultaneous | Use [Audio Systems](references/godot-audio-systems.md) bus routing |
+| **Audio Buses** | < 8 simultaneous | < 32 simultaneous | Use [Audio Systems](references/audio-systems.md) bus routing |
 | **Save File Size** | < 1MB | < 50MB | Seed + Delta pattern for procedural worlds |
 | **Scene Load Time** | < 500ms | < 2s | `ResourceLoader.load_threaded_request()` |
 
@@ -306,34 +306,34 @@ func _load_chunk_threaded(chunk_pos: Vector2i) -> void:
 > Load ONLY the modules needed for your current workflow. Use the Decision Matrix in Part 2 to determine which chain to follow.
 
 ### Architecture & Foundation
-[Foundations](references/godot-project-foundations.md) | [Composition](references/godot-composition.md) | [App Composition](references/godot-composition-apps.md) | [Signals](references/godot-signal-architecture.md) | [Autoloads](references/godot-autoload-architecture.md) | [States](references/godot-state-machine-advanced.md) | [Resources](references/godot-resource-data-patterns.md) | [Templates](references/godot-project-templates.md) | [MCP Setup](references/godot-mcp-setup.md) | [Skill Discovery](references/godot-skill-discovery.md) | [Skill Judge](references/godot-skill-judge.md)
+[Foundations](references/project_foundations.md) | [Composition](references/composition.md) | [App Composition](references/composition_apps.md) | [Signals](references/signal_architecture.md) | [Autoloads](references/autoload_architecture.md) | [States](references/state_machine_advanced.md) | [Resources](references/resource_data_patterns.md) | [Templates](references/project_templates.md) | [MCP Setup](references/mcp_setup.md) | [Skill Discovery](references/skill_discovery.md) | [Skill Judge](references/skill_judge.md)
 
 ### GDScript & Testing
-[GDScript Mastery](references/godot-gdscript-mastery.md) | [Testing Patterns](references/godot-testing-patterns.md) | [Debugging/Profiling](references/godot-debugging-profiling.md) | [Performance Optimization](references/godot-performance-optimization.md)
+[GDScript Mastery](references/gdscript_mastery.md) | [Testing Patterns](references/testing_patterns.md) | [Debugging/Profiling](references/debugging_profiling.md) | [Performance Optimization](references/performance_optimization.md)
 
 ### 2D Systems
-[2D Animation](references/godot-2d-animation.md) | [2D Physics](references/godot-2d-physics.md) | [Tilemaps](references/godot-tilemap-mastery.md) | [Animation Player](references/godot-animation-player.md) | [Animation Tree](references/godot-animation-tree-mastery.md) | [CharacterBody2D](references/godot-characterbody-2d.md) | [Particles](references/godot-particles.md) | [Tweening](references/godot-tweening.md) | [Shader Basics](references/godot-shaders-basics.md) | [Camera Systems](references/godot-camera-systems.md)
+[2D Animation](references/2d_animation.md) | [2D Physics](references/2d_physics.md) | [Tilemaps](references/tilemap_mastery.md) | [Animation Player](references/animation_player.md) | [Animation Tree](references/animation_tree_mastery.md) | [CharacterBody2D](references/characterbody_2d.md) | [Particles](references/particles.md) | [Tweening](references/tweening.md) | [Shader Basics](references/shaders_basics.md) | [Camera Systems](references/camera_systems.md)
 
 ### 3D Systems
-[3D Lighting](references/godot-3d-lighting.md) | [3D Materials](references/godot-3d-materials.md) | [3D World Building](references/godot-3d-world-building.md) | [Physics 3D](references/godot-physics-3d.md) | [Navigation/Pathfinding](references/godot-navigation-pathfinding.md) | [Procedural Generation](references/godot-procedural-generation.md)
+[3D Lighting](references/3d_lighting.md) | [3D Materials](references/3d_materials.md) | [3D World Building](references/3d_world_building.md) | [Physics 3D](references/physics_3d.md) | [Navigation/Pathfinding](references/navigation_pathfinding.md) | [Procedural Generation](references/procedural_generation.md)
 
 ### Gameplay Mechanics
-[Abilities](references/godot-ability-system.md) | [Combat](references/godot-combat-system.md) | [Dialogue](references/godot-dialogue-system.md) | [Economy](references/godot-economy-system.md) | [Inventory](references/godot-inventory-system.md) | [Questing](references/godot-quest-system.md) | [RPG Stats](references/godot-rpg-stats.md) | [Turn System](references/godot-turn-system.md) | [Audio](references/godot-audio-systems.md) | [Scene Transitions](references/godot-scene-management.md) | [Save/Load](references/godot-save-load-systems.md) | [Secrets](references/mechanic-secrets.md) | [Collections](references/game-loop-collection.md) | [Waves](references/game-loop-waves.md) | [Harvesting](references/game-loop-harvest.md) | [Time Trials](references/game-loop-time-trial.md) | [Revival](references/mechanic-revival.md)
+[Abilities](references/ability_system.md) | [Combat](references/combat_system.md) | [Dialogue](references/dialogue_system.md) | [Economy](references/economy_system.md) | [Inventory](references/inventory_system.md) | [Questing](references/quest_system.md) | [RPG Stats](references/rpg_stats.md) | [Turn System](references/turn_system.md) | [Audio](references/audio_systems.md) | [Scene Transitions](references/scene_management.md) | [Save/Load](references/save_load_systems.md) | [Secrets](references/mechanic-secrets.md) | [Collections](references/game-loop-collection.md) | [Waves](references/game-loop-waves.md) | [Harvesting](references/game-loop-harvest.md) | [Time Trials](references/game-loop-time-trial.md) | [Revival](references/mechanic-revival.md)
 
 ### UI & UX
-[UI Containers](references/godot-ui-containers.md) | [Rich Text](references/godot-ui-rich-text.md) | [Theming](references/godot-ui-theming.md) | [Input Handling](references/godot-input-handling.md) | [Seasonal Theming](references/theme-easter.md)
+[UI Containers](references/ui_containers.md) | [Rich Text](references/ui_rich_text.md) | [Theming](references/ui_theming.md) | [Input Handling](references/input_handling.md) | [Seasonal Theming](references/theme-easter.md)
 
 ### Connectivity & Platforms
-[Multiplayer](references/godot-multiplayer-networking.md) | [Server Logic](references/godot-server-architecture.md) | [Export Builds](references/godot-export-builds.md) | [Desktop](references/godot-platform-desktop.md) | [Mobile](references/godot-platform-mobile.md) | [Web](references/godot-platform-web.md) | [Console](references/godot-platform-console.md) | [VR](references/godot-platform-vr.md)
+[Multiplayer](references/multiplayer_networking.md) | [Server Logic](references/server_architecture.md) | [Export Builds](references/export-builds.md) | [Desktop](references/platform_desktop.md) | [Mobile](references/platform_mobile.md) | [Web](references/platform_web.md) | [Console](references/platform_console.md) | [VR](references/platform_vr.md)
 
 ### Adaptation Guides
-[2D→3D](references/godot-adapt-2d-to-3d.md) | [3D→2D](references/godot-adapt-3d-to-2d.md) | [Desktop→Mobile](references/godot-adapt-desktop-to-mobile.md) | [Mobile→Desktop](references/godot-adapt-mobile-to-desktop.md) | [Single→Multi](references/godot-adapt-single-to-multiplayer.md)
+[2D→3D](references/adapt_2d_3d.md) | [3D→2D](references/adapt_3d_2d.md) | [Desktop→Mobile](references/adapt_desktop_mobile.md) | [Mobile→Desktop](references/adapt_mobile_desktop.md) | [Single→Multi](references/adapt_single_multiplayer.md)
 
 ### Genre Blueprints
-[Action RPG](references/godot-genre-action-rpg.md) | [Shooter](references/godot-genre-shooter.md) | [RTS](references/godot-genre-rts.md) | [MOBA](references/godot-genre-moba.md) | [Rogue-like](references/godot-genre-roguelike.md) | [Survival](references/godot-genre-survival.md) | [Open World](references/godot-genre-open-world.md) | [Metroidvania](references/godot-genre-metroidvania.md) | [Platformer](references/godot-genre-platformer.md) | [Fighting](references/godot-genre-fighting.md) | [Stealth](references/godot-genre-stealth.md) | [Sandbox](references/godot-genre-sandbox.md) | [Horror](references/godot-genre-horror.md) | [Puzzle](references/godot-genre-puzzle.md) | [Racing](references/godot-genre-racing.md) | [Rhythm](references/godot-genre-rhythm.md) | [Sports](references/godot-genre-sports.md) | [Battle Royale](references/godot-genre-battle-royale.md) | [Card Game](references/godot-genre-card-game.md) | [Visual Novel](references/godot-genre-visual-novel.md) | [Romance](references/romance.md) | [Simulation](references/godot-genre-simulation.md) | [Tower Defense](references/godot-genre-tower-defense.md) | [Idle Clicker](references/godot-genre-idle-clicker.md) | [Party](references/godot-genre-party.md) | [Educational](references/godot-genre-educational.md)
+[Action RPG](references/action_rpg.md) | [Shooter](references/shooter.md) | [RTS](references/rts.md) | [MOBA](references/moba.md) | [Rogue-like](references/roguelike.md) | [Survival](references/survival.md) | [Open World](references/open_world.md) | [Metroidvania](references/metroidvania.md) | [Platformer](references/platformer.md) | [Fighting](references/fighting.md) | [Stealth](references/stealth.md) | [Sandbox](references/sandbox.md) | [Horror](references/horror.md) | [Puzzle](references/puzzle.md) | [Racing](references/racing.md) | [Rhythm](references/rhythm.md) | [Sports](references/sports.md) | [Battle Royale](references/battle_royale.md) | [Card Game](references/card_game.md) | [Visual Novel](references/visual_novel.md) | [Romance](references/romance.md) | [Simulation](references/simulation.md) | [Tower Defense](references/tower_defense.md) | [Idle Clicker](references/idle_clicker.md) | [Party](references/party.md) | [Educational](references/educational.md)
 
 ### MCP Tooling
-[MCP Scene Builder](references/godot-mcp-scene-builder.md)
+[MCP Scene Builder](references/mcp_scene_builder.md)
 
 ---
 
