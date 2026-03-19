@@ -158,7 +158,7 @@ Unlike individual micro-skills that focus on isolated features, **godot-master**
 
 **📚 Comprehensive Knowledge Base**
 - **94 Reference Documents**: Complete markdown guides for every skill, from foundations to advanced genres
-- **1960 Production Scripts**: Battle-tested, production-ready GDScript implementations
+- **982 Production Scripts**: Battle-tested, production-ready GDScript implementations
 - **10 Workflow Patterns**: Step-by-step architectural workflows (scaffolding, entity orchestration, persistence, optimization, multiplayer, etc.)
 
 **🧠 Expert Frameworks**
@@ -479,7 +479,7 @@ If this project accelerates your Godot development or empowers your AI agents, c
 |:---|:---|
 | **Total Skills** | 94 |
 | **Genre Blueprints** | 27 |
-| **Production Scripts** | 1960 |
+| **Production Scripts** | 982 |
 | **Reference Documents** | 94 |
 | **Target Engine** | Godot 4.5+ |
 | **License** | LGPLv3 |
