@@ -19,7 +19,9 @@
 
 ---
 
-> **💬 A Message from the Creator (Divergent AI) — March 19, 2026:**
+## 💬 A Message from the Creator (Divergent AI)
+
+> **March 19, 2026**
 > 
 > Hey everyone, Divergent AI here! I'm super happy that I'm seeing the project getting some love. It's motivated me to come back at it with a really strong update for you all. I've spent many hours working on updating all microskills to be completely packed with top expert-level knowledge as learned directly from the robot's mouth—the Godot documentation.
 > 
@@ -29,7 +31,7 @@
 > The reason I did this was two-fold:
 > 
 > 1. I wanted all resources to be as true to the current documentation as possible and filled with top-level expert information.
-> 2. Because I think it's important to make AI useful and that includes avoiding slop. A big part of that is ensuring the code we write follows the best practices set out by the Godot documentation and team itself.
+> 2. I think it's important to make AI useful and that includes avoiding slop. A big part of that is ensuring the code we write follows the best practices set out by the Godot documentation and team itself.
 > 
 > <br/>
 > My hope is that this agentic skillset will allow anyone to make a game if they wish and have it be good and natively, and proactively follow best practices. Not everyone is gifted with the detailed vocabulary specific to Godot they may need to make their dream game come true. I hope GDSkills acts as an assistant and expert in making them quickly come to reality.
@@ -40,6 +42,12 @@
 > </details>
 
 ---
+
+## 📜 Updates
+
+<div align="center">
+  <img src="assets/banner_0_0_6.webp" alt="The Expert Augmentation Update - v0.0.6" width="100%" />
+</div>
 
 #### v0.0.6 — The Expert Augmentation & Master Orchestration Update
 - **Microskill Overhaul**: We spent many hours updating *all* microskills to contain top expert-level knowledge, directly extracted from the Godot documentation. This massive update ensures all resources are true to the current engine state, empowering developers with best practices and reducing AI slop.
