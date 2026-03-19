@@ -1,4 +1,4 @@
-# godot-master/scripts/3d_world_building_gridmap_runtime_builder.gd
+# skills/3d-world-building/scripts/gridmap_runtime_builder.gd
 extends GridMap
 
 ## GridMap Runtime Builder Expert Pattern

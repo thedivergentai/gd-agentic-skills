@@ -1,4 +1,4 @@
-# skills/genre-party/code/party_input_router.gd
+# godot-master/scripts/party_party_input_router.gd
 extends Node
 
 ## Party Input Router Expert Pattern

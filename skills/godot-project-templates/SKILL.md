@@ -10,15 +10,57 @@ Genre-specific scaffolding, AutoLoad patterns, and modular architecture define r
 ## Available Scripts
 
 ### [base_game_manager.gd](scripts/base_game_manager.gd)
-Expert AutoLoad template for game state management (pause, scene transitions, scoring).
+Expert AutoLoad template for game state management.
 
-## NEVER Do in Project Templates
+### [base_level.gd](scripts/base_level.gd)
+Abstract base class for all loaded levels with structured lifecycle hooks.
 
+### [base_actor.gd](scripts/base_actor.gd)
+Expert foundation for all gameplay agents (Player, NPC, Enemies).
+
+### [base_menu.gd](scripts/base_menu.gd)
+UI foundation for focus persistence, animations, and input blocking.
+
+### [subsystem_locator.gd](scripts/subsystem_locator.gd)
+Decoupled alternative to monolithic managers for modular registration.
+
+### [multi_platform_input.gd](scripts/multi_platform_input.gd)
+Template-driven Input Mapping for hardware-aware profile overrides.
+
+### [platform_feature_config.gd](scripts/platform_feature_config.gd)
+Conditional platform logic using Godot Feature Tags.
+
+### [scene_state_machine.gd](scripts/scene_state_machine.gd)
+Node-based State Machine boilerplate for visual state logic.
+
+### [state_machine_node.gd](scripts/state_machine_node.gd)
+Abstract state node foundation for specialized state components.
+
+### [accessibility_tts_manager.gd](scripts/accessibility_tts_manager.gd)
+Accessibility & Localization foundation using native TTS API.
+
+### [level_steamer_manager.gd](scripts/level_steamer_manager.gd)
+Background level-loading template using `load_threaded_request`.
+
+## NEVER Do (Expert Anti-Patterns)
+
+### Directory & Scaffolding
 - **NEVER hardcode scene paths** — `get_tree().change_scene_to_file("res://levels/level_1.tscn")` in 20 places? Nightmare refactoring. Use AutoLoad + constants OR scene registry.
-- **NEVER forget AutoLoad registration** — Template includes `game_manager.gd` but not in Project Settings? Script won't load. MUST add to Project → AutoLoad.
-- **NEVER use `get_tree().paused` without groups** — Pausing entire tree = pause menu also freezes. Use process mode groups (`PROCESS_MODE_PAUSABLE` vs `PROCESS_MODE_ALWAYS`).
-- **NEVER skip Input.MOUSE_MODE_CAPTURED in FPS** — FPS template without mouse capture = cursor visible during gameplay. Set in player `_ready()`.
-- **NEVER copy-paste templates as-is** — Using platformer template for RPG? Leads to architectural debt. UNDERSTAND the structure, then adapt.
+- **NEVER skip .gdignore for asset folders** — Designer internal project files should never be imported into res:// directly.
+
+### Architecture & Lifecycle
+- **NEVER use `get_tree().paused` without groups** — Pausing entire tree = pause menu freezes. Use process mode `PROCESS_MODE_ALWAYS` on UI.
+- **NEVER skip virtual lifecycle hooks** — In base classes, always provide `_initialize_X()` hooks instead of just `_ready()` to allow child overrides without breaking parents.
+- **NEVER rely on monolithic "God" singletons** — Decouple systems using a **Signal Bus** or **Subsystem Locator**.
+
+### Platform & UI
+- **NEVER skip Input.MOUSE_MODE_CAPTURED in FPS** — Set in player `_ready()` to ensure focus.
+- **NEVER use floating point constants for UI layout** — Leads to drift. Use anchors and containers.
+- **NEVER ignore i18n Translation Context** — "Lead" (Metal) vs "Lead" (Action). Strictly use contexts in `translate()`.
+
+### Performance
+- **NEVER load massive levels synchronously** — Causes frame freezes. Strictly use `ResourceLoader.load_threaded_request()`.
+- **NEVER copy-paste templates as-is** — Using platformer template for RPG? Leads to debt. UNDERSTAND the structure, then adapt.
 
 ---
 

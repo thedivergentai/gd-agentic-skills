@@ -9,27 +9,48 @@ Signal Up/Call Down pattern, typed signals, and event buses define decoupled, ma
 
 ## Available Scripts
 
-### [global_event_bus.gd](scripts/global_event_bus.gd)
-Expert AutoLoad event bus with typed signals and connection management.
+### [signal_up_call_down_pattern.gd](scripts/signal_up_call_down_pattern.gd)
+Clean implementation of decoupled hierarchy communication: children signal up, parents call down.
 
-### [signal_debugger.gd](scripts/signal_debugger.gd)
-Runtime signal connection analyzer. Shows all connections in scene hierarchy.
+### [global_signal_bus_router.gd](scripts/global_signal_bus_router.gd)
+Expert AutoLoad event bus for system-level event routing (Achievements, UI, Saving).
 
-### [signal_spy.gd](scripts/signal_spy.gd)
-Testing utility for observing signal emissions with count tracking and history.
+### [callable_bind_context.gd](scripts/callable_bind_context.gd)
+Injecting extra static context into signal callbacks using `Callable.bind()`.
 
-> **MANDATORY - For Event Bus**: Read global_event_bus.gd before implementing cross-scene communication.
+### [unbind_unwanted_args.gd](scripts/unbind_unwanted_args.gd)
+Cleaning up function signatures by discarding unneeded signal arguments with `unbind()`.
 
+### [await_signal_sequencing.gd](scripts/await_signal_sequencing.gd)
+Replacing messy timers and state flags with linear, readable `await` signal sequences.
+
+### [safe_dynamic_connections.gd](scripts/safe_dynamic_connections.gd)
+Verifying connection state using `is_connected()` to prevent runtime multi-connection errors.
+
+### [disconnect_ghost_signals.gd](scripts/disconnect_ghost_signals.gd)
+Crucial memory management pattern for disconnecting signals when switching tracking targets.
+
+### [one_shot_deferred_connections.gd](scripts/one_shot_deferred_connections.gd)
+Using `CONNECT_ONE_SHOT` and `CONNECT_DEFERRED` for self-cleaning and physics-safe callbacks.
+
+### [track_signal_emitter_source.gd](scripts/track_signal_emitter_source.gd)
+Identifying which node fired a shared signal using `CONNECT_APPEND_SOURCE_OBJECT`.
+
+### [complex_signal_sequencer.gd](scripts/complex_signal_sequencer.gd)
+Managing multi-step asynchronous loading and transitions using sequential signal awaits.
 
 ## NEVER Do in Signal Architecture
 
-- **NEVER create circular signal dependencies** — A signals to B, B signals back to A? Infinite loops + stack overflow. Use mediator (parent OR AutoLoad) to break cycle.
-- **NEVER skip signal typing** — `signal moved` without types? No autocomplete OR type safety. Use `signal moved(direction: Vector2)` for editor support.
-- **NEVER forget to disconnect signals** — Node freed but signal still connected? "Attempt to call on null instance" error. Disconnect in `_exit_tree()` OR use `CONNECT_REFERENCE_COUNTED`.
-- **NEVER connect signals in _ready() for dynamic nodes** — Enemy spawned after level load? Signals not connected. Connect when instantiating OR use groups + `await` pattern.
-- **NEVER use signals for parent→child** — Parent signaling to child breaks encapsulation. CALL DOWN directly: `child.method()`. Reserve signals for child→parent communication.
-- **NEVER emit signals with side effects** — `died.emit()` calls `queue_free()` inside? Listeners can't respond before node freed. Emit FIRST, then cleanup.
-- **NEVER use string-based signal names** — `connect("heath_chnaged", ...)` typo = silent failure. Use direct reference: `player.health_changed.connect(...)`.
+- **NEVER use the legacy string-based `Object.connect()`** — Typos result in silent failures. Always use `signal.connect(_callback)` for compile-time validation [1].
+- **NEVER use signals to dictate behavior top-down** — Signals are past-tense events (e.g., "died"). Use direct method calls for commands (e.g., "kill") [2].
+- **NEVER connect a signal twice to the same Callable** — This throws an `ERR_INVALID_PARAMETER` at runtime unless using `CONNECT_REFERENCE_COUNTED` [3].
+- **NEVER use a Global Signal Bus for local data** — Pollutes global state and makes debugging harder. Use local connections for scene-specific logic [4].
+- **NEVER assume callbacks must accept all signal arguments** — Use `unbind()` to drop unwanted parameters and keep your API clean [5].
+- **NEVER create circular signal dependencies** — A signals B, B signals back to A? Use a mediator (parent or AutoLoad) to break the loop [26].
+- **NEVER skip signal typing** — `signal moved` without types lacks editor support. Always use `signal moved(dir: Vector2)` [27].
+- **NEVER forget to disconnect dynamic signals** — Ghost connections cause "call on null instance" errors. Disconnect in `_exit_tree()` or use `bind_node()` [28].
+- **NEVER emit signals with immediate side effects on the emitter** — If `died.emit()` calls `queue_free()`, listeners might fail to respond. Emit first [31].
+- **NEVER use signals for high-frequency data streams** — Sending 1000+ signals/second (like per-particle updates) is inefficient. Use shared arrays or direct buffers.
 
 ---
 

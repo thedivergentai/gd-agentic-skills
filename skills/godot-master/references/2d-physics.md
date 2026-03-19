@@ -1,0 +1,440 @@
+---
+name: godot-2d-physics
+description: "Expert patterns for Godot 2D physics including collision layers/masks, Area2D triggers, raycasting, and PhysicsDirectSpaceState2D queries. Use when implementing collision detection, trigger zones, line-of-sight systems, or manual physics queries. Trigger keywords: CollisionShape2D, CollisionPolygon2D, collision_layer, collision_mask, set_collision_layer_value, set_collision_mask_value, Area2D, body_entered, body_exited, RayCast2D, force_raycast_update, PhysicsPointQueryParameters2D, PhysicsShapeQueryParameters2D, direct_space_state, move_and_collide, move_and_slide."
+---
+
+# 2D Physics
+
+Expert guidance for collision detection, triggers, and raycasting in Godot 2D.
+
+## NEVER Do
+
+- **NEVER scale `CollisionShape2D` nodes** — Use the shape handles in the editor, NOT the Node2D scale property. Scaling causes unpredictable physics behavior and incorrect collision normals [12].
+- **NEVER confuse `collision_layer` with `collision_mask`** — Layer = "What AM I?", Mask = "What do I DETECT?". Setting both to the same value is usually wrong [13].
+- **NEVER multiply velocity by delta when using `move_and_slide()`** — `move_and_slide()` automatically includes timestep. Only multiply gravity/acceleration by delta [14].
+- **NEVER forget `force_raycast_update()` for manual mid-frame raycasts** — Raycasts update once per physics frame. If you change target_position, you MUST force an update [15].
+- **NEVER use `get_overlapping_bodies()` every frame** — It is expensive. Cache results with `body_entered`/`body_exited` signals instead [16].
+- **NEVER modify `RigidBody2D` state directly in `_process`** — Use `_integrate_forces()` for safe, synchronized access to `PhysicsDirectBodyState2D` [17, 411].
+- **NEVER move `PhysicsBody2D` nodes in `_process()`** — Use `_physics_process()`. Moving bodies outside the physics step causes stutter and unreliable collision detection.
+- **NEVER use `RigidBody2D` for 1000+ simple entities** — Use `PhysicsServer2D` to bypass node overhead for massive performance gains (Swarms/Bullets) [18, 397].
+- **NEVER use `Area2D` for high-frequency blocking (Bullets)** — Area signals can be delayed. Use `move_and_collide()` or `ShapeCast2D` for frame-perfect results [19].
+- **NEVER ignore 'Physics Jitter' on high-refresh monitors** — Enable Physics Interpolation to prevent micro-stutter in motion [21, 400].
+- **NEVER scale collision shapes directly at runtime** — It causes major instability. Resize the shape resource (size/radius) instead.
+- **NEVER use `set_deferred` for immediate physics transform logic** — It happens at the end of the frame. Use `force_raycast_update()` or `PhysicsServer2D` instead.
+- **NEVER leave Continuous CD (CCD) enabled for slow objects** — It adds significant CPU overhead. Reserve it for high-speed projectiles to prevent tunneling.
+- **NEVER use a single collision layer for all tiles/entities** — Separate layers (Ground, Walls, Enemies) to allow selective filtering via masks.
+- **NEVER forget to free `PhysicsServer2D` RIDs manually** — They are not garbage collected and will leak memory permanently.
+
+---
+
+## Available Scripts
+
+> **MANDATORY**: Read the script matching your use case before implementation.
+
+### [collision_setup.gd](../scripts/2d_physics_collision_setup.gd)
+Programmatic layer/mask management with named layer constants and debug visualization.
+
+### [physics_query_cache.gd](../scripts/2d_physics_physics_query_cache.gd)
+Frame-based caching for PhysicsDirectSpaceState2D queries - eliminates redundant expensive queries.
+
+### [custom_physics.gd](../scripts/2d_physics_custom_physics.gd)
+Custom physics integration patterns for CharacterBody2D. Covers non-standard gravity, forces, and manual stepping. Use for non-standard physics behavior.
+
+### [physics_queries.gd](../scripts/2d_physics_physics_queries.gd)
+PhysicsDirectSpaceState2D query patterns for raycasting, point queries, and shape queries. Use for line-of-sight, ground detection, or area scanning.
+
+### [physics_server_swarm.gd](../scripts/2d_physics_physics_server_swarm.gd)
+Low-level `PhysicsServer2D` usage for thousands of moving objects. Bypasses node overhead for massive performance gains in bullet hells or swarms.
+
+### [substepping_logic.gd](../scripts/2d_physics_substepping_logic.gd)
+Manual physics sub-stepping for high-velocity projectiles. Ensures frame-perfect collision for objects moving faster than the physics tick.
+
+### [safe_rigidbody_state.gd](../scripts/2d_physics_safe_rigidbody_state.gd)
+Thread-safe `RigidBody2D` modification using `_integrate_forces`. Ideal for teleporting bodies or applying custom impulses without jitter.
+
+### [physics_direct_query.gd](../scripts/2d_physics_physics_direct_query.gd)
+Lighweight environment sensing using `PhysicsDirectSpaceState2D`. Performs ray queries without the overhead of RayCast2D nodes.
+
+### [collision_bitmask_helper.gd](../scripts/2d_physics_collision_bitmask_helper.gd)
+Clean architectural pattern for managing complex collision layers/masks using bitwise Enums and helpers.
+
+### [raycast_vision_stack.gd](../scripts/2d_physics_raycast_vision_stack.gd)
+Optimized multicasting vision system for AI. Reuses a single RayCast2D to check multiple angles in one physics frame.
+
+### [shapecast_aoe.gd](../scripts/2d_physics_shapecast_aoe.gd)
+Robust AOE detection using `ShapeCast2D`. Provides instant collision information without the signal-lag of Area2D.
+
+### [custom_gravity_override.gd](../scripts/2d_physics_custom_gravity_override.gd)
+Logic for localized gravity zones (Water, Space, Wind) and manual character-weight simulation.
+
+### [collision_debouncer.gd](../scripts/2d_physics_collision_debouncer.gd)
+Expert pattern for preventing signal spam when multi-shape bodies enter triggers.
+
+### [jitter_interpolation_fix.gd](../scripts/2d_physics_jitter_interpolation_fix.gd)
+Standard configuration and runtime adjustments to ensure smooth character movement on high-refresh-rate monitors.
+
+### [physics_server_direct_body.gd](../scripts/2d_physics_physics_server_direct_body.gd)
+Direct PhysicsServer2D RID management for peak performance in massive physics simulations.
+
+### [move_and_collide_precision.gd](../scripts/2d_physics_move_and_collide_precision.gd)
+Expert bounce and friction logic implementation for precision-critical movement.
+
+### [continuous_collision_detection.gd](../scripts/2d_physics_continuous_collision_detection.gd)
+Advanced CCD management for preventing bullet tunneling at extremely high velocities.
+
+### [performance_batch_mover.gd](../scripts/2d_physics_performance_batch_mover.gd)
+Optimized batch movement for multiple static/animatable bodies using riders-aware logic.
+
+---
+
+## Collision Layers & Masks (Bitmask Deep Dive)
+
+### The Mental Model
+
+```gdscript
+# collision_layer (32 bits): What broadcast channels am I transmitting on?
+# collision_mask (32 bits): What broadcast channels am I listening to?
+
+# Example: Player vs Enemy
+# Player:
+#   layer = 0b0001 (Channel 1: "I am a player")
+#   mask  = 0b0110 (Channels 2+3: "I listen for enemies and walls")
+# Enemy:
+#   layer = 0b0010 (Channel 2: "I am an enemy")
+#   mask  = 0b0101 (Channels 1+3: "I listen for players and walls")
+```
+
+### Bitmask Helpers
+
+```gdscript
+# ✅ GOOD: Use helper functions for clarity
+func setup_player_collision() -> void:
+    # I am layer 1
+    set_collision_layer_value(1, true)
+    
+    # I detect layers 2 (enemies) and 3 (world)
+    set_collision_mask_value(2, true)
+    set_collision_mask_value(3, true)
+
+# ✅ GOOD: Bit shift for programmatic layer math
+func enable_layers(base_layer: int, count: int) -> void:
+    var mask := 0
+    for i in range(count):
+        mask |= (1 << (base_layer + i - 1))
+    collision_mask = mask
+
+# ❌ BAD: Hardcoded bitmasks without documentation
+collision_mask = 0b110110  # What does this mean?!
+```
+
+### Common Patterns
+
+```gdscript
+# Pattern: Projectile that hits enemies but ignores other projectiles
+# projectile.gd
+extends Area2D
+
+func _ready() -> void:
+    set_collision_layer_value(4, true)   # Layer 4: "Projectiles"
+    set_collision_mask_value(2, true)    # Mask Layer 2: "Enemies"
+    # Result: Projectiles don't collide with each other
+
+# Pattern: One-way platform (player can jump through from below)
+# platform.gd
+extends StaticBody2D
+
+@export var one_way := true
+
+func _ready() -> void:
+    set_collision_layer_value(3, true)   # Layer 3: "World"
+    if one_way:
+        # Use Area2D + collision exemption instead
+        # (Standard one-way platforms use different technique)
+        pass
+```
+
+---
+
+## Area2D Expert Patterns
+
+### Problem: Duplicate Triggers on Multi-CollisionShape
+
+```gdscript
+# ❌ BAD: body_entered fires MULTIPLE times if Area2D has multiple shapes
+extends Area2D
+
+func _ready() -> void:
+    body_entered.connect(_on_body_entered)
+
+func _on_body_entered(body: Node2D) -> void:
+    print("Entered!")  # Fires 3x if Area has 3 CollisionShapes!
+
+# ✅ GOOD: Track unique bodies with Set
+extends Area2D
+
+var _active_bodies := {}  # Use dict as Set
+
+func _ready() -> void:
+    body_entered.connect(_on_body_entered)
+    body_exited.connect(_on_body_exited)
+
+func _on_body_entered(body: Node2D) -> void:
+    if body not in _active_bodies:
+        _active_bodies[body] = true
+        print("First entrance!")  # Fires once
+
+func _on_body_exited(body: Node2D) -> void:
+    _active_bodies.erase(body)
+```
+
+### Damage-Over-Time with Immunity Frames
+
+```gdscript
+# lava_zone.gd
+extends Area2D
+
+@export var damage_per_tick := 5
+@export var tick_rate := 0.5  # Damage every 0.5s
+
+var _damage_timers := {}  # body -> time_until_next_tick
+
+func _ready() -> void:
+    body_entered.connect(_on_body_entered)
+    body_exited.connect(_on_body_exited)
+
+func _on_body_entered(body: Node2D) -> void:
+    if body.has_method("take_damage"):
+        _damage_timers[body] = 0.0  # Immediate first tick
+
+func _on_body_exited(body: Node2D) -> void:
+    _damage_timers.erase(body)
+
+func _process(delta: float) -> void:
+    for body in _damage_timers.keys():
+        _damage_timers[body] -= delta
+        if _damage_timers[body] <= 0.0:
+            body.take_damage(damage_per_tick)
+            _damage_timers[body] = tick_rate
+```
+
+---
+
+## RayCast2D Advanced Usage
+
+### Dynamic Raycast Rotation
+
+```gdscript
+# enemy_vision.gd - Enemy looks toward player
+extends CharacterBody2D
+
+@onready var vision_ray: RayCast2D = $VisionRay
+
+func can_see_target(target: Node2D) -> bool:
+    var direction := global_position.direction_to(target.global_position)
+    vision_ray.target_position = direction * 300  # 300px range
+    vision_ray.force_raycast_update()  # CRITICAL: Update mid-frame
+    
+    if vision_ray.is_colliding():
+        return vision_ray.get_collider() == target
+    return false
+```
+
+### Multipa Raycasts for Ledge Detection
+
+```gdscript
+# platformer_controller.gd
+extends CharacterBody2D
+
+@onready var floor_front: RayCast2D = $FloorCheckFront
+@onready var floor_back: RayCast2D = $FloorCheckBack
+
+func at_ledge() -> bool:
+    return floor_front.is_colliding() and not floor_back.is_colliding()
+
+func _physics_process(delta: float) -> void:
+    if at_ledge() and is_on_floor():
+        # Enemy AI: Turn around at ledges
+        velocity.x *= -1
+```
+
+### Raycast Exclusions
+
+```gdscript
+# Ignore specific bodies (e.g., self)
+func _ready() -> void:
+    $RayCast2D.add_exception(self)
+    $RayCast2D.add_exception($Weapon)  # Ignore attached weapon collider
+
+# Reset exclusions
+$RayCast2D.clear_exceptions()
+```
+
+---
+
+## PhysicsDirectSpaceState2D (Manual Queries)
+
+### Point Query: Click Detection
+
+```gdscript
+# Check if mouse click hits any physics body
+func get_body_at_mouse() -> Node2D:
+    var mouse_pos := get_global_mouse_position()
+    var space := get_world_2d().direct_space_state
+    
+    var query := PhysicsPointQueryParameters2D.new()
+    query.position = mouse_pos
+    query.collide_with_areas = false
+    query.collision_mask = 0b11111111  # All layers
+    
+    var results := space.intersect_point(query, 1)  # Max 1 result
+    if results.is_empty():
+        return null
+    return results[0].collider
+```
+
+### Shape Cast: AOE Attack
+
+```gdscript
+# AOE damage in circle around player
+func damage_nearby_enemies(center: Vector2, radius: float, damage: int) -> void:
+    var space := get_world_2d().direct_space_state
+    var query := PhysicsShapeQueryParameters2D.new()
+    
+    var circle := CircleShape2D.new()
+    circle.radius = radius
+    query.shape = circle
+    query.transform = Transform2D(0.0, center)
+    query.collision_mask = 0b0010  # Layer 2: Enemies
+    
+    var hits := space.intersect_shape(query)
+    for hit in hits:
+        var enemy: Node2D = hit.collider
+        if enemy.has_method("take_damage"):
+            enemy.take_damage(damage)
+```
+
+### Ray Cast: Instant Hit Weapon
+
+```gdscript
+# Hitscan weapon (no projectile)
+func fire_hitscan_weapon(from: Vector2, direction: Vector2, max_range: float) -> void:
+    var space := get_world_2d().direct_space_state
+    var query := PhysicsRayQueryParameters2D.create(from, from + direction * max_range)
+    query.exclude = [self]
+    query.collision_mask = 0b0010  # Enemies
+    
+    var result := space.intersect_ray(query)
+    if result:
+        var hit_enemy: Node2D = result.collider
+        var hit_point: Vector2 = result.position
+        
+        spawn_hit_effect(hit_point)
+        if hit_enemy.has_method("take_damage"):
+            hit_enemy.take_damage(25)
+```
+
+---
+
+## Decision Tree: Collision Detection Methods
+
+| Use Case | Method | Why |
+|----------|--------|-----|
+| Continuous trigger zone | Area2D + signals | Memory of what's inside, signals are efficient |
+| One-time pickup (coin) | Area2D + queue_free() on enter | Simple, automatic cleanup |
+| Line-of-sight check | RayCast2D | Efficient, built-in |
+| Click-to-select units | PhysicsPointQueryParameters2D | Single query, no permanent node |
+| AOE spell | PhysicsShapeQueryParameters2D | One-shot query, flexible shape |
+| Instant-hit weapon | PhysicsRayQueryParameters2D | Hitscan, no projectile physics |
+| Platformer ground check | RayCast2D or raycast down | Precise ledge detection |
+
+---
+
+## Edge Cases
+
+### Collision During _ready()
+
+```gdscript
+# ❌ BAD: Raycasts don't work in _ready() (physics not initialized)
+func _ready() -> void:
+    if $RayCast2D.is_colliding():  # Always false!
+        print("Hit something")
+
+# ✅ GOOD: Wait for physics frame
+func _ready() -> void:
+    await get_tree().physics_frame
+    if $RayCast2D.is_colliding():
+        print("Hit something")
+```
+
+### Area2D Not Detecting CharacterBody2D
+
+```gdscript
+# Problem: CharacterBody2D has collision_layer = 0 by default
+# Solution: Explicitly set layer
+
+# character.gd
+func _ready() -> void:
+    collision_layer = 0b0001  # Layer 1: Player
+```
+
+### Raycast Hitting Backfaces
+
+```gdscript
+# Raycasts hit both front and back of collision shapes
+# To raycast one-way (front only), use Area2D monitoring
+```
+
+---
+
+## Performance
+
+```gdscript
+# ✅ GOOD: Disable raycasts when not needed
+func _ready() -> void:
+    $OptionalRaycast.enabled = false
+
+func check_vision() -> void:
+    $OptionalRaycast.enabled = true
+    $OptionalRaycast.force_raycast_update()
+    var sees_player := $OptionalRaycast.is_colliding()
+    $OptionalRaycast.enabled = false
+    return sees_player
+
+# ❌ BAD: Always-on raycasts for rarely-used checks
+# Leave RayCast2D.enabled = true for vision checks once per second
+```
+
+
+
+---
+
+## Expert Techniques & Optimizations
+
+### 1. Low-Level Servers for Massive Swarms
+If you are dealing with tens of thousands of projectiles or physics objects, the SceneTree node overhead will bottleneck the CPU. Bypass the SceneTree entirely by using `PhysicsServer2D` and `RenderingServer` to create, move, and draw bodies directly in C++ or GDScript.
+
+### 2. Physics Interpolation
+If your game uses a low physics tick rate to save CPU cycles (causing visible jitter), enable **Physics Interpolation** in the Project Settings. This keeps the physics tick rate low but interpolates visual transforms smoothly over rendered frames.
+
+### 3. Safe RigidBody2D Integration
+```gdscript
+extends RigidBody2D
+
+var thrust := Vector2(0, -250)
+var torque := 20000.0
+
+# According to the RigidBody2D documentation, we must use _integrate_forces 
+# to safely modify physical state without fighting the physics server.
+func _integrate_forces(state: PhysicsDirectBodyState2D) -> void:
+    if Input.is_action_pressed("ui_up"):
+        # Apply force taking current rotation into account
+        state.apply_force(thrust.rotated(rotation))
+    else:
+        state.apply_force(Vector2.ZERO)
+        
+    var rotation_dir := Input.get_axis("ui_left", "ui_right")
+    state.apply_torque(rotation_dir * torque)
+```
+
+## Reference
+- Master Skill: [godot-master](../SKILL.md)

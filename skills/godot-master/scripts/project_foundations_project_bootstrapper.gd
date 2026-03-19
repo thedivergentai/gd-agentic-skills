@@ -1,4 +1,4 @@
-# godot-master/scripts/project_foundations_project_bootstrapper.gd
+# skills/project-foundations/code/project_bootstrapper.gd
 @tool
 extends EditorScript
 

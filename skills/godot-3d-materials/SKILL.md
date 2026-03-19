@@ -14,6 +14,11 @@ Expert guidance for PBR materials and StandardMaterial3D in Godot.
 - **NEVER use TRANSPARENCY_ALPHA for cutout materials** — Use TRANSPARENCY_ALPHA_SCISSOR or TRANSPARENCY_ALPHA_HASH instead. Full alpha blending is expensive and causes sorting issues.
 - **NEVER set metallic = 0.5** — Materials are either metallic (1.0) or dielectric (0.0). Values between are physically incorrect except for rust/dirt transitions.
 - **NEVER use emission without HDR** — Emission values > 1.0 only work with HDR rendering enabled in Project Settings.
+- **NEVER use transparent materials for large environmental surfaces** — Transparent objects cannot rely on the Z-buffer for early fragment rejection, resulting in massive overdraw. If only a tiny part of a mesh is transparent, split the mesh into two surfaces: one opaque, one transparent.
+- **NEVER create hundreds of slightly varied StandardMaterial3D resources if performance is dropping** — Godot minimizes GPU state changes by automatically reusing the underlying shader for materials that share the exact same configuration flags (checkboxes). Try to group your material configurations.
+- **NEVER attempt to fix Z-fighting strictly by moving objects further apart** — Floating-point precision degrades over distance. To fix flickering textures, increase your Camera3D's `Near` plane property and decrease the `Far` property to compress the precision range.
+- **NEVER use unique Material resources per MeshInstance3D** — This breaks draw call batching. Use 'Instance Uniforms' to vary parameters while keeping a single shared material.
+- **NEVER use Decals on dynamic moving actors without a Cull Mask** — Bullet holes should not stick to the player's face as they walk over them. Mask out character layers.
 
 ---
 
@@ -32,6 +37,36 @@ Subsurface scattering and rim lighting setup for organic surfaces (skin, leaves)
 
 ### [triplanar_world.gdshader](scripts/triplanar_world.gdshader)
 Triplanar projection shader for terrain without UV mapping. Blends textures based on surface normals. Use for cliffs, caves, or procedural terrain.
+
+### [pbr_orm_packer.gd](scripts/pbr_orm_packer.gd)
+Expert PBR resource utility. Packs Ambient Occlusion, Roughness, and Metallic into a single ORM texture to optimize VRAM and draw calls.
+
+### [vertex_wind_sway.gdshader](scripts/vertex_wind_sway.gdshader)
+High-performance GPU-driven foliage animation. Uses vertex world coordinates and vertex color weight painting to simulate wind without skeletons.
+
+### [triplanar_world_projection.gdshader](scripts/triplanar_world_projection.gdshader)
+UV-less environment mapping. Projects textures along X/Y/Z axes for organic blending over complex rocks and terrain.
+
+### [subsurface_scattering_setup.gd](scripts/subsurface_scattering_setup.gd)
+Configuring realistic organic materials. Covers Skin Mode, Transmittance, and depth scattering settings for Forward+ rendering.
+
+### [instance_uniform_batching.gdshader](scripts/instance_uniform_batching.gdshader)
+Architecture pattern for high-speed batching. Allows 10,000 meshes to share one material while maintaining unique colors or health states via instance uniforms.
+
+### [decal_placer_expert.gd](scripts/decal_placer_expert.gd)
+Dynamic 3D decal system with cull masking and life-cycle management for impact effects.
+
+### [transparency_sorting_fix.gd](scripts/transparency_sorting_fix.gd)
+Solving visual artifacts using Alpha Hash and Depth Prepass strategies.
+
+### [shader_state_manager.gd](scripts/shader_state_manager.gd)
+Clean pattern for toggling shader-based visual states (Frozen, Burned) on multiple entities.
+
+### [depth_precision_fix.gd](scripts/depth_precision_fix.gd)
+Camera-side fix for Z-fighting and texture flickering in large-scale worlds.
+
+### [material_batcher.gd](scripts/material_batcher.gd)
+Global override system to ensure environmental meshes draw in optimized, state-locked batches.
 
 ---
 
@@ -369,6 +404,32 @@ func create_gold() -> StandardMaterial3D:
     return mat
 ```
 
+
+
+---
+
+## Expert Techniques & Optimizations
+
+### 1. LOD Transitions using Pixel Dither
+When utilizing Hierarchical Level of Detail (HLOD) or Visibility Ranges to fade objects out at a distance, standard alpha blending causes severe performance hits due to overlapping transparent bounds. Instead, configure the **Distance Fade** mode on your material to **Pixel Dither**. This provides a perceptually smooth fade while remaining entirely within the high-performance opaque pipeline.
+
+### 2. Stencil Buffers (Godot 4.5+)
+Use the Stencil Buffer directly in `StandardMaterial3D`. This allows you to easily render outlines or X-ray effects for objects hidden behind walls without needing to write custom shaders for basic effects.
+
+### 3. AR Shadow Overlay Shader
+If you are developing an AR game, you might want virtual shadows to appear on real-world camera feeds. Instead of standard blending, use Godot's built-in `shadow_to_opacity` render mode in a spatial shader.
+
+```shader
+shader_type spatial;
+// shadow_to_opacity makes the material invisible when lit, 
+// but opaque (dark) when it receives a shadow from another 3D object.
+render_mode blend_mix, depth_draw_opaque, cull_back, shadow_to_opacity;
+
+void fragment() {
+    // The surface color is black; opacity will be driven by incoming shadows
+    ALBEDO = vec3(0.0, 0.0, 0.0);
+}
+```
 
 ## Reference
 - Master Skill: [godot-master](../godot-master/SKILL.md)

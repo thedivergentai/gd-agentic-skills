@@ -14,14 +14,37 @@ Branching narratives, meaningful choices, and quality-of-life features define vi
 4.  **Consequence**: Immediate reaction or long-term flag changes
 5.  **Conclude**: Reach one of multiple endings
 
-## NEVER Do in Visual Novels
+## NEVER Do (Expert Anti-Patterns)
 
-- **NEVER create illusion of choice** — If all options lead to same outcome immediately, player feels cheated. ALWAYS provide dialogue variation OR flag changes, even if plot converges later.
-- **NEVER skip Auto, Skip, and Save/Load features** — These are MANDATORY in VN genre. Players replay for all routes. Missing QoL = low-quality VN.
-- **NEVER display walls of unbroken text** — 6+ lines of text = intimidating. Limit to 3-4 lines per dialogue box. Break with character reactions or pauses.
-- **NEVER hardcode dialogue in scripts** — Writers aren't programmers. Use JSON/CSV/custom format. Hardcoding = iteration hell for narrative changes.
-- **NEVER forget rollback/history** — Player missclicks choice or wants to reread. Missing rollback = frustrating. Store state before EVERY line, use history stack.
-- **NEVER ignore BBCode/rich text effects** — Plain text = boring. Use `[wave]`, `[shake]`, `[color]` in RichTextLabel for emotional beats. "I [shake]HATE[/shake] you" > "I HATE you".
+### Narrative & Flow
+- NEVER create the "Illusion of Choice" exclusively; strictly provide **Immediate Dialogue Variations** or **Flag Changes** even if the plot converges later.
+- NEVER skip mandatory QoL features; strictly implement **Auto-Play**, **Fast-Forward**, and **Backlog/History** for replayability.
+- NEVER display "Walls of Text"; strictly limit dialogue boxes to **3-4 Lines** max to avoid intimidating the reader.
+- NEVER hardcode dialogue text inside GDScripts; strictly store narrative scripts in **External Files** (JSON, CSV, or custom Resources) for iteration.
+- NEVER ignore the **Rollback** mechanic; strictly maintain a history stack so players can undo miss-clicks or reread missed lines.
+
+### Technical & UI
+- NEVER use plain text for emotional beats; strictly use **RichTextLabel BBCode** (e.g., `[shake]`, `[wave]`) to add visual weight.
+- NEVER parse massive narrative files on the main thread; strictly use **`ResourceLoader.load_threaded_request()`** to prevent transition stutters.
+- NEVER use standard Strings for frequently accessed game flags; strictly use **`StringName`** (&"met_alice") for faster dictionary lookups.
+- NEVER use `_process` for letter-by-letter animation; strictly use a **Tween on `visible_ratio`** for smooth, frame-independent reveals.
+- NEVER neglect character **Z-ordering**; strictly ensure the active speaker is brought to the front (highest `z_index`) for visual clarity.
+- NEVER use absolute pixel positioning for character sprites; strictly rely on **Anchors & Percent-based Offsets** for responsive scaling.
+- NEVER allow text animations to continue when the player skips; strictly set **`visible_ratio` to 1.0** instantly on input.
+- NEVER leave orphaned character sprites; strictly use **`queue_free()`** when actors exit the stage to prevent memory leaks.
+
+---
+
+## 🛠 Expert Components (scripts/)
+
+### Original Expert Patterns
+- [story_manager.gd](scripts/story_manager.gd) - Flag-aware dialog orchestrator with branching logic and character state persistence.
+- [dialogue_ui.gd](scripts/dialogue_ui.gd) - Presentation layer with typewriter tweens and choice-window generation.
+- [vn_rollback_manager.gd](scripts/vn_rollback_manager.gd) - History stack maintenance for state rollback (flags/backgrounds/index).
+
+### Modular Components
+- [visual_novel_patterns.gd](scripts/visual_novel_patterns.gd) - Reusable patterns: BBCode effects, choice filtering, and sprite layering.
+- [dialogue_ui.gd](scripts/dialogue_ui.gd) - Base UI core for dialogue and character management.
 
 ---
 

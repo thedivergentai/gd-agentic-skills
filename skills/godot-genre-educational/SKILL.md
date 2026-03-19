@@ -7,21 +7,39 @@ description: "Expert blueprint for educational games including gamification loop
 
 Expert blueprint for educational games that make learning engaging through game mechanics.
 
-## NEVER Do
+## NEVER Do (Expert Anti-Patterns)
 
-- **NEVER punish failure with "Game Over"** — Learning requires safe experimentation. Use "Try Again" or "Here's a Hint" instead of fail states.
-- **NEVER separate learning from gameplay** — "Chocolate-covered broccoli" feels like homework. Make mechanics BE the learning (e.g., Typing of the Dead).
-- **NEVER use walls of text** — Players skip tutorials. Show, don't tell. Interaction first, then brief explanations.
-- **NEVER skip spaced repetition** — Questions answered incorrectly should reappear later. One-time questions don't build mastery.
-- **NEVER hide progress from learners** — Visible XP bars, mastery %, and skill trees motivate continued learning. Opaque systems frustrate.
+### Pedagogy & Flow
+- NEVER punish failure with a "Game Over"; strictly use **"Try Again"** or **Contextual Hints** to ensure a safe, encouraging learning environment.
+- NEVER separate learning from gameplay ("Chocolate-covered broccoli"); strictly ensure the **mechanic IS the learning** (e.g., math-based trajectory calc).
+- NEVER use walls of text for instructions; strictly use **Show, Don't Tell** methods: interactive diagrams, non-verbal tutorials, or 3-second looping GIFs.
+- NEVER skip **Spaced Repetition** logic; strictly ensure successfully answered questions reappear at increasing intervals to verify long-term retention.
+- NEVER focus on failure; strictly prominently display **Mastery %**, **XP Bars**, and **Skill Trees** to motivate through visible progress.
+- NEVER use static difficulty; strictly implement **Adaptive Scaling** to maintain the "Flow State" (target ~70% success rate).
+
+### Technical & Accessibility
+- NEVER hardcode text into UI; strictly use **Translation Keys (PO files)** for internationalization and classroom localized support.
+- NEVER force TTS without user consent; strictly provide an in-game toggle and respect OS-level screen reader settings.
+- NEVER use absolute pixel positioning; strictly use the **Anchoring & Container** system for responsive scaling across tablets and classroom laptops.
+- NEVER perform heavy data grading on the main thread; strictly use **WorkerThreadPool** to prevent UI freezes during automated assessments.
+- NEVER forget to handle **IME updates**; strictly monitor `NOTIFICATION_OS_IME_UPDATE` for complex character input support (e.g., East Asian).
+- NEVER ignore `mouse_filter` on overlays; strictly set to `PASS` to prevent invisible containers from silently consuming clicks.
+- NEVER update static strings in `_process()`; strictly update labels ONLY on state change events to save mobile/tablet battery.
+- NEVER embed sensitive database credentials in exports; strictly use **Environment Variables** or proxy APIs for student data security.
 ---
 
-## Available Scripts
+## 🛠 Expert Components (scripts/)
 
 > **MANDATORY**: Read the appropriate script before implementing the corresponding pattern.
 
-### [adaptive_difficulty_adjuster.gd](scripts/adaptive_difficulty_adjuster.gd)
-Success-ratio tracking with branching hints. Adjusts difficulty up/down based on sliding window, provides progressive hint disclosure on consecutive fails.
+### Original Expert Patterns
+- [adaptive_difficulty_adjuster.gd](scripts/adaptive_difficulty_adjuster.gd) - Sophisticated logic engine for Flow-State targeting (70%) and progressive hints.
+
+### Modular Components
+- [tts_manager.gd](scripts/tts_manager.gd) - displayServer Text-to-Speech integration for accessibility.
+- [dynamic_localization.gd](scripts/dynamic_localization.gd) - Runtime localization switching and pluralization support.
+- [interactive_rich_text.gd](scripts/interactive_rich_text.gd) - Meta-click handling for interactive glossaries.
+- [threaded_scoring_engine.gd](scripts/threaded_scoring_engine.gd) - WorkerThreadPool patterns for grading algorithms.
 
 ---
 

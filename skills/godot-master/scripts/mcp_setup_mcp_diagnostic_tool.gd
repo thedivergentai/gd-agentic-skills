@@ -1,4 +1,4 @@
-# godot-master/scripts/mcp_setup_mcp_diagnostic_tool.gd
+# skills/godot-mcp-setup/code/mcp_diagnostic_tool.gd
 @tool
 extends EditorScript
 

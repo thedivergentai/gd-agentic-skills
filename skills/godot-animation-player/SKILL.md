@@ -9,11 +9,15 @@ Expert guidance for Godot's timeline-based keyframe animation system.
 
 ## NEVER Do
 
-- **NEVER forget RESET tracks** — Without a RESET track, animated properties don't restore to initial values when changing scenes. Create RESET animation with all default states.
-- **NEVER use Animation.CALL_MODE_CONTINUOUS for function calls** — Calls method EVERY frame during keyframe. Use CALL_MODE_DISCRETE (calls once). Continuous causes spam.
-- **NEVER animate resource properties directly** — Animating `material.albedo_color` creates embedded resources, bloating file size. Store material in variable, animate variable's properties.
-- **NEVER use animation_finished for looping animations** — Signal doesn't fire for looped animations. Use `animation_looped` or check `current_animation` in _process().
-- **NEVER hardcode animation names as strings everywhere** — Use constants or enums. Typos cause silent failures.
+- **NEVER forget RESET tracks** — Without a RESET track, animated properties don't restore to initial values when changing scenes. Create RESET animation with all default states [12].
+- **NEVER use `Animation.CALL_MODE_CONTINUOUS` for function calls** — This calls the method EVERY frame during the keyframe. Use `CALL_MODE_DISCRETE` (calls once) to avoid logic spam [13, 77].
+- **NEVER animate resource properties directly** — Animating `material.albedo_color` creates embedded resources that bloat file size. Store the material in a variable or use `instance uniform` instead [14].
+- **NEVER use `animation_finished` for looping animations** — This signal doesn't fire for looped animations. Use `animation_looped` or check `current_animation` in `_process()`.
+- **NEVER hardcode animation names as strings across large codebases** — Use constants or enums. Typos cause silent failures.
+- **NEVER use `seek()` without `update=true` for same-frame logic** — If you need properties to update immediately (e.g., for physics checks), you MUST set the `update` parameter to `true`.
+- **NEVER leave unnecessary AnimationPlayers `active`** — If an entity is off-screen and its animation is purely visual (no logic tracks), set `active = false` to save significant CPU/GPU processing [317].
+- **NEVER change `AnimationLibrary` content while it is playing** — This causes immediate crashes or undefined transform states. Stop the player or wait for the `finished` signal before swapping libraries.
+- **NEVER rely on `speed_scale` for long-term synchronization** — For multiplayer or rhythm games, use `seek()` with a global time reference to prevent frame-drift.
 
 ---
 
@@ -21,11 +25,35 @@ Expert guidance for Godot's timeline-based keyframe animation system.
 
 > **MANDATORY**: Read the appropriate script before implementing the corresponding pattern.
 
-### [audio_sync_tracks.gd](scripts/audio_sync_tracks.gd)
-Sub-frame audio synchronization via Animation.TYPE_AUDIO tracks. Footstep setup with automatic blend handling for cross-fades.
+### [method_track_logic.gd](scripts/method_track_logic.gd)
+Expert logic triggers using `CALL_MODE_DISCRETE` for high-precision hitbox and state management.
 
-### [programmatic_anim.gd](scripts/programmatic_anim.gd)
-Procedural animation generation: creates Animation resources via code with keyframes, easing, and transition curves for dynamic runtime animations.
+### [runtime_anim_lib_swapper.gd](scripts/runtime_anim_lib_swapper.gd)
+Managing multiple `AnimationLibrary` resources (Stances, Weapons) on a single `AnimationPlayer`.
+
+### [dynamic_shader_animation.gd](scripts/dynamic_shader_animation.gd)
+Animating shader uniforms (e.g., dissolve, glow) in sync with timeline keyframes.
+
+### [procedural_track_modifier.gd](scripts/procedural_track_modifier.gd)
+Runtime modification of existing tracks (e.g., jump height tweaking) without creating new Animation resources.
+
+### [reset_track_orchestrator.gd](scripts/reset_track_orchestrator.gd)
+Pattern for forced, immediate state resets across complex multi-track node setups.
+
+### [bezier_curve_extraction.gd](scripts/bezier_curve_extraction.gd)
+Extracting numeric data from Bezier tracks at runtime to drive procedural VFX or physics.
+
+### [active_animation_culler.gd](scripts/active_animation_culler.gd)
+Performance optimization: using `VisibleOnScreenNotifier` to disable `AnimationPlayer.active`.
+
+### [root_motion_physics_sync.gd](scripts/root_motion_physics_sync.gd)
+Expert 3D CharacterBody motion extraction using `get_root_motion_position`.
+
+### [character_part_swapper_tracks.gd](scripts/character_part_swapper_tracks.gd)
+Character customization (equipment/slots) managed entirely through Animation timeline tracks.
+
+### [precise_audio_sync.gd](scripts/precise_audio_sync.gd)
+Perfectly timed SFX using `TYPE_AUDIO` tracks with volume, pitch, and start-offset control.
 
 ---
 

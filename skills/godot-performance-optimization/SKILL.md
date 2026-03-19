@@ -9,20 +9,49 @@ Profiler-driven analysis, object pooling, and visibility culling define optimize
 
 ## Available Scripts
 
-### [custom_performance_monitor.gd](scripts/custom_performance_monitor.gd)
-Manager for adding and updating custom performance monitors in the Godot debugger.
+### [worker_thread_pool_manager.gd](scripts/worker_thread_pool_manager.gd)
+Expert logic for offloading heavy computation to Godot 4's WorkerThreadPool for multi-threaded processing.
 
-### [multimesh_foliage_manager.gd](scripts/multimesh_foliage_manager.gd)
-Expert MultiMesh pattern for rendering thousands of foliage instances efficiently.
+### [object_pool_system.gd](scripts/object_pool_system.gd)
+Minimal allocation strategy using node visibility and process toggling instead of constant instantiation.
+
+### [rendering_server_direct.gd](scripts/rendering_server_direct.gd)
+Bypassing the SceneTree logic for massive canvas item rendering directly via the RenderingServer.
+
+### [low_level_physics_query.gd](scripts/low_level_physics_query.gd)
+High-performance direct physics space state queries, faster than using RayCast nodes for hundreds of checks.
+
+### [custom_monitor_profiler.gd](scripts/custom_monitor_profiler.gd)
+Implementation of real-time performance monitoring using Performance.get_monitor() for bottleneck detection.
+
+### [manual_culling_logic.gd](scripts/manual_culling_logic.gd)
+Disabling off-screen logic manually using VisibilityNotifiers to cull CPU-heavy processing.
+
+### [shared_resource_strategy.gd](scripts/shared_resource_strategy.gd)
+Expert management of Local-to-Scene vs Shared resources to balance memory usage and unique instance states.
+
+### [texture_array_batching.gd](scripts/texture_array_batching.gd)
+Reducing draw calls and state changes by utilizing TextureArrays for multi-item shader-based batching.
+
+### [multimesh_optimizer.gd](scripts/multimesh_optimizer.gd)
+Rendering thousands of animated mesh instances via hardware instancing (MultiMeshInstance3D).
+
+### [navigation_agent_optimization.gd](scripts/navigation_agent_optimization.gd)
+Staggered path update strategy for massive AI crowds to prevent pathfinding bottlenecks in a single frame.
 
 ## NEVER Do in Performance Optimization
 
-- **NEVER optimize without profiling first** — "I think physics is slow" without data? Premature optimization. ALWAYS use Debug → Profiler (F3) to identify actual bottleneck.
-- **NEVER use `print()` in release builds** — `print()` every frame = file I/O bottleneck + log spam. Use `@warning_ignore` or conditional `if OS.is_debug_build():`.
-- **NEVER ignore `VisibleOnScreenNotifier2D` for  off-screen entities** — Enemies processing logic off-screen = wasted CPU. Disable `set_process(false)` when `screen_exited`.
-- **NEVER instantiate nodes in hot loops** — `for i in 1000: var bullet = Bullet.new()` = 1000 allocations. Use object pools, reuse instances.
-- **NEVER use `get_node()` in `_process()`** — Calling `get_node("Player")` 60x/sec = tree traversal spam. Cache in `@onready var player := $Player`.
-- **NEVER forget to batch draw calls** — 1000 unique sprites = 1000 draw calls. Use TextureAtlas (sprite sheets) + MultiMesh for instanced rendering.
+- **NEVER optimize without profiling first** — "I think physics is slow" without data? Premature optimization. ALWAYS use Debug → Profiler (F3) to identify actual bottleneck [20].
+- **NEVER use `print()` in release builds** — `print()` every frame = file I/O bottleneck + log spam. Use `@warning_ignore` or conditional `if OS.is_debug_build():` [21].
+- **NEVER ignore `VisibleOnScreenNotifier2D` for off-screen entities** — Enemies processing logic off-screen = wasted CPU. Disable `set_process(false)` when `screen_exited` [22].
+- **NEVER instantiate nodes in hot loops** — `for i in 1000: var bullet = Bullet.new()` = 1000 allocations. Use object pools, reuse instances [23].
+- **NEVER use `get_node()` in `_process()`** — Calling `get_node("Player")` 60x/sec = tree traversal spam. Cache in `@onready var player := $Player` [24].
+- **NEVER forget to batch draw calls** — 1000 unique sprites = 1000 draw calls. Use TextureAtlas (sprite sheets) + MultiMesh for instanced rendering [25].
+- **NEVER block the main thread for heavy operations** — Avoid `OS.delay_msec()` or long synchronous data processing. Use `WorkerThreadPool` to keep framerates steady.
+- **NEVER use complex collision shapes for physics queries** — High-poly convex shapes are expensive to resolve. Prefer simplified primitives (Circle, Rectangle, Box).
+- **NEVER forget to disconnect local lambda signals** — Anonymous lambdas connected to global signals can cause memory leaks if the capturing object is freed.
+- **NEVER use large textures without compression** — VRAM is limited. Use VRAM Compressed (S3TC/BPTC) for fast lookup and reduced memory footprint.
+- **NEVER perform tree modifications during physics steps** — Adding/removing nodes during `_inter_ray` or `_physics_process` can lock the physics server. Use `call_deferred`.
 
 ---
 

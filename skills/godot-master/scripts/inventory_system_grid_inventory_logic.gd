@@ -1,4 +1,4 @@
-# godot-master/scripts/inventory_system_grid_inventory_logic.gd
+# skills/inventory-system/code/grid_inventory_logic.gd
 extends Resource
 class_name GridInventory
 

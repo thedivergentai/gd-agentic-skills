@@ -1,4 +1,4 @@
-# godot-master/scripts/scene_management_scene_pool.gd
+# skills/scene-management/scripts/scene_pool.gd
 extends Node
 
 ## Scene Pool Expert Pattern

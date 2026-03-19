@@ -1,4 +1,4 @@
-# godot-master/scripts/state_machine_advanced_pushdown_automaton.gd
+# skills/state-machine-advanced/scripts/pushdown_automaton.gd
 extends Node
 
 ## Pushdown Automaton Expert Pattern

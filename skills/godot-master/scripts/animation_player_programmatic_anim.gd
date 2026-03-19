@@ -1,4 +1,4 @@
-# godot-master/scripts/animation_player_programmatic_anim.gd
+# skills/animation-player/code/programmatic_anim.gd
 extends Node
 
 ## Programmatic Track Generation Expert Pattern

@@ -1,4 +1,4 @@
-# godot-master/scripts/input_handling_input_remapper.gd
+# skills/input-handling/scripts/input_remapper.gd
 extends Node
 
 ## Input Remapper Expert Pattern

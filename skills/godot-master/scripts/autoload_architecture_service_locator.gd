@@ -1,4 +1,4 @@
-# godot-master/scripts/autoload_architecture_service_locator.gd
+# skills/autoload-architecture/code/service_locator.gd
 extends Node
 
 ## Service Locator Expert Pattern

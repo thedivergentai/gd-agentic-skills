@@ -1,4 +1,4 @@
-# godot-master/scripts/platform_desktop_desktop_integration_manager.gd
+# skills/platform-desktop/scripts/desktop_integration_manager.gd
 extends Node
 
 ## Desktop Integration Manager Expert Pattern

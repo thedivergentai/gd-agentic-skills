@@ -1,4 +1,4 @@
-# godot-master/scripts/animation_player_audio_sync_tracks.gd
+# skills/animation-player/code/audio_sync_tracks.gd
 extends AnimationPlayer
 
 ## Sub-Frame Audio Sync Expert Pattern

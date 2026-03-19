@@ -1,0 +1,160 @@
+---
+name: godot-genre-visual-novel
+description: "Expert blueprint for visual novels (Doki Doki Literature Club, Phoenix Wright, Steins;Gate) focusing on branching narratives, dialogue systems, choice consequences, rollback mechanics, and persistent flags. Use when building story-driven, choice-based, or dating sim games. Keywords visual novel, dialogue system, branching narrative, typewriter effect, rollback, bbcode, RichTextLabel."
+---
+
+# Genre: Visual Novel
+
+Branching narratives, meaningful choices, and quality-of-life features define visual novels.
+
+## Core Loop
+1.  **Read**: Consume narrative text and character dialogue
+2.  **Decide**: Choose at key moments
+3.  **Branch**: Story diverges based on choice
+4.  **Consequence**: Immediate reaction or long-term flag changes
+5.  **Conclude**: Reach one of multiple endings
+
+## NEVER Do (Expert Anti-Patterns)
+
+### Narrative & Flow
+- NEVER create the "Illusion of Choice" exclusively; strictly provide **Immediate Dialogue Variations** or **Flag Changes** even if the plot converges later.
+- NEVER skip mandatory QoL features; strictly implement **Auto-Play**, **Fast-Forward**, and **Backlog/History** for replayability.
+- NEVER display "Walls of Text"; strictly limit dialogue boxes to **3-4 Lines** max to avoid intimidating the reader.
+- NEVER hardcode dialogue text inside GDScripts; strictly store narrative scripts in **External Files** (JSON, CSV, or custom Resources) for iteration.
+- NEVER ignore the **Rollback** mechanic; strictly maintain a history stack so players can undo miss-clicks or reread missed lines.
+
+### Technical & UI
+- NEVER use plain text for emotional beats; strictly use **RichTextLabel BBCode** (e.g., `[shake]`, `[wave]`) to add visual weight.
+- NEVER parse massive narrative files on the main thread; strictly use **`ResourceLoader.load_threaded_request()`** to prevent transition stutters.
+- NEVER use standard Strings for frequently accessed game flags; strictly use **`StringName`** (&"met_alice") for faster dictionary lookups.
+- NEVER use `_process` for letter-by-letter animation; strictly use a **Tween on `visible_ratio`** for smooth, frame-independent reveals.
+- NEVER neglect character **Z-ordering**; strictly ensure the active speaker is brought to the front (highest `z_index`) for visual clarity.
+- NEVER use absolute pixel positioning for character sprites; strictly rely on **Anchors & Percent-based Offsets** for responsive scaling.
+- NEVER allow text animations to continue when the player skips; strictly set **`visible_ratio` to 1.0** instantly on input.
+- NEVER leave orphaned character sprites; strictly use **`queue_free()`** when actors exit the stage to prevent memory leaks.
+
+---
+
+## 🛠 Expert Components (scripts/)
+
+### Original Expert Patterns
+- [story_manager.gd](../scripts/genre_visual_novel_story_manager.gd) - Flag-aware dialog orchestrator with branching logic and character state persistence.
+- [dialogue_ui.gd](../scripts/genre_visual_novel_dialogue_ui.gd) - Presentation layer with typewriter tweens and choice-window generation.
+- [vn_rollback_manager.gd](../scripts/genre_visual_novel_vn_rollback_manager.gd) - History stack maintenance for state rollback (flags/backgrounds/index).
+
+### Modular Components
+- [visual_novel_patterns.gd](../scripts/genre_visual_novel_visual_novel_patterns.gd) - Reusable patterns: BBCode effects, choice filtering, and sprite layering.
+- [dialogue_ui.gd](../scripts/genre_visual_novel_dialogue_ui.gd) - Base UI core for dialogue and character management.
+
+---
+
+| Phase | Skills | Purpose |
+|-------|--------|---------|
+| 1. Text & UI | `ui-system`, `rich-text-label` | Dialogue box, bbcode effects, typewriting |
+| 2. Logic | `json-parsing`, `resource-management` | Loading scripts, managing character data |
+| 3. State | `godot-save-load-systems`, `dictionaries` | Flags, history, persistent data |
+| 4. Audio | `audio-system` | Voice acting, background music transitions |
+| 5. Polish | `godot-tweening`, `shaders` | Character transitions, background effects |
+
+## Architecture Overview
+
+### 1. Story Manager (The Driver)
+Parses the script and directs the other systems.
+
+```gdscript
+# story_manager.gd
+extends Node
+
+var current_script: Dictionary
+var current_line_index: int = 0
+var flags: Dictionary = {}
+
+func load_script(script_path: String) -> void:
+    var file = FileAccess.open(script_path, FileAccess.READ)
+    current_script = JSON.parse_string(file.get_as_text())
+    current_line_index = 0
+    display_next_line()
+
+func display_next_line() -> void:
+    if current_line_index >= current_script["lines"].size():
+        return
+        
+    var line_data = current_script["lines"][current_line_index]
+    
+    if line_data.has("choice"):
+        present_choices(line_data["choice"])
+    else:
+        CharacterManager.show_character(line_data.get("character"), line_data.get("expression"))
+        DialogueUI.show_text(line_data["text"])
+        current_line_index += 1
+```
+
+### 2. Dialogue UI (Typewriter Effect)
+Displaying text character by character.
+
+```gdscript
+# dialogue_ui.gd
+func show_text(text: String) -> void:
+    rich_text_label.text = text
+    rich_text_label.visible_ratio = 0.0
+    
+    var tween = create_tween()
+    tween.tween_property(rich_text_label, "visible_ratio", 1.0, text.length() * 0.05)
+```
+
+### 3. History & Rollback
+Essential VN feature. Store the state before every line.
+
+```gdscript
+var history: Array[Dictionary] = []
+
+func save_state_to_history() -> void:
+    history.append({
+        "line_index": current_line_index,
+        "flags": flags.duplicate(),
+        "background": current_background,
+        "music": current_music
+    })
+
+func rollback() -> void:
+    if history.is_empty(): return
+    var trusted_state = history.pop_back()
+    restore_state(trusted_state)
+```
+
+## Key Mechanics Implementation
+
+### Branching Paths (Flags)
+Track decisions to influence future scenes.
+
+```gdscript
+func make_choice(choice_id: String) -> void:
+    match choice_id:
+        "be_nice":
+            flags["relationship_alice"] += 1
+            jump_to_label("alice_happy")
+        "be_mean":
+            flags["relationship_alice"] -= 1
+            jump_to_label("alice_sad")
+```
+
+### Script Format (JSON vs Resource)
+*   **JSON**: Easy to write externally, standard format.
+*   **Custom Resource**: Typosafe, editable in Inspector.
+*   **Text Parsers**: (e.g., Markdown-like syntax) simpler for writers.
+
+## Common Pitfalls
+
+1.  **Too Much Text**: Walls of text are intimidating. Break it up. **Fix**: Limit lines to 3-4 rows max.
+2.  **Illusion of Choice**: Choices that lead to the same outcome immediately feel cheap. **Fix**: Use small variations in dialogue even if the main plot converges.
+3.  **Missing Quality of Life**: No Skip, No Auto, No Save. **Fix**: These are mandatory features for the genre.
+
+## Godot-Specific Tips
+
+*   **RichTextLabel**: Use BBCode for `[wave]`, `[shake]`, `[color]` effects to add emotion to text.
+*   **Resource Preloader**: Visual Novels have heavy assets (4K backgrounds). Load scenes asynchronously or use a loading screen between chapters.
+*   **Dialogic**: Mentioning this plugin is important—it's the industry standard for Godot VNs. Use it if you want a full suite of tools, or build your own for lightweight needs.
+
+
+## Reference
+- Master Skill: [godot-master](../SKILL.md)

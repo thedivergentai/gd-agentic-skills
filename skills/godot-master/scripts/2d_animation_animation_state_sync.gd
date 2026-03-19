@@ -1,4 +1,4 @@
-# godot-master/scripts/2d_animation_animation_state_sync.gd
+# skills/2d-animation/scripts/animation_state_sync.gd
 extends Node
 
 ## Animation State Synchronization Expert Pattern

@@ -1,4 +1,4 @@
-# godot-master/scripts/physics_3d_ragdoll_manager.gd
+# skills/physics-3d/scripts/ragdoll_manager.gd
 extends Node
 
 ## Ragdoll Manager (Expert Pattern)

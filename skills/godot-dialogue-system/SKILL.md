@@ -7,13 +7,50 @@ description: "Expert patterns for branching dialogue systems including dialogue 
 
 Expert guidance for building flexible, data-driven dialogue systems.
 
-## NEVER Do
+## Available Scripts
 
-- **NEVER hardcode dialogue in scripts** — Use Resource-based DialogueLine/DialogueGraph. Hardcoded dialogue is unmaintainable for localization.
-- **NEVER forget to check choice conditions** — Displaying unavailable choices confuses players. Filter choices by `check_conditions()` before showing.
-- **NEVER use string IDs without validation** — Typos in `next_line_id` cause silent failures. Add `assert(dialogues.has(line_id))` checks.
-- **NEVER skip typewriter effect without player option** — Some players want instant text. Add "skip typewriter" button or setting.
-- **NEVER store dialogue state in UI** — UI should only display. Store current_line/dialogue_id in DialogueManager (AutoLoad) for scene transitions.
+### [dialogue_resource.gd](scripts/dialogue_resource.gd)
+Data-driven conversation tree container using Resources for modular, branching narrative paths.
+
+### [dialogue_node_data.gd](scripts/dialogue_node_data.gd)
+Serialized data structure for a single line of dialogue, including speaker metadata and portraits.
+
+### [dialogue_option_data.gd](scripts/dialogue_option_data.gd)
+Interactive player choice definition with branching logic and scriptable availability conditions.
+
+### [dialogue_manager_singleton.gd](scripts/dialogue_manager_singleton.gd)
+Centralized AutoLoad orchestrator for traversing dialogue trees and broadcasting state signals.
+
+### [dialogue_ui_controller.gd](scripts/dialogue_ui_controller.gd)
+Reactive UI bridge that maps dialogue data to visual labels and dynamic choice buttons.
+
+### [typebox_effect.gd](scripts/typebox_effect.gd)
+Polished "Character-by-character" text reveal effect using Godot's built-in Tweens.
+
+### [dialogue_event_bridge.gd](scripts/dialogue_event_bridge.gd)
+Bridge node for triggering external game events (e.g. starting a quest) from conversation nodes.
+
+### [branching_condition_validator.gd](scripts/branching_condition_validator.gd)
+Expert logic for evaluating player stats or global flags to toggle dialogue choices.
+
+### [localized_dialogue_resource.gd](scripts/localized_dialogue_resource.gd)
+Advanced strategy for supporting multi-language conversation text via translation keys.
+
+### [dialogue_portrait_manager.gd](scripts/dialogue_portrait_manager.gd)
+Visual controller for managing character expressions and entry animations during dialogue.
+
+## NEVER Do in Dialogue Systems
+
+- **NEVER hardcode dialogue text directly in your GDScript files** — This makes translation impossible. Store text in Resources or external JSON/CSV files [12].
+- **NEVER display choices that the player hasn't met the criteria for** — Hidden choices should stay hidden unless they are "grayed out" intentionally to show a missed path [13].
+- **NEVER use loose strings for node transitions without validation** — Typos in `next_node_id` will crash the dialogue mid-convo. Use `assert()` or a central ID registry [14].
+- **NEVER force a typewriter effect without a "Skip" option** — Forcing players to read at a fixed speed leads to frustration. Always allow clicking to finish the line [15].
+- **NEVER store the current dialogue state inside a UI node** — If the UI is closed or the scene changes, the player loses their place. Use an AutoLoad `DialogueManager` [16].
+- **NEVER use `get_node()` to find dialogue UI from the NPC script** — Use signals like `DialogueManager.start_dialogue(res)` to maintain a decoupled architecture.
+- **NEVER use complex regex for simple text tags** — Godot's `RichTextLabel` supports BBCode tags natively. Use `[b]`, `[i]`, and `[url]` for formatting.
+- **NEVER perform save/load operations inside a dialogue node** — Conversation nodes should be pure data. Delegate persistence to a dedicated `SaveSystem`.
+- **NEVER block the main thread for text reveal timing** — Never use `OS.delay_msec()`. Use `create_timer()` or `Tween` to maintain smooth 60fps performance.
+- **NEVER hardcode portrait paths** — Assign textures directly to the `DialogueNode` resource in the inspector or use a central `PortraitDatabase`.
 ---
 
 ## Available Scripts

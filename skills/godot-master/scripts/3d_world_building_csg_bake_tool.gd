@@ -1,4 +1,4 @@
-# godot-master/scripts/3d_world_building_csg_bake_tool.gd
+# skills/3d-world-building/code/csg_bake_tool.gd
 @tool
 extends Node3D
 

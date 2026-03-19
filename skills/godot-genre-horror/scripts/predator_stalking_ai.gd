@@ -1,4 +1,4 @@
-# skills/genre-horror/code/predator_stalking_ai.gd
+# godot-master/scripts/horror_predator_stalking_ai.gd
 extends CharacterBody2D
 
 ## Predator Stalking AI Expert Pattern

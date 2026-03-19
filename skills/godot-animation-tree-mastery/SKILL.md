@@ -9,11 +9,16 @@ Expert guidance for Godot's advanced animation blending and state machines.
 
 ## NEVER Do
 
-- **NEVER call `play()` on AnimationPlayer when using AnimationTree** — AnimationTree controls the player. Directly calling `play()` causes conflicts. Use `set("parameters/transition_request")` instead.
-- **NEVER forget to set `active = true`** — AnimationTree is inactive by default. Animations won't play until `$AnimationTree.active = true`.
-- **NEVER use absolute paths for transition_request** — Use relative paths. "parameters/StateMachine/transition_request", not "/root/.../transition_request".
-- **NEVER leave auto_advance enabled unintentionally** — Auto-advance transitions fire immediately without conditions. Useful for combo chains, but deadly for idle→walk.
-- **NEVER use BlendSpace2D for non-directional blending** — Use BlendSpace1D for speed (walk→run) or Blend2 for simple tweens. BlendSpace2D is for X+Y axes (strafe animations).
+- **NEVER call `play()` on AnimationPlayer when using AnimationTree** — AnimationTree controls the player. Directly calling `play()` causes conflicts and jitter. Use `set("parameters/transition_request")` or `travel()` instead [12].
+- **NEVER forget to set `active = true`** — AnimationTree is inactive by default. Animations won't play until `$AnimationTree.active = true` [13].
+- **NEVER use absolute paths for parameter access** — Use relative paths like `"parameters/StateMachine/transition_request"`. This ensures compatibility when nodes move in the hierarchy [14].
+- **NEVER leave `auto_advance` enabled for interactive states** — It causes immediate transitions. Use it only for automated sequences like combo chains or death-to-respawn [15, 121].
+- **NEVER use `BlendSpace2D` for 1D blending** — Blending only speed? Use `BlendSpace1D`. Blending only two states? Use `Blend2`. `BlendSpace2D` is specifically for X+Y directional inputs (strafe) [16, 142].
+- **NEVER update `AnimationTree` parameters every frame without a guard** — Setting parameters via `set()` every frame regardless of change causes cache invalidation and potential stutter. Check equality first.
+- **NEVER use deep, nested `BlendTrees` for simple logic** — Every layer adds CPU overhead. If logic can be handled in a `StateMachine` or a simple script-driven `Blend2`, do it there.
+- **NEVER forget to handle `await get_tree().process_frame` when updating parameters synchronously** — Sometimes the tree needs one frame to reconcile state before the next parameter change takes effect.
+- **NEVER rely on `auto_advance` for long cutscenes** — If an animation is interrupted, `auto_advance` can put the character in a broken state. Use `Method Tracks` to signal state completion instead.
+- **NEVER use `Sync` groups for animations with wildly different lengths** — It forces one animation to play at an extreme speed. Use `TimeScale` or separate layers for mismatching cycles.
 
 ---
 
@@ -21,11 +26,35 @@ Expert guidance for Godot's advanced animation blending and state machines.
 
 > **MANDATORY**: Read the appropriate script before implementing the corresponding pattern.
 
-### [nested_state_machine.gd](scripts/nested_state_machine.gd)
-Hierarchical state machine pattern. Shows travel() between sub-states and deep parameter paths (StateMachine/BlendSpace2D/blend_position).
+### [sync_parameter_manager.gd](scripts/sync_parameter_manager.gd)
+Expert management of `AnimationTree` parameters with guards to prevent redundant updates and GPU cache churn.
 
-### [skeleton_ik_lookat.gd](scripts/skeleton_ik_lookat.gd)
-Procedural IK for head-tracking. Drives SkeletonModifier3D look-at parameters from AnimationTree with smooth weight blending.
+### [reactive_oneshot_vfx.gd](scripts/reactive_oneshot_vfx.gd)
+Using `AnimationNodeOneShot` for high-priority reactive animations like recoil, blinks, and hit reactions.
+
+### [dynamic_timescale_control.gd](scripts/dynamic_timescale_control.gd)
+Runtime manipulation of playback speed for bullet-time effects or movement haste multipliers.
+
+### [advanced_transition_masking.gd](scripts/advanced_transition_masking.gd)
+Procedural bone filtering (masking) for nodes like `Add2` to separate upper/lower body animations.
+
+### [statemachine_travel_code.gd](scripts/statemachine_travel_code.gd)
+Programmatic control of `AnimationNodeStateMachinePlayback` using `travel()` and `start()`.
+
+### [blendtree_logic_mixing.gd](scripts/blendtree_logic_mixing.gd)
+Complex mixing patterns for `BlendTree` nodes to create interactive combat layers.
+
+### [root_motion_animtree_sync.gd](scripts/root_motion_animtree_sync.gd)
+Expert 3D CharacterBody motion extraction optimized specifically for `AnimationTree` nodes.
+
+### [sync_group_layering.gd](scripts/sync_group_layering.gd)
+Using Sync Groups to keep multi-layered animations (e.g. walk and reload) perfectly aligned.
+
+### [nested_tree_architecture.gd](scripts/nested_tree_architecture.gd)
+Pattern for managing hierarchical State Machines and nested node parameter paths.
+
+### [runtime_tree_debugging.gd](scripts/runtime_tree_debugging.gd)
+Interactive tool for visualizing current states, transition paths, and blend values in real-time.
 
 ---
 

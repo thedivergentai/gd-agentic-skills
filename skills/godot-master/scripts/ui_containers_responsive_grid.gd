@@ -1,4 +1,4 @@
-# godot-master/scripts/ui_containers_responsive_grid.gd
+# skills/ui-containers/scripts/responsive_grid.gd
 extends GridContainer
 
 ## Responsive Grid Expert Pattern

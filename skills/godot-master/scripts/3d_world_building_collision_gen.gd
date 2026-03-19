@@ -1,4 +1,4 @@
-# godot-master/scripts/3d_world_building_collision_gen.gd
+# skills/3d-world-building/code/collision_gen.gd
 extends Node
 
 ## Collision Hull Generation Protocol

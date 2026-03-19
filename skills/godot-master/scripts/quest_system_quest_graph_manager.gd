@@ -1,4 +1,4 @@
-# godot-master/scripts/quest_system_quest_graph_manager.gd
+# skills/quest-system/scripts/quest_graph_manager.gd
 extends Node
 
 ## Quest Graph Manager Expert Pattern

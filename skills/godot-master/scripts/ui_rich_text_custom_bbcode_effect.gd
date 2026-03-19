@@ -1,4 +1,4 @@
-# godot-master/scripts/ui_rich_text_custom_bbcode_effect.gd
+# skills/ui-rich-text/code/custom_bbcode_effect.gd
 extends RichTextEffect
 class_name RichTextRainbow
 

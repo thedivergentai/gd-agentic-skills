@@ -1,4 +1,4 @@
-# godot-master/scripts/autoload_architecture_stateless_bus.gd
+# skills/autoload-architecture/code/stateless_bus.gd
 extends Node
 
 ## Stateless Signal Bus Expert Pattern

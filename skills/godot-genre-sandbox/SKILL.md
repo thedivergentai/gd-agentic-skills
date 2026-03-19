@@ -7,28 +7,39 @@ description: "Expert blueprint for sandbox games (Minecraft, Terraria, Garry's M
 
 Physical simulation, emergent play, and player creativity define this genre.
 
-## Available Scripts
+## NEVER Do (Expert Anti-Patterns)
 
-### [voxel_chunk_manager.gd](scripts/voxel_chunk_manager.gd)
-Expert chunked rendering using `MultiMeshInstance3D` for thousands of voxels. Includes greedy meshing pattern and performance notes.
+### Performance & Scalability
+- NEVER use individual `RigidBody` nodes for every block; strictly use **Static Colliders** for the world and reserve physics for dynamic props.
+- NEVER simulate the entire world every frame; strictly process **"Dirty" chunks** with active changes. Sleeping chunks must consume zero CPU.
+- NEVER update `MultiMesh` buffers every frame; strictly **batch changes** and only rebuild the buffer when a modification completes (e.g., player stops painting).
+- NEVER use standard Godot `Nodes` for every grid cell; strictly use **PackedInt32Arrays** or typed Dictionaries to keep RAM overhead minimal.
+- NEVER raycast against every individual voxel for placement; strictly use **Grid Quantization** (`floor(pos/size)`) for direct O(1) cell calculation.
+- NEVER render every block face in a chunk; strictly generate an `ArrayMesh` that only pushes **visible exterior faces** to the GPU (Culling/Greedy Meshing).
 
-## Core Loop
-1.  **Explore**: Player discovers world rules and materials
-2.  **Experiment**: Player tests interactions (fire burns wood)
-3.  **Build**: Player constructs structures or machines
-4.  **Simulate**: Game runs physics/logic systems
-5.  **Share**: Player saves/shares creation
-6.  **Emergence**: Unintended complex behaviors from simple rules
+### Data & Persistence
+- NEVER save raw arrays of every block transform; strictly use **Run-Length Encoding (RLE)** (e.g., "Air x 50,000") to compress uniform spaces.
+- NEVER load massive terrain chunks synchronously; strictly use `ResourceLoader.load_threaded_request()` to prevent frame stutter.
+- NEVER use standard text `.tscn` files for voxel datasets; strictly use **binary `.res` files** for 10x faster parsing.
+- NEVER ignore **Floating-Point Precision limits** (32,768 units); strictly implement floating-origin shifting for massive worlds.
 
-## NEVER Do in Sandbox Games
+### Systems & Architecture
+- NEVER hardcode element interactions (`if water and fire`); strictly use a **Property System** where interactions emerge from material attributes (flammability, density).
+- NEVER trust client-side placement in multiplayer; strictly require the **Server to validate** bounds and resources.
+- NEVER manipulate the SceneTree from background generation threads; strictly use `call_deferred()` or Mutex locks for safety.
+- NEVER leave orphaned chunks in memory; strictly track loaded regions and call `queue_free()` on discarded branches.
 
-- **NEVER simulate the entire world every frame** — Only update "dirty" chunks with recent changes. Sleeping chunks waste 90%+ of CPU. Use spatial hashing to track active regions.
-- **NEVER use individual `RigidBody` nodes for voxels** — 1000+ physics bodies = instant crash. Use cellular automata for fluids/sand, static collision for solid blocks, and only dynamic bodies for player-placed objects.
-- **NEVER save absolute transforms for every block** — A 256×256 world = 65,536 blocks. Use chunk-based RLE (Run-Length Encoding): `{type:AIR, count:50000}` compresses massive empty spaces.
-- **NEVER update `MultiMesh` instance transforms every frame** — This forces GPU buffer updates. Batch changes, rebuild chunks when changed, not every tick.
-- **NEVER hardcode element interactions** (`if wood + fire: burn()`) — Use property-based systems: `if temperature > ignition_point and flammable > 0`. This enables emergent combinations players discover.
-- **NEVER use `Node` for every grid cell** — Nodes have 200+ bytes overhead. A million-block world would need 200MB+ just for node metadata. Use typed `Dictionary` or `PackedInt32Array` indexed by `position.x + position.y * width`.
-- **NEVER raycast against all voxels for tool placement** — Use grid quantization: `floor(mouse_pos / block_size)` to directly calculate target cell. Raycasts are O(n) with voxel count.
+---
+
+## 🛠 Expert Components (scripts/)
+
+### Original Expert Patterns
+- [voxel_chunk_manager.gd](scripts/voxel_chunk_manager.gd) - Professional chunk management using `MultiMeshInstance3D` with batch update logic.
+- [cellular_automata_liquid.gd](scripts/cellular_automata_liquid.gd) - Optimized simulation of liquids and powders using property-based density checks.
+- [voxel_world.gd](scripts/voxel_world.gd) - Top-level world controller for grid state, tool-based editing, and chunk lifecycle.
+
+### Modular Components
+- [sandbox_patterns.gd](scripts/sandbox_patterns.gd) - Utility collection for async chunk loading, multithreading, and origin shifting.
 
 ## Architecture Patterns
 

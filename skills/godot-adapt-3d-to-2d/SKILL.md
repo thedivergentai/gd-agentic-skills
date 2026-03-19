@@ -27,6 +27,37 @@ Simulates 3D Z-axis height in 2D top-down games. Handles vertical velocity, grav
 ### [projection_utils.gd](scripts/projection_utils.gd)
 Projects 3D world positions to 2D screen space for nameplates, healthbars, and targeting. Handles behind-camera detection and distance-based scaling.
 
+### [isometric_math_core.gd](scripts/isometric_math_core.gd)
+Expert utility generating translating between 2D Cartesian and True Isometric screenspace projection matrices without using 2D Node transforms.
+
+### [depth_sorting_y_sort.gd](scripts/depth_sorting_y_sort.gd)
+Expert dynamic Z-index Y-Sort script for fake 3D sorting isolated trees matching CanvasItem `_update_sorting()`.
+
+### [jump_z_axis_sim.gd](scripts/jump_z_axis_sim.gd)
+Complete CharacterBody2D snippet separating structural physical ground movement (X,Y) from a mathematically simulated jumping height (Z) in a topdown game.
+
+### [parallax_depth_camera.gd](scripts/parallax_depth_camera.gd)
+Fake Depth Camera applying varying offset algorithms to completely disparate CanvasLayers based on an index to simulate 3D camera translation panning.
+
+### [hitbox_depth_manager.gd](scripts/hitbox_depth_manager.gd)
+Area2D derived class that requires explicit custom Z-height overlap (1D AABB collision) prior to validating 2D triggers to stop incorrect "ground vs air" collision in 2.5D.
+
+### [fake_3d_shadows.gd](scripts/fake_3d_shadows.gd)
+Sprite2D shadow simulator exploiting Godot 4.x `Transform2D` matrix skew shear to project and angle shadows away from a simulated 3D sun direction on a 2D floor.
+
+### [billboard_sprite_manager.gd](scripts/billboard_sprite_manager.gd)
+8-directional FPS Doom-style sprite controller isolating the simulated 3D relative angle between a moving 2D CharacterBody and a Camera2D viewpoint.
+
+### [nav_region_flattening.gd](scripts/nav_region_flattening.gd)
+Topdown 2D pathfinding workaround allowing "aerial" units to cross walls by leveraging multiple tiered 2D Navigation Layers instead of proper 3D verticality.
+
+### [ortho_to_perspective_fx.gd](scripts/ortho_to_perspective_fx.gd)
+Screen space CanvasItem warp Shader simulating a Mode 7 / tabletop perspective pitch. Maps top screen coordinates via division pinching.
+
+### [2d_lighting_normals.gd](scripts/2d_lighting_normals.gd)
+Automatic programmatic generation of `CanvasTexture` combining base albedo and baked normal maps at runtime so Sprites correctly react to 2D PointLIGHTs like 3D geometry.
+
+
 ---
 
 ## Why Go from 3D to 2D?

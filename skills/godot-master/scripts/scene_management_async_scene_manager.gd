@@ -1,4 +1,4 @@
-# godot-master/scripts/scene_management_async_scene_manager.gd
+# skills/scene-management/code/async_scene_manager.gd
 extends Node
 
 ## Async Scene Manager Expert Pattern

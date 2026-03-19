@@ -1,4 +1,4 @@
-# godot-master/scripts/project_foundations_dependency_auditor.gd
+# skills/project-foundations/scripts/dependency_auditor.gd
 @tool
 extends EditorScript
 

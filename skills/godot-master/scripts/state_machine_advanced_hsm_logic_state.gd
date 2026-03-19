@@ -1,4 +1,4 @@
-# godot-master/scripts/state_machine_advanced_hsm_logic_state.gd
+# skills/state-machine-advanced/code/hsm_logic_state.gd
 extends Node
 
 ## State Machine Expert Pattern

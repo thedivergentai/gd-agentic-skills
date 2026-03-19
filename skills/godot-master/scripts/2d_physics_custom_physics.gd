@@ -1,4 +1,4 @@
-# godot-master/scripts/2d_physics_custom_physics.gd
+# skills/2d-physics/code/custom_physics.gd
 extends RigidBody2D
 
 ## Deterministic Solver & Custom Gravity Pattern

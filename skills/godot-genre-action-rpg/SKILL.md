@@ -7,24 +7,56 @@ description: "Comprehensive blueprint for Action RPGs including real-time combat
 
 Expert blueprint for action RPGs emphasizing real-time combat, character builds, loot, and progression.
 
-## NEVER Do
+## NEVER Do (Expert Anti-Patterns)
 
-- **NEVER make stats invisible to players** — Hidden stats feel like RNG. Show damage numbers, crit chance %, armor values clearly.
-- **NEVER use linear damage scaling** — `damage = level * 10` makes early/late game boring. Use exponential: `damage = base * pow(1.15, level)`.
-- **NEVER forget diminishing returns on defense** — Armor as `damage_reduction = armor / (armor + 100)` prevents invincibility stacking.
-- **NEVER make loot drops feel samey** — Differentiate rarities with visual effects (Epic = purple glow), sound cues, and meaningful stat differences.
-- **NEVER skip hit recovery/stagger** — Attacks without hitstun feel weightless. Add 0.2-0.5s stagger on hit for impact feedback.
+### Combat & Progression
+- NEVER use linear damage scaling for progression; strictly use an **exponential curve** (e.g., `base * pow(1.15, level)`) to maintain the power fantasy.
+- NEVER allow defense stats to stack linearly to 100%; strictly use a **Diminishing Returns** formula (e.g., `armor / (armor + 100.0)`) to prevent invincibility.
+- NEVER skip Hit Recovery (Stagger); strictly implement a brief stagger state (0.2s - 0.5s) on significant hits to prevent "floaty" combat.
+- NEVER hide critical stats from the player; strictly provide a detailed character sheet for theory-crafting (Crit Chance, Resistance, etc.).
+- NEVER make loot drops visually identical; strictly differentiate rarities with color-coded beams (purple/gold) and distinct sound cues.
+- NEVER calculate hitboxes, knockbacks, or combat movement in `_process()`; strictly use `_physics_process()` for deterministic results.
+- NEVER evaluate exact floating-point equality (==) for combat thresholds; strictly use `is_equal_approx()`.
+- NEVER use the ! (NOT) operator in AnimationTree Advance Condition expressions; strictly use explicit boolean equality (`is_walking == false`).
+
+### Technical & Architecture
+- NEVER store character stats or massive inventories as Nodes; strictly use **Resource-based data containers** for lightweight memory overhead.
+- NEVER forget to call `duplicate()` on shared Resources; modifying one goblin's stats must not affect all other instances.
+- NEVER rigidly couple combat detection to specific classes; strictly use **Duck-Typing** (e.g., `if body.has_method(&"take_damage")`) for interaction.
+- NEVER rely on the UI SceneTree as the source of truth for inventory; strictly separate data logic from visualization.
+- NEVER recalculate stats every frame; strictly trigger recalculation only on gear changes or level-ups.
+- NEVER parse massive RPG save files synchronously; strictly offload heavy parsing to the `WorkerThreadPool`.
+- NEVER synchronize complex Resource types over the network; strictly serialize changes into primitive Dictionaries or PackedByteArrays.
+- NEVER manage character state by coupling child nodes to parent existence; strictly use signals for loose coupling ("Signal Up, Call Down").
+- NEVER use standard Strings for high-frequency AI state identifiers; strictly use `StringName` for optimized hash comparisons.
+
+### Performance & AI
+- NEVER instantiate/destroy hundreds of objects (projectiles, damage text) per second; strictly use **Object Pooling**.
+- NEVER delete active combat entities via `free()`; strictly use `queue_free()` for safe deferred disposal.
+- NEVER calculate complex loot drops or parse massive late-game inventories on the main thread; strictly offload heavy RNG rolls and array iterations to the **WorkerThreadPool**.
+- NEVER use nested if/elif blocks for complex Boss AI; strictly use a modular **StateMachine** or pattern matching.
+- NEVER iterate through the SceneTree for global state changes; strictly use **Signal Groups** (`call_group()`).
+- NEVER move `OccluderInstance3D` nodes attached to dynamic characters; this causes CPU BVH rebuild stalls.
+
 ---
 
-## Available Scripts
+## 🛠 Expert Components (scripts/)
 
-> **MANDATORY**: Read the appropriate script before implementing the corresponding pattern.
+### Original Expert Patterns
+- [damage_label_manager.gd](scripts/damage_label_manager.gd) - High-performance pooled system for floating damage numbers and critical hits.
+- [telegraphed_enemy.gd](scripts/telegraphed_enemy.gd) - Advanced AI component for Soul-like wind-ups, AOE indicators, and timed attacks.
 
-### [damage_label_manager.gd](scripts/damage_label_manager.gd)
-Pooled floating damage numbers with vertical stacking logic. Pre-warms pool, handles critical hit scaling, and auto-fades via tweens.
-
-### [telegraphed_enemy.gd](scripts/telegraphed_enemy.gd)
-AoE telegraph pattern for enemy attacks. Wind-up animation with visual cues gives players dodge window, then executes damage zone.
+### Modular Components
+- [character_stats_resource.gd](scripts/character_stats_resource.gd) - Modular data container for base RPG attributes and scaling logic.
+- [entity_stat_duplicator.gd](scripts/entity_stat_duplicator.gd) - Pattern for ensuring unique death/health state for instanced enemies.
+- [duck_typed_hitbox.gd](scripts/duck_typed_hitbox.gd) - Safe combat interaction system for players, enemies, and props.
+- [combat_log_connector.gd](scripts/combat_log_connector.gd) - Signal-binding logic for decoupled combat event logging.
+- [aoe_physics_query.gd](scripts/aoe_physics_query.gd) - Performance-optimized AoE detection using direct PhysicsServer queries.
+- [hierarchical_state_base.gd](scripts/hierarchical_state_base.gd) - Robust base for managing complex ARPG character behavior.
+- [animation_condition_sync.gd](scripts/animation_condition_sync.gd) - Safe synchronization logic for AnimationTree Advance Conditions.
+- [threaded_inventory_loader.gd](scripts/threaded_inventory_loader.gd) - WorkerThreadPool-driven background parsing for large inventories.
+- [typed_inventory_storage.gd](scripts/typed_inventory_storage.gd) - High-performance strongly-typed dictionary for item storage.
+- [high_speed_aggro_broadcaster.gd](scripts/high_speed_aggro_broadcaster.gd) - Group-based broadcasting pattern for instant localized AI alerts.
 
 ---
 

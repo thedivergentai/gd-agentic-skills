@@ -1,4 +1,4 @@
-# godot-master/scripts/multiplayer_networking_server_authoritative_controller.gd
+# skills/multiplayer-networking/scripts/server_authoritative_controller.gd
 extends CharacterBody2D
 
 ## Server Authoritative Controller Expert Pattern

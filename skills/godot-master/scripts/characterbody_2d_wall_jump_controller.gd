@@ -1,4 +1,4 @@
-# godot-master/scripts/characterbody_2d_wall_jump_controller.gd
+# skills/characterbody-2d/scripts/wall_jump_controller.gd
 extends Node
 
 ## Wall Jump Controller Expert Pattern

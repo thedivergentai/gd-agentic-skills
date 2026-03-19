@@ -1,4 +1,4 @@
-# godot-master/scripts/tweening_juice_manager.gd
+# skills/tweening/code/juice_manager.gd
 extends Node
 
 ## Tweening Expert Pattern

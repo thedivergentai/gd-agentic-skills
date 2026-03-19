@@ -1,4 +1,4 @@
-# godot-master/scripts/characterbody_2d_dash_controller.gd
+# skills/characterbody-2d/scripts/dash_controller.gd
 extends Node
 
 ## Dash Controller Expert Pattern

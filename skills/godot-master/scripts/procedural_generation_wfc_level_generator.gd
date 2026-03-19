@@ -1,4 +1,4 @@
-# godot-master/scripts/procedural_generation_wfc_level_generator.gd
+# skills/procedural-generation/code/wfc_level_generator.gd
 extends Node
 
 ## Wave Function Collapse (WFC) Expert Pattern

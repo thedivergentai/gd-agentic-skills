@@ -1,4 +1,4 @@
-# godot-master/scripts/audio_systems_audio_bus_manager.gd
+# skills/audio-systems/scripts/audio_bus_manager.gd
 extends Node
 
 ## Audio Bus Manager Expert Pattern

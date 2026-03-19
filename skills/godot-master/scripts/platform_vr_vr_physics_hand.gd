@@ -1,4 +1,4 @@
-# godot-master/scripts/platform_vr_vr_physics_hand.gd
+# skills/platform-vr/scripts/vr_physics_hand.gd
 extends XRController3D
 
 ## VR Physics Hand Expert Pattern

@@ -17,11 +17,50 @@ In Godot, Nodes **are** components. A complex entity (Player) is simply an Orche
 
 ---
 
-## Anti-Patterns (NEVER Do This)
-- **NEVER** use deep inheritance chains (e.g., `Player > Entity > LivingThing > Node`). This creates brittle "God Classes."
-- **NEVER** use `get_node("Path/To/Thing")` or `$` syntax for components. This breaks if the scene tree changes.
-- **NEVER** let components reference the Parent directly (unless absolutely necessary via typed injection).
-- **NEVER** mix Input, Physics, and Game Logic in a single script.
+## Available Scripts
+
+### [health_component.gd](scripts/health_component.gd)
+Specialized Node for managing lifespan, damage logic, and death signals across any entity.
+
+### [hit_box_component.gd](scripts/hit_box_component.gd)
+Area-based component for intercepting damage and delegating it to a HealthComponent.
+
+### [hurt_box_component.gd](scripts/hurt_box_component.gd)
+Area-based component for dealing damage specifically to HitBoxComponents.
+
+### [velocity_component.gd](scripts/velocity_component.gd)
+Encapsulated movement and acceleration logic for reuse across Players and Enemies.
+
+### [interaction_component.gd](scripts/interaction_component.gd)
+Decoupled interaction handler using injecting `Callable` logic for context-aware actions.
+
+### [follower_component.gd](scripts/follower_component.gd)
+Decoupled tracking logic using `NodePath` injection for smooth entity following.
+
+### [state_component_vsm.gd](scripts/state_component_vsm.gd)
+Component-based state machine pattern using child nodes as individual states.
+
+### [status_effect_component.gd](scripts/status_effect_component.gd)
+Managing temporary modifiers (buffs/debuffs) by stacking effect scenes as children.
+
+### [visual_sync_component.gd](scripts/visual_sync_component.gd)
+Separating logical state (velocity/direction) from visual representation (sprite flipping).
+
+### [composition_root_init.gd](scripts/composition_root_init.gd)
+The "Orchestrator" pattern for wiring and connecting components in a parent node.
+
+## NEVER Do in Composition
+
+- **NEVER use deep inheritance chains** (e.g., `Player > Entity > LivingThing > Node`) — Creates brittle "God Classes" that are hard to refactor [21].
+- **NEVER use `get_node()` or `$` for components** — This breaks if the scene tree is rearranged. Always use `@export` or `%UniqueNames` [22].
+- **NEVER let a component reference its parent script directly** — This makes the component impossible to reuse. Use signals or dependency injection [23].
+- **NEVER mix Input, Physics, and Game Logic in one script** — This violates Single Responsibility. Split them into specialized components [24, 13].
+- **NEVER create components that require a specific SceneTree structure** — A component should be "selfish" and only care about its own properties and direct children.
+- **NEVER use inheritance to "add a feature"** — If you want an enemy to shoot, add a `ShootingComponent`, don't make it inherit from `ShooterEnemy`.
+- **NEVER hardcode component dependencies** — If `CombatComponent` needs `HealthComponent`, look it up in `_ready()` or inject it via the parent [11].
+- **NEVER treat Godot nodes as pure data** — Nodes provide lifecycle (`_process`) and signals. If you only need data, use a `Resource`.
+- **NEVER ignore the Node lifecycle in components** — Use `_enter_tree()` and `_exit_tree()` for setup/cleanup that must happen regardless of the parent's state.
+- **NEVER hide component points of access** — Expose `NodePath` or `Callable` properties so the parent can wire the component in the Inspector [13].
 
 ---
 

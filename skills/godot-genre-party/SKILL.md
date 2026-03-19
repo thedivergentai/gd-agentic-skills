@@ -7,21 +7,41 @@ description: "Expert blueprint for party games including minigame resource syste
 
 Expert blueprint for party games balancing accessibility, variety, and social fun.
 
-## NEVER Do
+## NEVER Do (Expert Anti-Patterns)
 
-- **NEVER long tutorials** — Players want instant fun. 3-second looping GIF + 1-sentence instruction is ideal.
-- **NEVER excessive downtime** — Loading between 10s minigames kills momentum. Keep assets light, use threaded loading, or persistent board scene.
-- **NEVER inconsistent controls** — Minigame A uses A to jump, B uses B. Standardize: A=Accept/Action, B=Back/Cancel across all minigames.
-- **NEVER forget dynamic input mapping** — Remap InputMap at runtime (InputMap.action_add_event) for "p1_jump", "p2_jump" per controller.
-- **NEVER ignore accessibility** — Color-blind modes, audio cues for visual events, adjustable difficulty. Party games need inclusive design.
+### Multiplayer & Input
+- NEVER hardcode player inputs to specific joypad IDs (e.g., 0 or 1); strictly query dynamically via `Input.get_connected_joypads()`.
+- NEVER bake player-IDs into the input map (e.g., "p1_jump"); strictly use a **Dynamic Input Router** to map physical controllers to players at runtime.
+- NEVER use `Input.is_action_pressed()` for assigning new player joins; strictly parse raw `InputEventJoypadButton` in `_unhandled_input()` for device metadata.
+- NEVER allow inconsistent controls between games; strictly standardize across all minigames (**A = Accept/Action**, **B = Back/Cancel**, **Joystick = Move**).
+- NEVER assume a disconnected joypad removes a player; strictly connect to the `joy_connection_changed` signal to pause and handle dropouts gracefully.
+- NEVER use boolean polling for analog sticks; strictly use `Input.get_vector()` for precision and deadzones.
+
+### User Experience & Feedback
+- NEVER use long text-based tutorials; strictly use a **3-second looping GIF** + a single-sentence instruction overlay (e.g., "Mash A to fly!").
+- NEVER ignore "Asymmetric" balance in 1v3 games; strictly provide the "One" with unique abilities or increased HP/speed to offset the numerical disadvantage.
+- NEVER neglect Accessibility and Handicap systems; strictly implement optional support (e.g., speed boosts for lower-skilled players) to keep the competition social.
+- NEVER leave UI Control nodes with `FOCUS_NONE` for gamepad menus; strictly set to `FOCUS_ALL` with explicit focus neighbors for accessible navigation.
+
+### Rendering & Architecture
+- NEVER use heavy scene transitions; strictly keep minigame assets light and use **Threaded Background Loading** while the instructions screen is active.
+- NEVER draw global `CanvasLayer` UI for individual split-screen players; strictly use per-viewport `CanvasLayer` children.
+- NEVER manually set sizes on `SubViewport` children; strictly use `GridContainer` or `BoxContainer` for automatic split-screen layout.
+- NEVER store tournament state or scores inside minigame scenes; strictly use a **Persistent Autoload** (Singleton).
+- NEVER use a static `Camera2D` for shared-room games; strictly use a **dynamic group camera** that zooms/pans to fit all players in frame.
+- NEVER overlap `SubViewportContainer` nodes without setting `mouse_filter` to `PASS`; otherwise, top viewports will block input.
+
 ---
 
-## Available Scripts
+## 🛠 Expert Components (scripts/)
 
-> **MANDATORY**: Read the appropriate script before implementing the corresponding pattern.
+### Original Expert Patterns
+- [party_input_router.gd](scripts/party_input_router.gd) - Professional local multiplayer solution mapping `device_id` to `player_id`.
 
-### [party_input_router.gd](scripts/party_input_router.gd)
-4-player device isolation for local multiplayer. Maps device_id to player_id, handles join requests, routes inputs to player-specific signals.
+### Modular Components
+- [player_join_manager.gd](scripts/player_join_manager.gd) - Slot mapping logic using raw JoypadButton event parsing.
+- [split_screen_manager.gd](scripts/split_screen_manager.gd) - SubViewport synchronization for shared physics worlds.
+- [tournament_state.gd](scripts/tournament_state.gd) - Persistent Autoload singleton for cross-scene state.
 
 ---
 

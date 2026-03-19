@@ -7,24 +7,70 @@ description: "Expert blueprint for Battle Royale games including shrinking zone/
 
 Expert blueprint for Battle Royale games with zone mechanics, large-scale networking, and survival gameplay.
 
-## NEVER Do
+## NEVER Do (Expert Anti-Patterns)
 
-- **NEVER sync all 100 players every frame** — Use relevancy system: only sync players within visual range. Far players update at 4Hz, nearby at 20Hz+.
-- **NEVER make zone center fully random** — New circle must overlap significantly with old circle, or players teleport. Limit offset to `current_radius - target_radius`.
-- **NEVER use client-side hit detection** — Client says "I shot at direction X", Server validates "Did it hit?". Prevents cheating.
-- **NEVER spawn loot without pooling** — 1000+ loot items cause GC spikes. Pool loot pickups and reuse instances.
-- **NEVER forget VisibilityNotifier3D for distant players** — Disable `_process()` and AnimationPlayer for players behind or far away. Saves 60-80% CPU.
+### Networking & Scale
+- NEVER sync all 100 players every frame; strictly use a **Relevancy System** to sync high-freq data only for players within ~100m. Far players sync at ~5Hz.
+- NEVER use `TRANSFER_MODE_RELIABLE` for movement data; strictly use **Unreliable** to prevent packet backup and network congestion.
+- NEVER focus on client-side hit detection; strictly use **Authoritative Server Validation** where the server confirms "Did it hit?" based on state history.
+- NEVER trust the client for game state; strictly validate all movement, looting, and inventory changes exclusively on the authoritative server.
+- NEVER run a dedicated server with visuals; strictly use **Headless Mode** (`--headless`) or dummy drivers to save massive CPU/GPU resources.
+- NEVER call RPCs before connection; strictly wait for the `connected_to_server` signal before attempting synchronization logic.
+
+### Mechanics & Performance
+- NEVER pick a fully random center for the Safe Zone; strictly target centers that ensure the new circle is **completely contained** within the current one.
+- NEVER allow "Storm Tunneling"; strictly use a **Distance-to-Center** calculation rather than a simple collision perimeter to prevent skips at low tick rates.
+- NEVER spawn loot without **Object Pooling**; strictly pre-instantiate and toggle visibility/collision to avoid GC spikes during dense spawns.
+- NEVER ignore `VisibilityNotifier3D`; strictly disable `AnimationPlayer`, `_process()`, and heavy AI logic for players that are not visible to the observer.
+- NEVER print in tight server loops; strictly avoid `print()` as console I/O is blocking and will tank server performance in high-player-count matches.
 ---
 
 ## Available Scripts
 
 > **MANDATORY**: Read the appropriate script before implementing the corresponding pattern.
 
+### Networking & Multiplayer
 ### [kill_feed_bus.gd](scripts/kill_feed_bus.gd)
-Global elimination signal bus with match stat tracking. Single emission point for UI/logging, sorted killer rankings for end-game summary.
+Global elimination signal bus with match stat tracking.
 
-### [storm_system.gd](scripts/storm_system.gd)
-Dynamic zone shrinking with damage interpolation. Tweens center/radius smoothly, scales damage by zone size for end-game intensity.
+### [headless_branch_logic.gd](scripts/headless_branch_logic.gd)
+Expert dedicated server initialization that branches logic based on `headless` execution and server-specific feature flags.
+
+### [enet_br_server.gd](scripts/enet_br_server.gd)
+High-player-capacity ENet server setup optimized for 100+ concurrent peers over UDP.
+
+### [state_replication_unreliable.gd](scripts/state_replication_unreliable.gd)
+Pattern for synchronizing player transforms via `TRANSFER_MODE_UNRELIABLE` to minimize network congestion in large matches.
+
+### [authoritative_looting.gd](scripts/authoritative_looting.gd)
+Authoritative server-side validation logic for preventing cheat-based item collection and infinite looting.
+
+### [targeted_rpc_relay.gd](scripts/targeted_rpc_relay.gd)
+Optimized communication pattern using `rpc_id()` to target specific peers and reduce wasted packet broadcasts.
+
+### [server_state_buffer.gd](scripts/server_state_buffer.gd)
+Handling network jitter and out-of-order UDP packets via sequential state buffering and tick-based sorting.
+
+### Performance & Optimization
+### [rid_loot_spawner.gd](scripts/rid_loot_spawner.gd)
+Bypassing the node hierarchy for massive loot density. Uses `RenderingServer` directly to eliminate CPU overhead for item drops.
+
+### [async_map_loader.gd](scripts/async_map_loader.gd)
+Non-blocking map sector streaming using `ResourceLoader` background threads for seamless open-world exploration.
+
+### [multimesh_vegetation.gd](scripts/multimesh_vegetation.gd)
+Drawing dense foliage and environment assets (100k+ instances) via `MultiMeshInstance3D` to maximize rendering performance.
+
+### [threaded_ai_manager.gd](scripts/threaded_ai_manager.gd)
+Offloading server-side bot behavior and pathfinding logic to the `WorkerThreadPool` to prevent main-thread stalling.
+
+## NEVER Do in Battle Royale
+
+- **NEVER export mobile clients without the INTERNET permission** — Communication will silently fail on Android/iOS if the manifest is missing the networking permission [37].
+- **NEVER use `get_var(true)` on untrusted data** — Deserializing arbitrary objects allows attackers to execute remote code on the server or other clients [31].
+- **NEVER synchronize `Object` or `Resource` types over network** — Use the `MultiplayerSynchronizer` strictly for base types (int, float, vec) [39].
+- **NEVER assume `UNRELIABLE` packets arrive in order** — Design state interpolation carefully to handle missing or out-of-order ticks [28].
+- **NEVER leave `multiplayer_poll` false without manual calling** — If using custom threads, failing to call `multiplayer.poll()` freezes all traffic [40].
 
 ---
 

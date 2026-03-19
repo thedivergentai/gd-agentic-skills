@@ -15,14 +15,49 @@ Expert theme manager with dynamic switching, theme variants, and fallback handli
 ### [ui_scale_manager.gd](scripts/ui_scale_manager.gd)
 Runtime theme switching and DPI/Resolution scale management.
 
+### [theme_swapper.gd](scripts/theme_swapper.gd)
+Dynamic Dark/Light mode implementation using cascading theme root propagation.
+
+### [danger_button_assignment.gd](scripts/danger_button_assignment.gd)
+Expert use of `theme_type_variation` for semantic UI styling without scene duplication.
+
+### [dynamic_stylebox_color.gd](scripts/dynamic_stylebox_color.gd)
+Safe runtime StyleBox modification. Demonstrates the critical `duplicate()` pattern for isolated overrides.
+
+### [procedural_theme_safe.gd](scripts/procedural_theme_safe.gd)
+Reliable theming for generated UI elements using `NOTIFICATION_THEME_CHANGED`.
+
+### [custom_chart_drawing.gd](scripts/custom_chart_drawing.gd)
+Pattern for reading active Theme properties (colors, fonts) in custom `_draw()` logic.
+
+### [theme_isolation.gd](scripts/theme_isolation.gd)
+Ensuring HUD consistency by isolating nodes from parent themes and referencing Project Defaults.
+
+### [pulsating_ui_theme.gd](scripts/pulsating_ui_theme.gd)
+Animating UI styles via Tweens. Targets StyleBox properties directly after duplication.
+
+### [crisp_ui_scaler.gd](scripts/crisp_ui_scaler.gd)
+High-quality resolution-independent scaling using `content_scale_factor` to maintain font crispness.
+
+### [memory_safe_custom_drawing.gd](scripts/memory_safe_custom_drawing.gd)
+Fixing the "disappearing stylebox" bug by caching resources at the class level for the RenderingServer.
+
+### [rtl_theme_mirroring.gd](scripts/rtl_theme_mirroring.gd)
+Bi-directional (RTL/LTR) UI support. Swaps theme variants dynamically based on layout direction.
+
 ## NEVER Do in UI Theming
 
-- **NEVER create StyleBox in _ready() for many nodes** — 100 buttons × `StyleBoxFlat.new()` in `_ready()`? 100 duplicate objects. Create ONCE in theme resource, reuse via inheritance.
-- **NEVER forget theme inheritance** — Child Control with custom theme? Parent theme ignored. Set `theme` on root Control, children auto-inherit unless overriding.
-- **NEVER hardcode colors in StyleBox** — `style.bg_color = Color(0.2, 0.3, 0.5)`? Unmaintainable. Define colors in theme, reference via `theme.get_color("primary", "Button")`.
-- **NEVER use add_theme_override for global styles** — Call `add_theme_*_override()` on 50 nodes? Brittle. Define in Theme resource for automatic propagation.
-- **NEVER skip corner_radius_all shortcut** — Set 4 corner radii individually? Verbose. Use `corner_radius_all = 5` for uniform corners (StyleBoxFlat only).
-- **NEVER modify theme during rendering** — Change theme in `_draw()` OR `_process()`? Constant re-layout = performance tank. Load themes at initialization OR on user action only.
+- **NEVER create StyleBox in `_ready()` for many nodes** — Instantiating `StyleBoxFlat.new()` 100 times creates 100 unique objects. Use a Theme resource for shared heritage.
+- **NEVER forget theme inheritance** — Parent themes are ignored if a child has its own theme. Apply themes at the root and use `theme_type_variation` for specific overrides.
+- **NEVER hardcode colors in StyleBox** — Use `theme.get_color()` to maintain a single source of truth for your palette.
+- **NEVER use `add_theme_override` for global styles** — This is brittle. Define styles in a Theme resource for automatic propagation across the project.
+- **NEVER modify theme resources during `_draw()` OR `_process()`** — Frequent layout recalculations will severely degrade performance.
+- **NEVER assign `StyleBoxEmpty` to focus styles without a fallback** — This invisibly breaks controller/keyboard navigation [1]. Always provide a visible alternative (e.g. scale change).
+- **NEVER use standard `set()` for theme properties** — Calling `node.set("font_color", red)` fails. You MUST use the dedicated `add_theme_color_override()` API [3].
+- **NEVER use `expand_margin_*` to increase clickable area** — It only expands the VISUAL bounds. Use `content_margin_*` on the StyleBox or adjust the Control's size to ensure input works [5].
+- **NEVER define StyleBoxes as local variables inside `_draw()`** — They will be garbage collected before the RenderingServer can finish drawing them [7]. Store at class level.
+- **NEVER duplicate scenes/themes just to change one color** — Use `theme_type_variation` to create lightweight derived styles (e.g. "DangerButton") within the same Theme [8].
+- **NEVER skip `corner_radius_all` shortcut** — It's a useful shorthand for uniform rounding in `StyleBoxFlat`.
 
 ---
 

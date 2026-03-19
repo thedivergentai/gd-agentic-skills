@@ -9,20 +9,48 @@ Slot management, stacking logic, and resource-based items define robust inventor
 
 ## Available Scripts
 
-### [grid_inventory_logic.gd](scripts/grid_inventory_logic.gd)
-Expert grid inventory with tetris-style placement logic.
+### [inventory_item_resource.gd](scripts/inventory_item_resource.gd)
+Base Resource for all inventory items, allowing for serialized `.tres` item databases.
 
-### [inventory_grid.gd](scripts/inventory_grid.gd)
-Grid-based inventory controller with drag-and-drop foundations and auto-sorting.
+### [item_slot_data.gd](scripts/item_slot_data.gd)
+Reactive data structure for a single inventory slot, broadcasting changes to the UI.
+
+### [inventory_data_resource.gd](scripts/inventory_data_resource.gd)
+Centralized Resource for managing inventory arrays, stacking logic, and empty slot finding.
+
+### [inventory_ui_controller.gd](scripts/inventory_ui_controller.gd)
+Grid-based UI controller that maps `InventoryData` to visual slots using the "Reactive UI" pattern.
+
+### [drag_and_drop_slot.gd](scripts/drag_and_drop_slot.gd)
+Native Godot drag-and-drop implementation for moving and swapping inventory items.
+
+### [item_database_loader.gd](scripts/item_database_loader.gd)
+Global registry pattern to efficiently load and lookup items by unique ID strings.
+
+### [inventory_persistence.gd](scripts/inventory_persistence.gd)
+Expert logic for serializing and deserializing complex inventory structures to disk.
+
+### [consumable_item_logic.gd](scripts/consumable_item_logic.gd)
+Extension pattern for implementing specific item behaviors (Potions, Food) via inheritance.
+
+### [loot_table_resource.gd](scripts/loot_table_resource.gd)
+Data-driven loot distribution definition for random drops and chest contents.
+
+### [item_pickup_node.gd](scripts/item_pickup_node.gd)
+World-space bridge for converting physical 2D/3D pickups into inventory data.
 
 ## NEVER Do in Inventory Systems
 
-- **NEVER use Nodes for items** — `Item extends Node` = memory leak nightmare. Inventory with 100 items = 100 nodes in tree. Use `Item extends Resource` for save compatibility.
-- **NEVER forget to check max_stack before adding** — `add_item()` without stack logic = items disappear silently. ALWAYS attempt stacking BEFORE creating new slots.
-- **NEVER modify inventory directly from UI** — `InventorySlotUI.item = null` on click = desynced state. UI should emit signals, Inventory model updates, THEN UI refreshes via signals.
-- **NEVER use float for item quantities** — Floating-point error: 10.0 - 0.1 * 100 ≠ 0. Use `int` for countable items. Only use float for weight/volume limits.
-- **NEVER forget to validate weight/capacity before adding** — Player adds 1000kg item to 100kg inventory? Must check `get_total_weight() + item.weight * amount <= max_weight` BEFORE adding.
-- **NEVER emit `inventory_changed` inside loop** — Adding 100 items = 100 UI refreshes = lag spike. Batch operations, emit ONCE after loop completes.
+- **NEVER use Nodes for items** — `Item extends Node` leads to massive SceneTree bloat and memory leaks. Always use `Item extends Resource` for lightweight data [20].
+- **NEVER attempt to add items without checking stack limits** — Adding to an inventory without pre-scanning for existing stacks causes item duplication or loss [21].
+- **NEVER allow the UI to modify the Inventory Data directly** — If UI code clears a slot without notifying the data model, you'll get desyncs and ghost items [22].
+- **NEVER use `float` for item quantities** — Floating point errors (e.g. 0.9999 instead of 1) will break your "equal to zero" checks. Stick to `int` for counts [23].
+- **NEVER add items before validating weight or volume capacity** — Moving validation check *after* adding the item makes it impossible to prevent over-encumbrance [24].
+- **NEVER emit signals for every single item inside a batch operation** — Adding 50 items = 50 UI updates. Emit a single `inventory_updated` signal after the loop completes [25].
+- **NEVER hardcode item references in scripts** — Use a String ID and a central `ItemDatabase` to look up resources. This is CRITICAL for save system compatibility.
+- **NEVER ignore `is_instance_valid()` when accessing item icons** — If a slot's item is null, trying to access `.icon` will crash the UI.
+- **NEVER use complex Array logic in the UI** — The UI should only "reflect" the data. All sorting, stacking, and filtering logic belongs in the `InventoryData` resource.
+- **NEVER create new `Resource` instances inside a `_process()` loop** — Pre-instantiate your inventory slots or reuse existing ones to prevent allocation spikes.
 
 ---
 

@@ -1,4 +1,4 @@
-# godot-master/scripts/project_foundations_feature_scaffolder.gd
+# skills/project-foundations/scripts/feature_scaffolder.gd
 @tool
 extends EditorScript
 

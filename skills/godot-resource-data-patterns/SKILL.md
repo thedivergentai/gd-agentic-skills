@@ -9,26 +9,48 @@ Resource-based design, typed arrays, and serialization define reusable, inspecto
 
 ## Available Scripts
 
-### [data_factory_resource.gd](scripts/data_factory_resource.gd)
-Expert resource factory with type validation and batch instantiation.
+### [custom_data_resource.gd](scripts/custom_data_resource.gd)
+Pattern for defining serialized data containers (Items, Spells, Stats) for the Inspector.
 
-### [resource_pool.gd](scripts/resource_pool.gd)
-Object pooling for Resource instances - reduces allocation overhead in hot paths.
+### [resource_flyweight_caching.gd](scripts/resource_flyweight_caching.gd)
+Expert example of the Flyweight pattern for memory-efficient resource sharing.
 
-### [resource_validator.gd](scripts/resource_validator.gd)
-Validates Resource files for missing exports and configuration issues.
+### [resource_local_to_scene.gd](scripts/resource_local_to_scene.gd)
+Handling "Local to Scene" resources and `duplicate()` to prevent cross-contamination.
 
-> **MANDATORY - For Data Systems**: Read data_factory_resource.gd before implementing item/stat databases.
+### [character_stats_resource.gd](scripts/character_stats_resource.gd)
+Reactive data containers that emit signals when internal properties are modified.
 
+### [resource_save_system.gd](scripts/resource_save_system.gd)
+Pattern for serializing complex game state directly into `.tres` files on disk.
+
+### [resource_based_inventory.gd](scripts/resource_based_inventory.gd)
+Managing item collections and inventory logic using serialized Resource arrays.
+
+### [flyweight_enemy_config.gd](scripts/flyweight_enemy_config.gd)
+Using shared Resources to configure many entities efficiently (HP, Skins, Speed).
+
+### [dynamic_resource_generation.gd](scripts/dynamic_resource_generation.gd)
+Creating and modifying Resource instances programmatically at runtime (Loot, Procedural).
+
+### [resource_preloading_strategy.gd](scripts/resource_preloading_strategy.gd)
+Preventing frame drops by caching resources in a dictionary before gameplay starts.
+
+### [nested_resource_serialization.gd](scripts/nested_resource_serialization.gd)
+Building and saving complex data hierarchies using nested Resource properties.
 
 ## NEVER Do in Resource Design
 
-- **NEVER modify resource instances without duplicating** — `player.stats.health -= 10` on loaded resource? Modifies the `.tres` file on disk. MUST use `.duplicate()` first.
-- **NEVER use untyped arrays** — `@export var items: Array = []` accepts ANY type = runtime errors. Use `Array[ItemData]` for type safety + autocomplete.
-- **NEVER forget @export for inspector editing** — Resource property without `@export`? Invisible in Inspector. Use `@export` for editable properties.
-- **NEVER put logic in base Resource** — `Resource` has no lifecycle (`_ready`, `_process`). Use `extends RefCounted` for runtime logic OR attach to Node.
-- **NEVER serialize Node references** — `@export var player_node: Node` in Resource? Breaks on save/load. Store NodePath OR UID instead.
-- **NEVER use ResourceSaver.save() without error check** — `ResourceSaver.save(res, path)` can fail (permissions, invalid path). MUST check return error code.
+- **NEVER modify resource instances directly** — Without `.duplicate()`, changing a value (like HP) modifies the `.tres` file on disk for everyone [26].
+- **NEVER use untyped arrays in Resources** — `@export var items: Array` allows logic errors. Always use `Array[ResourceClass]` for type safety [27].
+- **NEVER store Node references in Resources** — Objects that only exist in a specific SceneTree (like Players/Projectiles) cannot be serialized. Store `NodePath` or `UID` [30].
+- **NEVER perform heavy calculations in Resource getters/setters** — Resources should be data containers. Offload logic to Nodes or specialized RefCounted classes.
+- **NEVER skip `ResourceSaver.save()` error checks** — Saving can fail due to permissions, disk space, or path issues. Always check the return code [31].
+- **NEVER use Resources for high-frequency runtime data** — If a value changes 60 times a second (like velocity), a standard variable is faster than a Resource property.
+- **NEVER allow circular Resource references** — If A.tres references B.tres and B.tres references A.tres, the engine may crash on load.
+- **NEVER forget the `_init` defaults** — Resources created via `new()` or in the Inspector need default values in their constructor to be editable [15].
+- **NEVER share a Resource between entities if they need unique state** — Use `resource_local_to_scene = true` in the Inspector for components [26].
+- **NEVER use `.tres` for massive datasets** — If you have 10,000 items, a JSON or custom binary format might be more efficient than individualized Resource files.
 
 ---
 

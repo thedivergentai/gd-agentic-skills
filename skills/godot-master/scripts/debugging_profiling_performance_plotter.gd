@@ -1,4 +1,4 @@
-# godot-master/scripts/debugging_profiling_performance_plotter.gd
+# skills/debugging-profiling/code/performance_plotter.gd
 extends Node
 
 ## Performance Plotter Expert Pattern

@@ -1,4 +1,4 @@
-# godot-master/scripts/multiplayer_networking_client_prediction_synchronizer.gd
+# skills/multiplayer-networking/code/client_prediction_synchronizer.gd
 extends MultiplayerSynchronizer
 
 ## Client-Side Prediction Expert Pattern

@@ -1,4 +1,4 @@
-# godot-master/scripts/particles_particle_burst_emitter.gd
+# skills/particles/scripts/particle_burst_emitter.gd
 extends GPUParticles3D
 
 ## Particle Burst Emitter Expert Pattern

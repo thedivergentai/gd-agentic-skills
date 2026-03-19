@@ -14,6 +14,12 @@ Expert guidance for realistic 3D lighting with shadows and global illumination.
 - **NEVER forget directional_shadow_mode** — Default is ORTHOGONAL. For large outdoor scenes, use PARALLEL_4_SPLITS for better shadow quality at distance.
 - **NEVER use LightmapGI for fully dynamic scenes** — Lightmaps are baked. Moving geometry won't receive updated lighting. Use VoxelGI or SDFGI instead.
 - **NEVER set omni_range too large** — Light attenuation is quadratic. A range of 500 affects 785,000 sq units. Keep range as small as visually acceptable.
+- **NEVER hide a Light node using the Visible property to exclude it from a Lightmap bake** — Hiding a light has no effect on the baker. You must change the light's Bake Mode to Disabled.
+- **NEVER use VoxelGI with paper-thin walls** — VoxelGI evaluates lighting using a 3D grid. Thin walls (less than one voxel thick) will cause severe light leaking. Seal your geometry or place hidden thick MeshInstance3D blocks around the exterior.
+- **NEVER leave shadow bias at default for cascades** — Default bias often causes Peter Panning or light leaking at split transitions. Tune bias per-light based on your scene's scale.
+- **NEVER bake LightmapGI without a Denoiser** — Godot's baked lightmaps are noisy by default. Use OIDN or JNLM (in Project Settings) for professional results.
+- **NEVER use real-time SDFGI on Mobile/Compatibility renderers** — It is a Forward+ exclusive feature. Use fake GI bounce lights for lower-end platforms.
+- **NEVER use 'Update Continuity' in ReflectionProbes for performance** — Keep ReflectionProbes on 'Update Once' and trigger manual updates only when necessary.
 
 ---
 
@@ -32,6 +38,36 @@ Dynamic light pooling and LOD. Manages light culling and shadow toggling based o
 
 ### [volumetric_fx.gd](scripts/volumetric_fx.gd)
 Volumetric fog and god ray configuration. Runtime fog density/color adjustments and light shaft setup. Use for atmospheric effects.
+
+### [shadow_cascade_tuner.gd](scripts/shadow_cascade_tuner.gd)
+Expert logic for adjusting DirectionalLight3D shadow split distances dynamically based on sun angle and camera tilt.
+
+### [lightmap_bake_helper.gd](scripts/lightmap_bake_helper.gd)
+Advanced LightmapGI configuration pattern using Shadowmasking mode for hybrid static/dynamic shadowing.
+
+### [sdfgi_probe_manager.gd](scripts/sdfgi_probe_manager.gd)
+Dynamic quality scaler for real-time Global Illumination (SDFGI). Adjusts cell size and occlusion for performance/quality trade-offs.
+
+### [volumetric_fog_zones.gd](scripts/volumetric_fog_zones.gd)
+Smoothly transitioning localized fog density for cave entrances or forest clearings using Tweens and Area3D triggers.
+
+### [fake_gi_bounce.gd](scripts/fake_gi_bounce.gd)
+Efficient 'Mobile-GI' pattern. Simulates light bouncing off the floor using non-shadowed directional fill lights.
+
+### [environment_blender.gd](scripts/environment_blender.gd)
+Architectural pattern for transitioning WorldEnvironment parameters (Sky, Ambient, Tonemap) during gameplay.
+
+### [shadow_bias_tuner.gd](scripts/shadow_bias_tuner.gd)
+Optimization script for correcting 'Peter Panning' and 'Shadow Acne' on high-fidelity directional lights.
+
+### [light_lod_optimizer.gd](scripts/light_lod_optimizer.gd)
+Distance-based shadow and visibility culling for OmniLight3D nodes in dense environments.
+
+### [reflection_probe_manager.gd](scripts/reflection_probe_manager.gd)
+Performance-aware ReflectionProbe handling using manual 'Update Once' triggers for large environmental changes.
+
+### [spotlight_projector_setup.gd](scripts/spotlight_projector_setup.gd)
+High-detail lighting using Projector textures to fake complex shadow patterns (grates, glass ripples).
 
 ---
 
@@ -365,6 +401,36 @@ func _ready() -> void:
 # Also: Ensure walls have proper thickness (not paper-thin)
 ```
 
+
+
+---
+
+## Expert Techniques & Optimizations
+
+### 1. Shadowmasking for Large Outdoor Scenes
+Rendering real-time shadows for distant objects is too expensive. Use **Shadowmasking** by setting a DirectionalLight3D to the `Dynamic` bake mode while baking a `LightmapGI`. This bakes distant shadows into a texture while allowing dynamic objects to cast real-time shadows up close, preventing "double shadowing" artifacts.
+
+### 2. Fake Global Illumination
+If you cannot afford GI at all (e.g., strict mobile constraints), fake it! Duplicate your main `DirectionalLight3D`, rotate it 180 degrees (pointing up from the ground), turn Shadows OFF, set Specular to 0.0, and reduce Energy to 10-40%. This cheaply simulates bounced floor lighting.
+
+### 3. Simulating PCSS (Contact-Hardening Shadows)
+Godot's OmniLight3D scaling can simulate Percentage-Closer Soft Shadows (blurrier shadows further from the caster).
+
+```gdscript
+extends OmniLight3D
+
+func _ready() -> void:
+    # Simulates area lights and Percentage-Closer Soft Shadows (PCSS).
+    # Note: High performance cost. Keep the number of lights with light_size > 0.0 low.
+    light_size = 0.5
+    shadow_enabled = true
+    
+    # Distance fade culls the light and shadow completely when out of range,
+    # preventing the clustered renderer from choking on too many overlapping PCSS lights.
+    distance_fade_enabled = true
+    distance_fade_begin = 20.0
+    distance_fade_length = 5.0
+```
 
 ## Reference
 - Master Skill: [godot-master](../godot-master/SKILL.md)

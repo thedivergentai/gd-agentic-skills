@@ -7,19 +7,57 @@ description: "Expert blueprint for web/browser platforms (HTML5 export) covering
 
 Browser API integration, LocalStorage persistence, and size optimization define web deployment.
 
+## NEVER Do (Expert Web Rules)
+
+### Persistence & Storage
+- **NEVER use FileAccess for persistent saves** — Browsers sandbox the filesystem. Standard `FileAccess` to `user://` is unreliable. Always use `JavaScriptBridge` for `localStorage` or `IndexedDB`.
+- **NEVER assume localStorage is permanent** — Browsers may purge local storage if space is low. Always implement a cloud-save fallback for production titles.
+
+### Rendering & Logic
+- **NEVER use the Forward+ renderer** — Forward+ requires Vulkan features that are unstable in browsers. Use the **Compatibility** (WebGL 2.0) renderer for consistent 60 FPS.
+- **NEVER block the browser event loop** — Long-running sync logic will cause the browser to prompt the user to "Kill the Page." Use `await` and background tasks.
+- **NEVER ignore the COOP/COEP header requirement** — Multi-threading and `SharedArrayBuffer` will fail on many hosts unless cross-origin isolation is configured server-side.
+
+### UX & Security
+- **NEVER forget to handle tab focus loss** — Audio playing in a hidden background tab is poor UX. Use `visibilitychange` to pause audio.
+- **NEVER trigger Fullscreen/Mouse Lock without click** — Browsers block security-sensitive requests unless they are inside a direct user interaction event.
+- **NEVER use absolute paths in HTML shells** — Use relative paths to ensure the game works when hosted in sub-directories.
+
+---
+
 ## Available Scripts
 
-### [web_bridge_sync.gd](scripts/web_bridge_sync.gd)
-Expert JavaScriptBridge helpers for browser API integration (persistence, analytics).
+> **MANDATORY**: Read the appropriate script before implementing the corresponding pattern.
 
-## NEVER Do in Web Development
+### [web_javascript_bridge_callback.gd](scripts/web_javascript_bridge_callback.gd)
+Expert two-way JS-to-GD communication using `create_callback`.
 
-- **NEVER use FileAccess for saves** — `FileAccess.open("user://save.dat")` on web? Browser sandbox blocks filesystem. Use JavaScriptBridge + localStorage.
-- **NEVER forget loading screen** — 20MB wasm download with default load screen = user closes tab. MUST customize index.html with progress bar + brand assets.
-- **NEVER  use threads** — `Thread.new()` on web? Not supported. Use `await` for async OR split work across frames with `await get_tree().process_frame`.
-- **NEVER ignore HTTPS requirement** — Geolocation, microphone, webcam APIs REQUIRE HTTPS. Local `http://` = APIs blocked. Use `localhost` OR HTTPS.
-- **NEVER exceed 50MB build size** — 100MB WebAssembly = user rage-quits during load. Compress textures (ETC2/ASTC), exclude unused assets.
-- **NEVER hardcode window size** — `get_viewport().size = Vector2(1920, 1080)` on web? Breaks mobile browsers. Use `get_window().size_changed` + responsive UI.
+### [web_local_storage_wrapper.gd](scripts/web_local_storage_wrapper.gd)
+Robust `localStorage` handler with JSON serialization and quota error prevention.
+
+### [web_responsive_canvas_adaptor.gd](scripts/web_responsive_canvas_adaptor.gd)
+Dynamic canvas resizing to match browser window dimensions via JS.
+
+### [web_browser_input_guard.gd](scripts/web_browser_input_guard.gd)
+Preventing browser default behaviors (Right-click menu, Spacebar scroll).
+
+### [web_resource_lazy_loader.gd](scripts/web_resource_lazy_loader.gd)
+Lazy loading of remote PCKs and resources using browser-fetch logic.
+
+### [web_clipboard_interface.gd](scripts/web_clipboard_interface.gd)
+Asynchronous clipboard (Copy/Paste) integration via the `Navigator` API.
+
+### [web_visibility_auto_pause.gd](scripts/web_visibility_auto_pause.gd)
+Visibility API integration to auto-pause engine and audio on tab hide.
+
+### [web_navigation_guard.gd](scripts/web_navigation_guard.gd)
+Navigation guard using `beforeunload` to prevent closing on unsaved progress.
+
+### [web_external_url_opener.gd](scripts/web_external_url_opener.gd)
+Expert URL opening using `window.open` with `noopener` security flags.
+
+### [web_performance_profiler.gd](scripts/web_performance_profiler.gd)
+Browser performance tracking (VRAM, Draw calls) logged to JS console.
 
 ---
 

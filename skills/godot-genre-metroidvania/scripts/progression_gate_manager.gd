@@ -1,4 +1,4 @@
-# skills/genre-metroidvania/scripts/progression_gate_manager.gd
+# godot-master/scripts/metroidvania_progression_gate_manager.gd
 extends Node
 
 ## Progression Gate Manager

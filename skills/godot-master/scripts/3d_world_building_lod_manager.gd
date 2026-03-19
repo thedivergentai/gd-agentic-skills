@@ -1,4 +1,4 @@
-# godot-master/scripts/3d_world_building_lod_manager.gd
+# skills/3d-world-building/code/lod_manager.gd
 extends Node3D
 
 ## LOD (Level of Detail) Management Pattern

@@ -12,14 +12,48 @@ NavigationServer-powered pathfinding with avoidance and dynamic obstacles define
 ### [dynamic_nav_manager.gd](scripts/dynamic_nav_manager.gd)
 Expert runtime navigation mesh updates for moving platforms.
 
+### [server_navigation_setup.gd](scripts/server_navigation_setup.gd)
+Low-level `NavigationServer3D` usage (bypassing nodes). Creates maps, regions, and registers navmeshes entirely via RID for maximum performance.
+
+### [async_dynamic_baking.gd](scripts/async_dynamic_baking.gd)
+Expert logic for `bake_from_source_geometry_data_async`. Parses geometry on main thread then bakes in background to prevent procedural-gen stutters.
+
+### [memory_optimized_queries.gd](scripts/memory_optimized_queries.gd)
+Pattern for reusing `NavigationPathQueryParameters3D` and `NavigationPathQueryResult3D` objects to prevent frame-by-frame GC allocations.
+
+### [terrain_cost_manager.gd](scripts/terrain_cost_manager.gd)
+Controlling pathfinding logic using `region_set_enter_cost` and `region_set_travel_cost` to define high-penalty areas (mud, fire, water).
+
+### [low_level_avoidance.gd](scripts/low_level_avoidance.gd)
+Direct RVO (Reciprocal Velocity Obstacles) registration using server-side agents. Uses `NavigationServer3D.agent_set_avoidance_callback` for high-performance avoidance.
+
+### [moving_obstacle_server.gd](scripts/moving_obstacle_server.gd)
+Dynamic obstacle registration (e.g. for projectiles or rolling hazards) that push RVO agents away without full navmesh baking.
+
+### [nav_link_traversal.gd](scripts/nav_link_traversal.gd)
+Advanced handling of `NavigationLink3D` for jumps, teleports, and elevators. Detects link traversal and overrides standard movement.
+
+### [layer_mask_navigation.gd](scripts/layer_mask_navigation.gd)
+Architecture for multi-type navigation (e.g. Flying vs Walking vs Swimming) using 32-bit navigation layers and bitmasks.
+
+### [agent_stuck_detection.gd](scripts/agent_stuck_detection.gd)
+Robust AI recovery logic. Detects distance-over-time stalls and triggers jitter recovery or path recalculation.
+
+### [group_avoidance_formations.gd](scripts/group_avoidance_formations.gd)
+Coordinating crowd behavior. Strategies for avoiding individual agent clumping by using leader-relative target offsets.
+
 ## NEVER Do in Navigation & Pathfinding
 
 - **NEVER set `target_position` before awaiting physics frame** — NavigationServer not ready in `_ready()`? Path fails silently. MUST `call_deferred()` then `await get_tree().physics_frame`.
-- **NEVER use `NavigationRegion2D.bake_navigation_polygon()` at runtime** — Synchronous baking freezes game for 100+ ms. Use `NavigationServer2D` for dynamic updates OR pre-bake.
+- **NEVER use `NavigationRegion2D.bake_navigation_polygon()` at runtime** — Synchronous baking freezes game for 100+ ms. Use `NavigationServer.bake_from_source_geometry_data_async()` for stutter-free updates.
 - **NEVER forget to check `is_navigation_finished()`** — Calling `get_next_path_position()` after reaching target = stale path, AI walks to old position.
 - **NEVER use `avoidance_enabled` without setting radius** — Default radius = 0, agent passes through others. Set `nav_agent.radius = collision_shape.radius` for proper avoidance.
 - **NEVER poll `target_position` every frame for chase AI** — Setting target 60x/sec = path recalculation spam. Use timer (0.2s intervals) or distance threshold for updates.
 - **NEVER assume path exists** — Target unreachable (blocked by walls)? `get_next_path_position()` returns invalid. Check `is_target_reachable()` or validate path length.
+- **NEVER use heavy node-based navigation for thousands of simple entities** — Use `NavigationServer3D/2D` RIDs directly to bypass node overhead.
+- **NEVER call `get_path()` every frame** — Use `query_path()` with reused `NavigationPathQueryResult` objects to prevent massive heap allocation and GC pressure.
+- **NEVER leave 'enter_cost' at 0 for high-penalty areas** — Use costs to make AI prefer logical paths (roads over water) instead of just shortest geometric distance.
+- **NEVER ignore `agent_set_avoidance_callback`** — Always use the callback for safe velocity computation to avoid synchronization issues and "jittery" movement.
 
 ---
 

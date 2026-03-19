@@ -1,4 +1,4 @@
-# godot-master/scripts/camera_systems_phantom_decoupling.gd
+# skills/camera-systems/code/phantom_decoupling.gd
 extends Node2D
 
 ## Phantom Camera Decoupling Pattern

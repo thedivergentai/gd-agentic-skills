@@ -1,10 +1,12 @@
-> [!NOTE]
-> **Resource Context**: This module provides expert patterns for **Composition Architecture**. Accessed via Godot Master.
+---
+name: godot-composition
+description: "Expert architectural standards for building scalable Godot GAMES (RPGs, Platformers, Shooters) using the Composition pattern (Entity-Component). Use when designing player controllers, NPCs, enemies, weapons, or complex gameplay systems. Enforces \"Has-A\" relationships for game entities. Trigger keywords: Entity-Component, ECS, Gameplay, Actors, NPCs, Enemies, Weapons, Hitboxes, Game Loop, Level Design."
+---
 
 # Godot Composition Architecture
 
 ## Core Philosophy
-This module enforces **Composition over Inheritance** ("Has-a" vs "Is-a").
+This skill enforces **Composition over Inheritance** ("Has-a" vs "Is-a").
 In Godot, Nodes **are** components. A complex entity (Player) is simply an Orchestrator managing specialized Worker Nodes (Components).
 
 ### The Golden Rules
@@ -15,11 +17,50 @@ In Godot, Nodes **are** components. A complex entity (Player) is simply an Orche
 
 ---
 
-## Anti-Patterns (NEVER Do This)
-- **NEVER** use deep inheritance chains (e.g., `Player > Entity > LivingThing > Node`). This creates brittle "God Classes."
-- **NEVER** use `get_node("Path/To/Thing")` or `$` syntax for components. This breaks if the scene tree changes.
-- **NEVER** let components reference the Parent directly (unless absolutely necessary via typed injection).
-- **NEVER** mix Input, Physics, and Game Logic in a single script.
+## Available Scripts
+
+### [health_component.gd](../scripts/composition_health_component.gd)
+Specialized Node for managing lifespan, damage logic, and death signals across any entity.
+
+### [hit_box_component.gd](../scripts/composition_hit_box_component.gd)
+Area-based component for intercepting damage and delegating it to a HealthComponent.
+
+### [hurt_box_component.gd](../scripts/composition_hurt_box_component.gd)
+Area-based component for dealing damage specifically to HitBoxComponents.
+
+### [velocity_component.gd](../scripts/composition_velocity_component.gd)
+Encapsulated movement and acceleration logic for reuse across Players and Enemies.
+
+### [interaction_component.gd](../scripts/composition_interaction_component.gd)
+Decoupled interaction handler using injecting `Callable` logic for context-aware actions.
+
+### [follower_component.gd](../scripts/composition_follower_component.gd)
+Decoupled tracking logic using `NodePath` injection for smooth entity following.
+
+### [state_component_vsm.gd](../scripts/composition_state_component_vsm.gd)
+Component-based state machine pattern using child nodes as individual states.
+
+### [status_effect_component.gd](../scripts/composition_status_effect_component.gd)
+Managing temporary modifiers (buffs/debuffs) by stacking effect scenes as children.
+
+### [visual_sync_component.gd](../scripts/composition_visual_sync_component.gd)
+Separating logical state (velocity/direction) from visual representation (sprite flipping).
+
+### [composition_root_init.gd](../scripts/composition_composition_root_init.gd)
+The "Orchestrator" pattern for wiring and connecting components in a parent node.
+
+## NEVER Do in Composition
+
+- **NEVER use deep inheritance chains** (e.g., `Player > Entity > LivingThing > Node`) — Creates brittle "God Classes" that are hard to refactor [21].
+- **NEVER use `get_node()` or `$` for components** — This breaks if the scene tree is rearranged. Always use `@export` or `%UniqueNames` [22].
+- **NEVER let a component reference its parent script directly** — This makes the component impossible to reuse. Use signals or dependency injection [23].
+- **NEVER mix Input, Physics, and Game Logic in one script** — This violates Single Responsibility. Split them into specialized components [24, 13].
+- **NEVER create components that require a specific SceneTree structure** — A component should be "selfish" and only care about its own properties and direct children.
+- **NEVER use inheritance to "add a feature"** — If you want an enemy to shoot, add a `ShootingComponent`, don't make it inherit from `ShooterEnemy`.
+- **NEVER hardcode component dependencies** — If `CombatComponent` needs `HealthComponent`, look it up in `_ready()` or inject it via the parent [11].
+- **NEVER treat Godot nodes as pure data** — Nodes provide lifecycle (`_process`) and signals. If you only need data, use a `Resource`.
+- **NEVER ignore the Node lifecycle in components** — Use `_enter_tree()` and `_exit_tree()` for setup/cleanup that must happen regardless of the parent's state.
+- **NEVER hide component points of access** — Expose `NodePath` or `Callable` properties so the parent can wire the component in the Inspector [13].
 
 ---
 
@@ -28,7 +69,7 @@ In Godot, Nodes **are** components. A complex entity (Player) is simply an Orche
 ### 1. Connection Strategy: Typed Exports
 Do not rely on tree order. Use explicit dependency injection via `@export` with static typing.
 
-**The "Godot Way" for strict composition:**
+**The "Godot Way" for strict godot-composition:**
 ```gdscript
 # The Orchestrator (e.g., player.gd)
 class_name Player extends CharacterBody3D
@@ -114,11 +155,25 @@ func tick(delta: float, direction: Vector2, wants_jump: bool) -> void:
 ### The Health Component (The Life)
 **Responsibility**: Manage HP, Clamp values, Signal changes.
 **Context Agnostic**: Can be put on a Player, Enemy, or a Wooden Crate.
-See example script: [health_component.gd](../scripts/composition_health_component.gd)
 
-### The Hitbox Component
-Simple hitbox logic for collision detection.
-See example script: [hitbox_component.gd](../scripts/composition_hitbox_component.gd)
+```gdscript
+class_name HealthComponent extends Node
+
+signal died
+signal health_changed(current, max)
+
+@export var max_health: float = 100.0
+var current_health: float
+
+func _ready():
+    current_health = max_health
+
+func damage(amount: float):
+    current_health = clamp(current_health - amount, 0, max_health)
+    health_changed.emit(current_health, max_health)
+    if current_health == 0:
+        died.emit()
+```
 
 ---
 
@@ -151,3 +206,7 @@ func _on_death():
 
 ## Performance Note
 Nodes are lightweight. Do not fear adding 10-20 nodes per entity. The organizational benefit of Composition vastly outweighs the negligible memory cost of `Node` instances.
+
+
+## Reference
+- Master Skill: [godot-master](../SKILL.md)

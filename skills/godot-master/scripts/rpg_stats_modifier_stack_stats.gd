@@ -1,4 +1,4 @@
-# godot-master/scripts/rpg_stats_modifier_stack_stats.gd
+# skills/rpg-stats/code/modifier_stack_stats.gd
 extends Node
 
 ## RPG Stats Expert Pattern

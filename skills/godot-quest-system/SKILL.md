@@ -9,20 +9,48 @@ Resource-based data, signal-driven updates, and AutoLoad coordination define sca
 
 ## Available Scripts
 
-### [quest_manager.gd](scripts/quest_manager.gd)
-Expert AutoLoad quest tracker with objective progression and reward distribution.
+### [quest_resource.gd](scripts/quest_resource.gd)
+Data-driven quest definition using Resources for modular objectives and branching rewards.
 
-### [quest_graph_manager.gd](scripts/quest_graph_manager.gd)
-Runtime manager for graph-based quests. Tracks objectives and node progression.
+### [quest_manager_singleton.gd](scripts/quest_manager_singleton.gd)
+Centralized AutoLoad orchestrator for tracking active quests and broadcasting status updates.
+
+### [kill_objective_trigger.gd](scripts/kill_objective_trigger.gd)
+Decoupled trigger logic that bridges game events (enemies dying) to the Quest System.
+
+### [quest_ui_tracker.gd](scripts/quest_ui_tracker.gd)
+Reactive VBox UI that dynamically adds and removes objective labels based on manager signals.
+
+### [branching_quest_data.gd](scripts/branching_quest_data.gd)
+Extended quest logic for handling multiple outcomes and player-driven narrative paths.
+
+### [ quest_giver_dialogue_hook.gd](scripts/quest_giver_dialogue_hook.gd)
+Hook for integrating NPCs with the quest system, allowing for conditional dialogue branches.
+
+### [quest_persistence_loader.gd](scripts/quest_persistence_loader.gd)
+Expert patterns for serializing quest IDs and progress counts for persistent save states.
+
+### [timed_quest_challenge.gd](scripts/timed_quest_challenge.gd)
+Template for time-limited challenges with automatic failure conditions and UI signals.
+
+### [hidden_objective_logic.gd](scripts/hidden_objective_logic.gd)
+Background objective tracker for secret achievements or non-visible quest progress.
+
+### [localized_quest_description.gd](scripts/localized_quest_description.gd)
+Strategy for supporting multi-language quest text using `tr()` keys instead of hardcoded strings.
 
 ## NEVER Do in Quest Systems
 
-- **NEVER store quest data in nodes** — Quest progress in `player.gd` variables? Loss on scene reload. Use Resource-based Quests OR AutoLoad singleton.
-- **NEVER use strings for quest IDs without registry** — `update_objective("kil_bandts", ...)` typo = silent failure. Use constants OR validate IDs against registry.
-- **NEVER forget to disconnect signals** — Quest completed but signal still connected? Quest completes again on next update = duplicate rewards. Disconnect in `_on_quest_completed()`.
-- **NEVER poll for objective updates** — Checking `if enemy_count == 10` every frame = wasteful. Use signals: `enemy.died.connect(quest_manager.on_enemy_killed)`.
-- **NEVER skip save/load for quests** — Player completes quest 5, game restarts, quest resets? Frustration. MUST persist `active_quests` + `completed_quests` arrays.
-- **NEVER use `all()` for objectives without null check** — `objectives.all(func(obj): return obj.is_complete())` with null objectives? Crash. Validate array contents first.
+- **NEVER store active quest data directly in the Player node** — If the player dies or the scene reloads, quest progress is lost. Use an AutoLoad or a persistent Data Resource [20].
+- **NEVER use hardcoded string IDs for objectives without validation** — Typos in `update_objective("kill_slimes")` will fail silently. Use StringNames or a central ID registry [21].
+- **NEVER forget to disconnect completion signals** — If a quest signal isn't cleared after completion, it might trigger multiple times, awarding double rewards [22].
+- **NEVER poll for mission completion in `_process()`** — Checking objectives 60 times a second is wasteful. Use a signal-driven approach (e.g. `on_enemy_died`) [23].
+- **NEVER skip save/load logic for quests** — Resetting a 10-hour quest line because of a game restart is a player-ending bug. Always persist quest states [24].
+- **NEVER use `all()` on objective arrays without null/type checks** — Attempting to check completion on a null objective entry will crash the entire system [25].
+- **NEVER hardcode quest logic inside enemy or item scripts** — Use a generic `EventBus` or `QuestTrigger` node to bridge the encounter to the QuestManager.
+- **NEVER allow multiple instances of the same Quest Resource to be active** — Ensure you're tracking unique Quest IDs to prevent accidental duplication of missions.
+- **NEVER use complex UI logic to calculate progress** — The UI should only display what the `Quest` resource provides. Keep formulas in the `QuestManager`.
+- **NEVER award rewards directly inside the quest script** — Delegate reward distribution to the `InventoryManager` or `EconomyManager` via signals for decoupling.
 
 ---
 

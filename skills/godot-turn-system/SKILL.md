@@ -7,22 +7,39 @@ description: "Expert blueprint for turn-based combat with turn order, action poi
 
 Turn order calculation, action points, phase management, and timeline systems define turn-based combat.
 
-## Available Scripts
+## NEVER Do (Expert Anti-Patterns)
 
-### [active_time_battle.gd](scripts/active_time_battle.gd)
-Framework for Active Time Battle (ATB) systems with async action support.
+### Order & Determinism
+- NEVER recalculate turn order every action; strictly sort once per round or ONLY when a speed-relevant stat changes to prevent O(n log n) lag.
+- NEVER use random tie-breaking for initiative; strictly use a secondary static attribute (Agility, ID, or persistent "luck") for **deterministic replays**.
+- NEVER modify an active turn-order queue while iterating it; strictly iterate over a `duplicate()` or apply queue modifications after the loop.
+- NEVER broadcast global turn state changes using immediate `call_group()`; strictly use **`call_group_flags(SceneTree.GROUP_CALL_DEFERRED, ...)`** to prevent frame spikes when notifying hundreds of units.
+ 
+- NEVER rely on the Node hierarchy as the source of truth; strictly use a **Dictionary board state** for logical grid coordinates.
 
-### [timeline_turn_manager.gd](scripts/timeline_turn_manager.gd)
-Expert timeline-based turn manager with interrupts and simultaneous actions.
+### Logic & Action Economy
+- NEVER deduct Action Points (AP) before validation; strictly call `can_perform_action(cost)` before applying `current_ap -= cost` to prevent exploits.
+- NEVER hardcode phase transitions (`if phase == 0`); strictly use an **enum + match** or a dedicated State Machine for Draw/Main/End phases.
+- NEVER emit "Turn Ended" before internal cleanup; strictly reset AP and tick status effects **BEFORE** signaling the next turn.
+- NEVER use exact floating-point equality (`==`) for AP checks; strictly use `>=` or `is_equal_approx()` for robust comparisons.
 
-## NEVER Do in Turn Systems
+### Tactical Grid & UI
+- NEVER use generic `AStar2D` for tile grids; strictly use **`AStarGrid2D`** for 10x faster pathfinding and native diagonal handling.
+- NEVER forget to call **`update()`** on `AStarGrid2D` after changing obstacle states; if you toggle `set_point_solid()`, the grid MUST refresh before the next query.
+- NEVER lock the main thread with `while` loops for input; strictly use the **await keyword** or signals to yield execution back to the Tree.
+- NEVER handle turn decisions with `is_action_pressed()`; strictly use `is_action_just_pressed()` for discrete, frame-locked menu input.
+- NEVER skip turn timeouts in networked games; strictly implement a **server-side timer** with a default "pass" action to prevent griefing.
 
-- **NEVER recalculate turn order every action** — Sort 50 combatants after every move? O(n log n) × actions = lag. Calculate once per round, update on stat changes only.
-- **NEVER use speed ties without determinism** — Two units same speed, random order? Non-reproducible replays. Break ties with secondary stat (ID, position, etc.).
-- **NEVER forget to validate action costs** — Allow action without checking points? Negative AP = exploits. ALWAYS `if can_perform_action(cost)` before deducting.
-- **NEVER hardcode phase transitions** — `if phase == 0: phase = 1` for 10 phases? Unmaintainable. Use enum + match OR array of phase handlers.
-- **NEVER skip turn timeout for networked games** — Wait forever for player input? Griefing exploit. ALWAYS implement turn timer with default action.
-- **NEVER emit turn_ended before cleanup** — Signal listeners start next turn, previous hasn't cleaned up? State corruption. Cleanup FIRST, then emit.
+---
+
+## 🛠 Expert Components (scripts/)
+
+### Original Expert Patterns
+- [active_time_battle.gd](scripts/active_time_battle.gd) - Framework for ATB systems with dynamic progress bars and async action support.
+- [timeline_turn_manager.gd](scripts/timeline_turn_manager.gd) - Advanced manager for timeline-based turns with interrupts and predictive visualization.
+
+### Modular Components
+- [turn_system_patterns.gd](scripts/turn_system_patterns.gd) - Collection of patterns for match state machines, UndoRedo, and A* Grid setup.
 
 ---
 

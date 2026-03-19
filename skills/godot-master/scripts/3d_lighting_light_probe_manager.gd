@@ -1,4 +1,4 @@
-# godot-master/scripts/3d_lighting_light_probe_manager.gd
+# skills/3d-lighting/scripts/light_probe_manager.gd
 extends Node3D
 
 ## Light Probe Manager (Expert Pattern)

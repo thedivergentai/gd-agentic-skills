@@ -1,4 +1,4 @@
-# godot-master/scripts/signal_architecture_signal_debugger.gd
+# skills/signal-architecture/scripts/signal_debugger.gd
 @tool
 extends EditorScript
 

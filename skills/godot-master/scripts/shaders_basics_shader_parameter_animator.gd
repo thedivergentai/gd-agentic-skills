@@ -1,4 +1,4 @@
-# godot-master/scripts/shaders_basics_shader_parameter_animator.gd
+# skills/shaders-basics/scripts/shader_parameter_animator.gd
 extends Node
 
 ## Shader Parameter Animator (Expert Pattern)

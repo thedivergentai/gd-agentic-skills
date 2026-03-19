@@ -9,17 +9,48 @@ Tween property animation, easing curves, chaining, and lifecycle management defi
 
 ## Available Scripts
 
-### [juice_manager.gd](scripts/juice_manager.gd)
-Expert tween-based juice system with reusable effect presets (bounce, shake, pulse, etc.).
+### [safe_tween_interruption.gd](scripts/safe_tween_interruption.gd)
+Expert logic for killing active tweens before starting new ones to prevent property conflicts.
+
+### [parallel_popup_animation.gd](scripts/parallel_popup_animation.gd)
+Using `set_parallel(true)` and `chain()` for complex multi-property UI transitions.
+
+### [text_counter_method_tween.gd](scripts/text_counter_method_tween.gd)
+Animating non-property values (like score strings) using `tween_method`.
+
+### [custom_curve_tween.gd](scripts/custom_curve_tween.gd)
+Driving property interpolation using visual `Curve` resources for bespoke easing.
+
+### [camera_shake_tween_logic.gd](scripts/camera_shake_tween_logic.gd)
+Implementing procedural screen shake using randomized looping tweens.
+
+### [time_scale_ignored_ui.gd](scripts/time_scale_ignored_ui.gd)
+Ensuring menu animations continue playing when `Engine.time_scale` is set to 0.
+
+### [nested_subtween_cutscene.gd](scripts/nested_subtween_cutscene.gd)
+Hierarchical cutscene management using `tween_subtween` for composable timelines.
+
+### [relative_recoil_tween.gd](scripts/relative_recoil_tween.gd)
+Using `as_relative()` and `from_current()` for dynamic movement offsets (recoil/nudges).
+
+### [staggered_inventory_entry.gd](scripts/staggered_inventory_entry.gd)
+Animating collections of items sequentially using a single Tween object.
+
+### [looped_hover_vfx.gd](scripts/looped_hover_vfx.gd)
+Creating infinite ping-pong ambient effects to replace heavy AnimationPlayers.
 
 ## NEVER Do in Tweening
 
-- **NEVER create tweens without killing previous** — Spam click button, create 100 tweens? Memory leak + conflicting animations. ALWAYS `if tween: tween.kill()` before creating new.
-- **NEVER tween in _process without create_tween()** — `create_tween()` every frame? 60 tweens/second × 60 frames = 3600 tween objects. Create ONCE, reuse OR kill old.
-- **NEVER forget to set_parallel for simultaneous** — Chain `tween_property()` expecting simultaneous? Sequential by default. Use `tween.set_parallel(true)` first.
-- **NEVER use 0-duration tweens for instant changes** — `tween_property(x, 0.0)` for teleport? Overhead of tween system. Just set property: `sprite.position = target`.
-- **NEVER skip finished signal for cleanup** — Tween completes, node still references it? Memory held. Connect `tween.finished` for cleanup OR null reference.
-- **NEVER use linear interpolation for UI** — `TRANS_LINEAR` for button hover? Robotic feel. Use `EASE_OUT + TRANS_QUAD` OR `EASE_IN_OUT + TRANS_CUBIC` for organic motion.
+- **NEVER instantiate a Tween using `Tween.new()`** — Tweens created manually are invalid. Always use `create_tween()` or `get_tree().create_tween()` [3, 4].
+- **NEVER attempt to reuse a finished Tween** — Tweens are single-use objects. To replay an animation, you must create a new one [4].
+- **NEVER manually instantiate `PropertyTweener` or `CallbackTweener`** — These must be generated only by the parent Tween methods like `tween_property` [5].
+- **NEVER create an infinite loop containing only 0-duration animations** — This will freeze the engine. Always include at least one step with duration [10].
+- **NEVER use multiple Tweens to animate the same property simultaneously** — The last one created takes priority, causing flicker. Use `kill()` on the old reference first [11, 12].
+- **NEVER use linear interpolation for UI/Juice** — `TRANS_LINEAR` feels robotic. Use `EASE_OUT + TRANS_QUAD` or `EASE_IN_OUT + TRANS_CUBIC` for organic motion [22].
+- **NEVER create tweens in `_process` without guards** — Creating 60 tweens per second will crash the app. Use a state check or kill the running one.
+- **NEVER skip `bind_node(self)` for non-global tweens** — If the node is freed while a tween is running, it can cause errors. Binding ensures it dies with the node [13].
+- **NEVER use 0-duration tweens for state changes** — If you want an instant change, just set the property directly (`position = goal`) to save overhead [20].
+- **NEVER forget to call `chain()` when returning from `set_parallel(true)`** — If you want a sequence after a parallel block, you must explicitly chain it [15].
 
 ---
 

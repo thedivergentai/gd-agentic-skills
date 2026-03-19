@@ -7,21 +7,51 @@ description: "Expert blueprint for racing games including vehicle physics (Vehic
 
 Expert blueprint for racing games balancing physics, competition, and sense of speed.
 
-## NEVER Do
+## NEVER Do (Expert Anti-Patterns)
 
-- **NEVER rigid camera attachment** — Camera locked to car causes motion sickness. Use lerp with slight delay for smooth follow.
-- **NEVER skip sense of speed** — Increase FOV as speed increases, add camera shake, wind lines, motion blur. Tunnel vision breaks immersion.
-- **NEVER make physics overly realistic** — "Floaty" arcade feel is often more fun than simulation. Increase gravity 2-3x, adjust wheel friction.
-- **NEVER forget checkpoints** — Without validation, players exploit shortcuts. Enforce checkpoint sequence to complete laps.
-- **NEVER ignore rubber-banding** — AI that's too far ahead/behind makes races boring. Adjust AI speed dynamically based on player distance.
+### Physics & Handling
+- NEVER use a rigid camera attachment; strictly use a **Smooth Follow** pattern with `lerp()` to prevent motion sickness.
+- NEVER prioritize realism over fun; strictly increase **Gravity Scale** (2x-3x) and keep friction high for responsive arcade feel.
+- NEVER use `VehicleBody3D` default settings for karts; strictly rewrite suspension using Raycasts or custom spring/damper models.
+- NEVER apply steering torque directly to mass; strictly use a steering curve factored by lateral velocity.
+- NEVER calculate suspension without a damper model; strictly include damping to prevent eternal oscillation (bouncing).
+- NEVER ignore the **Center of Mass** property; strictly offset it downward to ensure stability during high-speed turns.
+- NEVER multiply engine force by `delta`; it is an integrated force in the physics solver.
+- NEVER rely on `is_action_pressed()` for manual gear shifting; strictly use `is_action_just_pressed()` for single-tap accuracy.
+
+### AI & Competition
+- NEVER use static AI speeds; strictly use **Rubber-Banding** to keep races competitive based on player distance.
+- NEVER run AI pathfinding across the entire track every frame; strictly use a "Look-Ahead" point on a spline/path.
+- NEVER ignore racing **Checkpoints**; strictly enforce sequential `Area3D` validation to prevent track shortcuts.
+- NEVER use standard `Area3D` for slipstreaming without a **Dot Product** check to ensure the player is directly behind.
+
+### Visuals & Audio
+- NEVER skip "Sense of Speed" effects; strictly implement dynamic **FOV scaling**, motion blur, and high-speed camera shake.
+- NEVER update minimap transforms for static elements in `_process()`; strictly update dynamic racers only.
+- NEVER serialize ghost cars as mass transform lists; strictly store positions/quaternions at fixed intervals.
+- NEVER use constant pitch for engine sounds; strictly map RPM or engine load to `pitch_scale`.
+- NEVER spawn particles for skid marks every frame; strictly use **Trail3D** or procedural strips for low-cost persistence.
+- NEVER use standard Strings for surface detection; strictly use `StringName` (e.g., `&"asphalt"`).
+
 ---
 
-## Available Scripts
+## 🛠 Expert Components (scripts/)
 
-> **MANDATORY**: Read the appropriate script before implementing the corresponding pattern.
+### Original Expert Patterns
+- [arcade_vehicle_physics.gd](scripts/arcade_vehicle_physics.gd) - High-performance arcade handling with custom gravity, air control, and friction-slip drifting.
+- [spline_ai_controller.gd](scripts/spline_ai_controller.gd) - Professional racing AI using Path3D predictive steering and rubber-banding logic.
 
-### [spline_ai_controller.gd](scripts/spline_ai_controller.gd)
-Path3D-based racing AI. Projects position onto curve, calculates look-ahead for steering, applies throttle based on target speed vs velocity.
+### Modular Components
+- [arcade_vehicle_controller.gd](scripts/arcade_vehicle_controller.gd) - Alternative tight, raycast-based vehicle movement model for non-physics karts.
+- [slipstream_handler.gd](scripts/slipstream_handler.gd) - Drafting zones with relative dot-product checks for speed boosts.
+- [lap_tracker.gd](scripts/lap_tracker.gd) - High-precision lap management with sequential checkpoint logic.
+- [ghost_recorder.gd](scripts/ghost_recorder.gd) - Binary transform serialization for lightweight ghost car playback.
+- [engine_audio_controller.gd](scripts/engine_audio_controller.gd) - RPM-to-pitch audio synthesis for engine revving and gear shifts.
+- [skid_mark_emitter.gd](scripts/skid_mark_emitter.gd) - Conditional tire-slip trail system for persistent visual feedback.
+- [minimap_icon_projector.gd](scripts/minimap_icon_projector.gd) - 3D-to-2D bridge for projecting racers onto a localized UI.
+- [force_feedback_router.gd](scripts/force_feedback_router.gd) - Haptic and rumble management based on terrain and collisions.
+- [raycast_suspension.gd](scripts/raycast_suspension.gd) - Spring/damper model for raycast wheels with configurable stiffness.
+- [racing_checkpoint.gd](scripts/racing_checkpoint.gd) - Indexed trigger gate for modular track-based lap progression.
 
 ---
 

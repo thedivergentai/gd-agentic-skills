@@ -1,4 +1,4 @@
-# godot-master/scripts/testing_patterns_integration_test_base.gd
+# skills/testing-patterns/scripts/integration_test_base.gd
 extends "res://addons/gut/test.gd"
 
 ## Integration Test Base Expert Pattern

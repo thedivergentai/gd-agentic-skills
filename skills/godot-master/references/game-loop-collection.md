@@ -1,59 +1,39 @@
-# Game Loop: Collections & Scavenger Hunts
+---
+name: godot-game-loop-collection
+description: Use when implementing collection quests, scavenger hunts, or "find all X" objectives.
+---
 
-> [!NOTE]
-> **Resource Context**: This module provides expert patterns for **Collection Loops**. Accessed via Godot Master.
+# Collection Game Loops
 
-## Architectural Thinking: The "Find-All" Loop
+## Overview
+This skill provides a standardized framework for "Collection Loops" – gameplay objectives where the player must find and gather a specific set of items (e.g., hidden eggs, data logs, coins).
 
-Collection loops are foundational for exploration. A Master implementation distinguishes between **Deterministic Placement** (hand-placed items) and **Procedural Discovery** (spawned within volumes).
+## NEVER Do
 
-### Core Responsibilities
-- **Manager**: Single source of truth for "Current / Target" state. Avoids poll-based UI.
-- **Spawner**: Decoupled from levels. Can fill `CollisionShape3D` volumes dynamically.
+- **NEVER use free() to destroy an active state node or level** — This can cause crashes if the node is still processing. Always use `queue_free()` to safely dispose of it at the end of the frame.
+- **NEVER calculate physics-dependent game state in _process()** — Movement and precise collisions must happen in `_physics_process()` to stay synced with the engine's fixed timestep.
+- **NEVER execute heavy state transitions (like loading massive levels) synchronously** — Calling `load()` on a huge scene stalls the main thread. Use `ResourceLoader.load_threaded_request()`.
+- **NEVER use exact floating-point equality (==) for time-based states** — Floating-point errors will eventually cause missed triggers. Use `is_equal_approx()` or relative comparisons.
+- **NEVER manipulate the active SceneTree from a background thread** — The SceneTree is not thread-safe. Use `call_deferred()` to push results back to the main thread.
+- **NEVER rely on a monolithic "GameManager" with hardcoded absolute paths** — This creates tight coupling. Use groups, signals, and exported references for a modular architecture.
+- **NEVER assume child nodes are ready before their parent** — `_ready()` executes from bottom-to-top. If you need child references, use `@onready` or `await ready`.
+- **NEVER use string-based signals for critical state transitions** — Avoid `connect("signal", _on_func)`. Use the Signal object syntax (`signal.connect(_on_func)`) for compile-time validation.
+- **NEVER poll for input state every frame for discrete menu events** — Use the `_unhandled_input()` callback to cleanly intercept events without wasting CPU cycles in `_process()`.
+- **NEVER crash the engine intentionally via CRASH_NOW_MSG** — Regular state handling should always recover gracefully. Crashing is for unrecoverable internal engine failures.
+- **NEVER hardcode spawn positions in code** — Always use `Marker3D` or `CollisionShape3D` nodes in the scene so designers can adjust layout without touching code.
+- **NEVER neglect "juice" before an item disappears** — Immediate `queue_free()` feels dry. Always spawn particles or play a sound before removal.
+- **NEVER use global variables for local collection progress** — Keep counts encapsulated within the `CollectionManager` and emit signals to update the UI.
+- **NEVER leave orphaned nodes in the tree during state swaps** — Always ensure the previous level/state is properly queued for deletion before instantiating the new one.
+- **NEVER scale collision shapes non-uniformly for collectibles** — This breaks collision detection math. Adjust the internal shape resource properties instead.
 
-## Expert Code Patterns
+---
 
-### 1. Volume-Aware Procedural Spawner
-Master-level spawning detects collision volumes to generate high-density discovery areas without manual effort.
+## Available Scripts
 
-```gdscript
-# game_loop_collection_hidden_item_spawner.gd
-# Intrinsic Shape Detection
-if available_points.is_empty():
-    for child in get_children():
-        if child is CollisionShape3D:
-            _spawn_at(_get_random_point_in_shape(child))
-```
+> **MANDATORY**: Read the appropriate script before implementing the corresponding pattern.
 
-### 2. Signal-Based Collection Logic
-Items should NOT update UI directly. They emit a signal to the Manager, which manages the tally.
+### [collection_loop_patterns.gd](../scripts/game_loop_collection_collection_loop_patterns.gd)
+Collection of 10 expert patterns: Custom MainLoop extensions, deferred scene switching, threaded loading, and frame throttling.
 
-```gdscript
-# game_loop_collection_collectible_item.gd
-func _on_body_entered(body):
-    item_collected.emit(id)
-    # Juice: Play sound/VFX BEFORE queue_free
-    _play_juice()
-    queue_free()
-```
-
-## Master Decision Matrix: Spawning Strategy
-
-| Strategy | Best For | Implementation |
-| :--- | :--- | :--- |
-| **Marker3D** | High-value, unique items | Exact `global_position`. |
-| **BoxShape3D** | Large areas / Clutter | `randf_range` on size. |
-| **SphereShape3D** | Clusters / Organic spread | `random_on_unit_sphere`. |
-
-## Veteran-Only Gotchas (Never List)
-
-- **NEVER use `get_tree().get_nodes_in_group` every frame**: Caching collectors is fine, but scanning the tree constantly is slow.
-- **NEVER hardcode spawn positions in code**: Always use `Marker3D` or `CollisionShape3D` nodes in the scene so designers can adjust layout without touching code.
-- **Avoid "God Objects"**: The `CollectionManager` shouldn't handle input, UI, AND audio. Let it emit signals and let other systems react.
-- **Juice**: Always spawn particles or play a sound *before* the item disappears. Immediate `queue_free()` feels dry.
-
-## Registry
-
-- **Expert Component**: [collection_manager.gd](../scripts/game_loop_collection_collection_manager.gd)
-- **Expert Component**: [collectible_item.gd](../scripts/game_loop_collection_collectible_item.gd)
-- **Expert Component**: [hidden_item_spawner.gd](../scripts/game_loop_collection_hidden_item_spawner.gd)
+### [collection_manager.gd](../scripts/game_loop_collection_collection_manager.gd)
+The central brain of the hunt. Tracks progress and manages completion signals.

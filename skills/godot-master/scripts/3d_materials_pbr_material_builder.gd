@@ -1,4 +1,4 @@
-# godot-master/scripts/3d_materials_pbr_material_builder.gd
+# skills/3d-materials/scripts/pbr_material_builder.gd
 extends Node
 
 ## PBR Material Builder (Expert Pattern)

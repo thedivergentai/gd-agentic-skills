@@ -7,21 +7,51 @@ description: "Expert blueprint for open world games including chunk-based stream
 
 Expert blueprint for open worlds balancing scale, performance, and player engagement.
 
-## NEVER Do
+## NEVER Do (Expert Anti-Patterns)
 
-- **NEVER prioritize size over density** — Huge empty maps are boring. Smaller, denser maps beat vast deserts. Density > Size.
-- **NEVER save everything** — 500MB save files destroy performance. Save only *changes* (delta compression). Unmodified objects use defaults.
-- **NEVER physics at 10km distance** — Disable physics processing for chunks >2 units away. Use simple simulation (timers) for distant logic.
-- **NEVER ignore floating point precision** — At 5000+ units, objects jitter. Implement floating origin: shift world when player exceeds threshold.
-- **NEVER synchronous chunk loading** — Loading chunks in _process() causes stutters. Use Thread.new() for background loading.
+### World & Persistence
+- NEVER prioritize Map Size over Density; empty landscapes are poor design. Strictly focus on **Points of Interest (POIs)** within every 30 seconds of travel.
+- NEVER save the entire world state; strictly use **Delta Persistence** to record only unique changes (chopped trees, looted chests) to prevent massive save files.
+- NEVER load large chunks or scenes synchronously; strictly use **`ResourceLoader.load_threaded_request()`** to prevent "Loading Hitches" and frame freezes.
+- NEVER manipulate the active SceneTree directly from a background thread; strictly use **`call_deferred()`** to safely apply background thread chunk instantiations back to the main thread.
+- NEVER keep distant, unloaded chunks in memory; strictly `queue_free()` and nullify references to prevent Out-Of-Memory (OOM) crashes.
+- NEVER bake massive collision into one mesh; strictly break the world into chunks with local collision regions for efficient physics queries.
+- NEVER save high-volume entity states in text formats (.tscn/.json); strictly use **Binary Serialization** (`store_var`) for high-speed I/O.
+
+### Physics & Performance
+- NEVER ignore the "Floating Origin" jitter beyond 8,192 units; strictly implement a **World-Shift system** or enable **Large World Coordinates (Double Precision)** in project settings.
+- NEVER process physics or AI at extreme distances; strictly use **Spatial Partitioning** to disable logic for entities in far-away, inactive chunks.
+- NEVER calculate physics-sensitive state in `_process()`; strictly use `_physics_process()` for deterministic interaction at fluctuating framerates.
+- NEVER spawn individual `MeshInstance3D` nodes for massive foliage; strictly use **MultiMeshInstance3D** to batch hundreds of thousands of meshes into a single GPU draw call.
+- NEVER move `OccluderInstance3D` nodes at runtime; this forces a CPU BVH rebuild and causes severe micro-stuttering.
+- NEVER leave `CSGShape3D` nodes active in exported builds; strictly bake them into static `ArrayMesh` geometry before shipping.
+- NEVER compile complex shaders during gameplay; strictly perform "warm-up" during loading or enable project-wide caching.
+- NEVER rely solely on automatic mesh decimation; strictly use **VisibilityRange (HLOD)** to substitute complex materials with cheap imposters or completely hide objects at extreme distances.
+
+### Logic & Architecture
+- NEVER perform global A* searches across the entire massive world; strictly use `NavigationPathQueryParameters3D` to limit pathfinding to localized active regions.
+- NEVER use `find_child()` or deep tree iteration for global state (e.g., Time of Day); strictly use **Scene Groups** (`call_group()`) for optimized broadcasting.
+- NEVER synchronize complex Resource types over the network; strictly serialize world changes into primitive Dictionaries or PackedByteArrays.
+
 ---
 
-## Available Scripts
+## 🛠 Expert Components (scripts/)
 
-> **MANDATORY**: Read the appropriate script before implementing the corresponding pattern.
+### Original Expert Patterns
+- [world_streamer.gd](scripts/world_streamer.gd) - Professional-grade chunk management and streaming engine with background threading.
+- [floating_origin_shifter.gd](scripts/floating_origin_shifter.gd) - World-offset correction system to prevent floating-point precision jitter.
 
-### [floating_origin_shifter.gd](scripts/floating_origin_shifter.gd)
-Shifts world origin when player exceeds threshold distance from (0,0,0). Prevents floating-point precision jitter at large distances.
+### Modular Components
+- [async_chunk_loader.gd](scripts/async_chunk_loader.gd) - Background world streaming system using threaded resource loading.
+- [multimesh_foliage_manager.gd](scripts/multimesh_foliage_manager.gd) - Server-side GPU batching for thousands of landscape entities.
+- [hlod_configurator.gd](scripts/hlod_visibility_config.gd) - Distance-based mesh swapping and imposter management using VisibilityRange.
+- [hlod_visibility_config.gd](scripts/hlod_visibility_config.gd) - Distance-based geometry swapping using VisibilityRange (HLOD).
+- [binary_save_manager.gd](scripts/binary_save_manager.gd) - High-performance serialization for large-scale world persistence.
+- [chunk_limited_pathfinder.gd](scripts/chunk_limited_pathfinder.gd) - NavigationServer-level query limits to optimize AI in dense worlds.
+- [server_prop_spawner.gd](scripts/server_prop_spawner.gd) - Extreme optimization using RenderingServer RIDs to bypass SceneTree.
+- [dynamic_lod_adjuster.gd](scripts/dynamic_lod_adjuster.gd) - Real-time adaptive performance scaling for global mesh LOD.
+- [group_weather_broadcaster.gd](scripts/group_weather_broadcaster.gd) - Efficient decoupled environmental updates using SceneTree grouping.
+- [landscape_height_query.gd](scripts/landscape_height_query.gd) - Nodeless physics floor-height queries for large-scale landscapes.
 
 ---
 

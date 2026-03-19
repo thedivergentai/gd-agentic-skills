@@ -1,4 +1,4 @@
-# godot-master/scripts/ui_theming_global_theme_manager.gd
+# skills/ui-theming/code/global_theme_manager.gd
 extends Node
 
 ## UI Theming Expert Pattern

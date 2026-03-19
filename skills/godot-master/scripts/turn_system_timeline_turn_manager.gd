@@ -1,4 +1,4 @@
-# godot-master/scripts/turn_system_timeline_turn_manager.gd
+# skills/turn-system/code/timeline_turn_manager.gd
 extends Node
 
 ## Turn System Expert Pattern

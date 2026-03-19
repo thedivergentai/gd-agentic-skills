@@ -1,4 +1,4 @@
-# skills/genre-moba/code/skill_shot_indicator.gd
+# godot-master/scripts/moba_skill_shot_indicator.gd
 extends Node2D
 
 ## Skill-Shot Indicator Expert Pattern

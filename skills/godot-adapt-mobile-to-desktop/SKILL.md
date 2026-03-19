@@ -21,11 +21,35 @@ Expert guidance for scaling mobile games to desktop platforms.
 
 > **MANDATORY**: Read the appropriate script before implementing the corresponding pattern.
 
-### [desktop_input_adapter.gd](scripts/desktop_input_adapter.gd)
-Bridges virtual joystick logic to keyboard WASD. Maps keys to input vectors and handles high-DPI UI scaling.
+### [mouse_capture_look.gd](scripts/mouse_capture_look.gd)
+Expert Mouse Capture Controller that completely overrides mobile touch/swipe logic by accumulating `InputEventMouseMotion.relative` against pitch/yaw variables while clamped.
 
-### [hover_bridge.gd](scripts/hover_bridge.gd)
-Re-enables desktop hover features in mobile-first codebases. Adds tooltips, mouse enter/exit signals, and hover visual feedback.
+### [dynamic_window_manager.gd](scripts/dynamic_window_manager.gd)
+Crucial lifecycle manager handling the expectation of PC gamers to toggle between Windowed, Fullscreen Exclusive, and modern Borderless Fullscreen via `DisplayServer` flags.
+
+### [keybinding_remapper.gd](scripts/keybinding_remapper.gd)
+Complete runtime input remapper. Mobile relies on hardcoded touch zones, but PC requires the ability to swap WASD to custom keycodes via `InputMap` and saving to `ConfigFile`.
+
+### [cursor_state_manager.gd](scripts/cursor_state_manager.gd)
+Hardware cursor state machine. Replaces the default OS arrow with custom `Texture2D` hardware cursors and handles hiding the cursor during combat while freeing it in menus.
+
+### [uncapped_framerate.gd](scripts/uncapped_framerate.gd)
+Expert VSync and FPS unlocker. Mobile locks at 60FPS to save battery; PC gamers expect the ability to disable VSync and unlock `Engine.max_fps` for 144Hz+ monitors.
+
+### [resolution_dropdown.gd](scripts/resolution_dropdown.gd)
+Query engine utilizing `DisplayServer.screen_get_size` to build an OptionButton of supported native 16:9, 21:9, and 4K resolutions without exceeding the user's physical monitor.
+
+### [desktop_ui_scaler.gd](scripts/desktop_ui_scaler.gd)
+Recursive SceneTree crawler that scales down massive thumb-sized mobile buttons by a percentage shrink factor specifically on Desktop builds while retaining their anchor points.
+
+### [scroll_wheel_zoom.gd](scripts/scroll_wheel_zoom.gd)
+Replaces the mobile Pinch-to-Zoom gesture with discrete physical mouse wheel ticks, smoothly interpolating the Camera2D zoom continuously via `delta`.
+
+### [quit_confirmation.gd](scripts/quit_confirmation.gd)
+Hooks `get_tree().set_auto_accept_quit(false)` to intercept the OS-level 'X' window button, pausing the game and prompting the user to save instead of instantly terminating like mobile.
+
+### [multi_monitor_handling.gd](scripts/multi_monitor_handling.gd)
+Advanced PC window placement script that queries the mouse position to identify the active screen on multi-monitor setups, ensuring the game launches exactly where the user is looking.
 
 ---
 

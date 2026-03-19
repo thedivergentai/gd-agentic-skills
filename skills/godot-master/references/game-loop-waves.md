@@ -1,3 +1,8 @@
+---
+name: godot-game-loop-waves
+description: Expert patterns for managing combat waves, difficulty scaling, and automated enemy spawning in Godot 4. Use when building wave-based shooters, tower defense, or arena games.
+---
+
 # Wave Loop: Combat Pacing
 
 > [!NOTE]
@@ -18,8 +23,9 @@ A Master implementation treats waves as **Data-Driven Transitions**. Instead of 
 Use `await` and timers to handle pacing without cluttering the `_process` loop.
 
 ```gdscript
-# game_loop_waves_manager.gd snippet
+# wave_manager.gd snippet
 func start_next_wave():
+    # Delay for juice/prep
     await get_tree().create_timer(pre_delay).timeout 
     wave_started.emit()
     _spawn_logic()
@@ -29,10 +35,10 @@ func start_next_wave():
 Manage enemy variety using a Dictionary-based composition strategy in your `WaveResource`.
 
 ```gdscript
-# game_loop_waves_resource.gd
+# wave_resource.gd
 @export var compositions: Dictionary = {
-    "res://enemies/goblin.tscn": 10,
-    "res://enemies/orc.tscn": 2
+    "Res://Enemies/Goblin.tscn": 10,
+    "Res://Enemies/Orc.tscn": 2
 }
 ```
 
@@ -45,11 +51,34 @@ Manage enemy variety using a Dictionary-based composition strategy in your `Wave
 | **Triggered** | RPG Encounters | Wave starts only when player enters an `Area3D`. |
 
 ## NEVER Do
-- **NEVER use `get_nodes_in_group("enemies").size()`** to check wave status. Maintain an `active_enemies` array.
-- **NEVER auto-start waves without feedback**. Provide a UI countdown.
-- **NEVER spawn at `(0,0,0)`**. Anchor spawns to `Marker` nodes.
 
-## Registry
-- **Expert Component**: [game_loop_waves_manager.gd](../scripts/game_loop_waves_manager.gd)
-- **Expert Component**: [game_loop_waves_resource.gd](../scripts/game_loop_waves_resource.gd)
-- **Expert Component**: [game_loop_waves_spawner.gd](../scripts/game_loop_waves_spawner.gd)
+- **NEVER iterate through get_children() to find all enemies** — This is extremely slow. Always add enemies to an "enemies" group and use `get_tree().get_nodes_in_group(&"enemies")` for efficient access.
+- **NEVER constantly instantiate() and queue_free() hundreds of enemies** — This causes garbage collection stutters. Use an object pool to reuse existing enemy instances.
+- **NEVER spawn thousands of separate MeshInstance3D nodes for swarms** — This will tank your draw calls. Use `MultiMeshInstance3D` to batch thousands of meshes into a single GPU call.
+- **NEVER calculate pathfinding for hundreds of agents on the main thread** — This will freeze your game. Enable `use_async_iterations` on your navigation regions or use `NavigationServer3D.query_path()`.
+- **NEVER forget to check is_inside_tree() before adding a child** — If the spawner is queued for deletion, adding a child will crash. Always verify the spawner is still active in the tree.
+- **NEVER assign a preloaded resource (like stats.tres) directly to spawned mobs** — They will all share the exact same health/stats. Always call `base_stats.duplicate_deep()` to give each mob its own unique data.
+- **NEVER use standard strings for high-frequency group calls** — Always use `StringName` (&"enemies", &"take_damage") for optimal hash performance and to avoid unnecessary string allocations.
+- **NEVER spawn entities directly inside physics callbacks synchronously** — Instantiating nodes during physics steps can corrupt the physics state. Always use `call_deferred(&"add_child", enemy)`.
+- **NEVER leave CollisionShapes on dead enemies active** — Corpses will block towers and navigation. Use `set_deferred("disabled", true)` immediately upon death.
+- **NEVER synchronize complex Object types via MultiplayerSynchronizer** — It only supports primitive types. For complex data, sync a UID or ID and look up the data locally on the client.
+- **NEVER auto-start waves without player feedback** — Always provide a UI countdown, a visual "Wave Incoming" effect, or a start button to maintain player agency.
+- **NEVER hardcode spawn positions at (0,0,0)** — Use `Marker3D` nodes in the editor so you can visually adjust spawn points without digging into code.
+- **NEVER check wave completion by counting children every frame** — It's too expensive. Maintain a local counter or use a signal-based system to track active enemy counts.
+- **NEVER use the same navigation map for every entity type** — If you have flying and walking enemies, use separate navigation maps to prevent pathing issues.
+- **NEVER scale collision shapes non-uniformly for spawners** — This breaks the collision detection math. Adjust the shape resource properties instead.
+
+---
+
+## Available Scripts
+
+> **MANDATORY**: Read the appropriate script before implementing the corresponding pattern.
+
+### [wave_loop_patterns.gd](../scripts/game_loop_waves_wave_loop_patterns.gd)
+10 Expert patterns: MultiMesh swarms, async pathfinding, background preloading, and server-side physics mobs.
+
+### [wave_manager.gd](../scripts/game_loop_waves_wave_manager.gd)
+Orchestrates the timeline, delays between waves, and tracks "Victory" conditions.
+
+### [wave_resource.gd](../scripts/game_loop_waves_wave_resource.gd)
+Data containers for wave compositions and difficulty settings.

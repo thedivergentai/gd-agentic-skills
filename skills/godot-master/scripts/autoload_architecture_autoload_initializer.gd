@@ -1,4 +1,4 @@
-# godot-master/scripts/autoload_architecture_autoload_initializer.gd
+# skills/autoload-architecture/scripts/autoload_initializer.gd
 extends Node
 
 ## AutoLoad Initializer Expert Pattern

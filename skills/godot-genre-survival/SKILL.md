@@ -7,26 +7,43 @@ description: "Expert blueprint for survival games (Minecraft, Don't Starve, The 
 
 Resource scarcity, needs management, and progression through crafting define survival games.
 
-## Available Scripts
+## NEVER Do (Expert Anti-Patterns)
 
-### [inventory_slot_resource.gd](scripts/inventory_slot_resource.gd)
-Expert inventory slot pattern using Resources for save compatibility.
+### Physiology & Needs
+- NEVER use constant "Needs" decay; strictly scale with activity (e.g., **Sprinting** drains hunger 3x faster than idling).
+- NEVER use Instant Death for starvation/dehydration; strictly trigger gradual HP drain and provide distinct visual/audio warnings.
+- NEVER use float timers for exact life-critical checks; strictly use `is_equal_approx()` or `<=` to prevent 0.0 precision misses.
+- NEVER represent world time/day cycles within UI scripts; strictly use an **AutoLoad (Singleton)** to decouple state from visuals.
 
-## Core Loop
-1.  **Harvest**: Gather resources (Wood, Stone, Food)
-2.  **Craft**: Convert resources into tools/items
-3.  **Build**: Construct shelter/base
-4.  **Survive**: Manage needs (Hunger, Thirst, Environmental threats)
-5.  **Thrive**: Automation and tech to transcend early struggles
+### Gathering & Inventory
+- NEVER make gathering tedious without progression; strictly implement **Tiered Tool Scaling** (e.g., Stone Axe = 1 wood/hit, Steel Axe = 5 wood/hit) to reward technical advancement.
+- NEVER allow infinite inventory stacking; strictly use **Weight Capacity** or strict **Stack Limits** (e.g., 64 items) to force strategic resource management.
+- NEVER force players to "Guess" crafting recipes; strictly use a **Discovery System** where recipes unlock upon acquiring materials.
+- NEVER forget to **duplicate(true)** a shared Resource (like Item Durability); otherwise, all instances will break simultaneously.
+- NEVER store heavy item/crafting definitions in Node properties; strictly use custom **Resource** containers for lightweight data.
 
-## NEVER Do in Survival Games
+### World & Performance
+- NEVER spawn threats at Respawn Points; strictly enforce a **Safe Zone radius** (Beds/Spawn) where enemy spawning is prohibited.
+- NEVER instance 10,000 individual `MeshInstance3D` nodes for foliage; strictly use **MultiMeshInstance3D** for batched draw calls.
+- NEVER load massive world chunks synchronously; strictly use `ResourceLoader.load_threaded_request()` to prevent hitches.
+- NEVER save complex dictionaries to standard text files; strictly use binary serialization for speed and size efficiency.
+- NEVER run procedural terrain/noise algorithms on the main thread; strictly offload to the **WorkerThreadPool**.
+- NEVER hardcode massive crafting tables in GDScript; strictly use `ConfigFile` or JSON for easy balancing and modding.
 
-- **NEVER make gathering tedious without scaling** — 50 clicks for 1 wood = fun-killer. Tool tiers MUST multiply yield: Stone Axe = 3 wood, Steel = 10 wood. Respect player time.
-- **NEVER use instant death for starvation** — 0% hunger → instant death = cheap. Use gradual HP drain (2 HP/sec). Player should see death coming and scramble for food.
-- **NEVER allow infinite inventory stacking** — 999 stacks of everything removes resource management strategy. Use weight systems OR stack limits (64 per slot).
-- **NEVER make crafting recipes a guessing game** — Trial-and-error crafting = 1990s design. Show discovered recipes. Discovery can exist, but once learned, must be persistent.
-- **NEVER let needs decay at constant rate regardless of activity** — Hunger drains same speed while sleeping/running? Unrealistic. Sprint = 3x drain, idle = 0.5x drain.
-- **NEVER spawn enemies near player's bed/spawn point** — Dying, respawning into 3 enemies = rage quit. Enforce safe zone radius (50m) around respawn.
+---
+
+## 🛠 Expert Components (scripts/)
+
+### Original Expert Patterns
+- [inventory_slot_resource.gd](scripts/inventory_slot_resource.gd) - Data-driven inventory slot model using Resources for seamless serialization and durability tracking.
+- [survival_patterns.gd](scripts/survival_patterns.gd) - 10 Essential Survival Expert Patterns (Decay scaling, Environment tweens, MultiMesh optimization).
+
+### Modular Components
+- [interactable.gd](scripts/interactable.gd) - Universal interface for harvesting, picking up items, and world triggers.
+- [inventory_data.gd](scripts/inventory_data.gd) - Core business logic for grid-based inventories and stacking.
+- [inventory_slot_data.gd](scripts/inventory_slot_data.gd) - Lightweight data container for UI-to-Logic inventory communication.
+- [inventory_data.gd](scripts/inventory_data.gd) - High-performance Resource-based storage with stack limits and metadata support.
+- [inventory_data.gd](scripts/inventory_data.gd) - Master item definition for weight, stack-size, and consumption effects (Resource-based).
 
 ---
 
@@ -122,6 +139,23 @@ func craft(recipe: Recipe) -> bool:
     remove_ingredients(recipe.ingredients)
     inventory.add_item(recipe.result_item, recipe.result_amount)
     return true
+
+### 4. Tiered Tool Scaling
+Scaling resource yield with tool quality (`item_data.gd` metadata):
+- **Stone Axe**: 1 yield per hit, 3s harvest time.
+- **Steel Axe**: 5 yield per hit, 1.5s harvest time.
+- **Auto-Saw**: Constant yield stream while within proximity.
+
+### 5. Spawn Safe Zones
+Preventing "Spawn Camping" via check:
+```gdscript
+func get_spawn_point() -> Vector3:
+    var point = find_random_point()
+    for bed in get_tree().get_nodes_in_group("player_beds"):
+        if point.distance_to(bed.global_position) < safe_radius:
+            return get_spawn_point() # Re-roll
+    return point
+```
 ```
 
 ## Godot-Specific Tips

@@ -1,4 +1,4 @@
-# godot-master/scripts/2d_animation_animation_sync.gd
+# skills/2d-animation/code/animation_sync.gd
 extends CharacterBody2D
 
 ## 2D Animation Sync Expert Pattern

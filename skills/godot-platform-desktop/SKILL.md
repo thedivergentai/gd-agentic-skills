@@ -7,19 +7,58 @@ description: "Expert blueprint for desktop platforms (Windows/Linux/macOS) cover
 
 Settings flexibility, window management, and kb/mouse precision define desktop gaming.
 
+## NEVER Do (Expert Desktop Rules)
+
+### Window & Display
+- **NEVER hardcode resolution or fullscreen modes** — A 1920x1080 fullscreen on a 4K monitor is blurry. Always provide a settings menu with a resolution dropdown and a mode toggle.
+- **NEVER ignore DPI scale factors** — Manually centering windows without `DisplayServer.screen_get_scale()` results in incorrect positioning on HiDPI displays.
+- **NEVER skip a borderless window option** — Exclusive fullscreen can break multi-monitor focus. Offer `WINDOW_MODE_FULLSCREEN` (borderless).
+
+### Input & Persistence
+- **NEVER use `keycode` for movement rebinds** — Use `physical_keycode` to ensure WASD works correctly across international keyboard layouts (AZERTY/Dvorak).
+- **NEVER save settings or user data to `res://`** — Filesystem is read-only in exported releases. Always use `user://`.
+- **NEVER skip `NOTIFICATION_WM_CLOSE_REQUEST`** — Failing to handle quit signals causes data loss. Intercept and flush and ConfigFile data before `get_tree().quit()`.
+
+### Performance & Integration
+- **NEVER run utility tools at max framerate** — Enable `OS.low_processor_usage_mode` to prevent high GPU heat in static desktop apps.
+- **NEVER call proprietary SDKs (Steam/Epic) directly** — Always wrap in `Engine.has_singleton()` to prevent crashes in non-store builds.
+- **NEVER block the main thread with massive I/O** — Deserializing 100MB+ configs stalls the engine. Offload to `WorkerThreadPool`.
+
+---
+
 ## Available Scripts
 
-### [desktop_integration_manager.gd](scripts/desktop_integration_manager.gd)
-Expert desktop integration (Steam achievements, settings persistence, window management).
+> **MANDATORY**: Read the appropriate script before implementing the corresponding pattern.
 
-## NEVER Do in Desktop Development
+### [desktop_window_manager.gd](scripts/desktop_window_manager.gd)
+Expert DPI-aware multi-monitor window positioning using `DisplayServer`.
 
-- **NEVER hardcode resolution/fullscreen** — 1920x1080 fullscreen on 4K monitor?  Blurry mess. ALWAYS provide settings menu with resolution dropdown + fullscreen toggle.
-- **NEVER save settings to `res://`** — `res://` is read-only in exported builds. Use `user://settings.cfg` for persistent config via ConfigFile.
-- **NEVER ignore Alt+F4 or Cmd+Q** — Player presses Alt+F4, nothing happens = frustration. Handle `NOTIFICATION_WM_CLOSE_REQUEST` to quit gracefully.
-- **NEVER lock rebinding** — Fixed WASD movement ignores AZERTY/Dvorak keyboards. MUST allow InputMap rebinding via settings.
-- **NEVER use `linear_to_db()` wrong** — Volume slider 0-1 directly to AudioServer? Perceptually wrong curve. Use `AudioServer.set_bus_volume_db(0, linear_to_db(slider.value))`.
-- **NEVER skip borderless fullscreen option** — Exclusive fullscreen breaks Alt+Tab on Windows.  Offer `WINDOW_MODE_EXCLUSIVE_FULLSCREEN` + `WINDOW_MODE_FULLSCREEN` (borderless).
+### [desktop_settings_persistent.gd](scripts/desktop_settings_persistent.gd)
+Production settings persistence using `ConfigFile` for persistent INI data.
+
+### [physical_input_rebinder.gd](scripts/physical_input_rebinder.gd)
+Expert positional rebind system using `physical_keycode` for AZERTY/Dvorak.
+
+### [platform_sdk_wrapper.gd](scripts/platform_sdk_wrapper.gd)
+Safe PC SDK singleton wrapper (Steamworks/Epic) with crash guards.
+
+### [native_dialog_helper.gd](scripts/native_dialog_helper.gd)
+Expert native OS file dialogs and system alerts logic.
+
+### [secondary_window_spawner.gd](scripts/secondary_window_spawner.gd)
+True multi-window management for secondary Viewports/Windows.
+
+### [graceful_shutdown_handler.gd](scripts/graceful_shutdown_handler.gd)
+Safe close-request interceptor for data flushing and exit guards.
+
+### [low_processor_eco_mode.gd](scripts/low_processor_eco_mode.gd)
+Eco mode optimization for desktop tools and launchers.
+
+### [desktop_performance_monitor.gd](scripts/desktop_performance_monitor.gd)
+OS-level hardware detection for dynamic graphics presets.
+
+### [native_shell_executor.gd](scripts/native_shell_executor.gd)
+Expert native shell command execution and output capture.
 
 ---
 

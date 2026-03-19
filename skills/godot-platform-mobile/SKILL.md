@@ -7,20 +7,58 @@ description: "Expert blueprint for mobile platforms (Android/iOS) covering touch
 
 Touch-first input, safe area handling, and battery optimization define mobile development.
 
+## NEVER Do (Expert Mobile Rules)
+
+### Input & Display
+- **NEVER use mouse events for touch interaction** — Relying on `InputEventMouseButton` on mobile is unreliable. Always use `InputEventScreenTouch` and `InputEventScreenDrag` for high-fidelity multi-touch support.
+- **NEVER ignore display safe areas (notches/cutouts)** — UI placed behind a camera notch is unusable. Query `DisplayServer.get_display_safe_area()` and offset critical UI accordingly.
+- **NEVER assume fixed orientation** — Locking a landscape game without handling the `size_changed` signal leads to broken layouts on foldable devices or tablet orientation shifts.
+
+### Battery & Performance
+- **NEVER maintain high framerate when backgrounded** — Keeping an app at 60 FPS in the background drains battery. Use `NOTIFICATION_APPLICATION_PAUSED` to drop `Engine.max_fps` to 1.
+- **NEVER use the Forward+ renderer for mobile** — Most mobile GPUs are not optimized for Forward+. Use the dedicated **Mobile** or **Compatibility** renderers for optimal fill-rate.
+- **NEVER leave 'ETC2/ASTC' texture compression disabled** — Uncompressed desktop textures will crash mobile devices due to VRAM exhaustion.
+
+### Permissions & OS Integration
+- **NEVER assume Android permissions are automatically granted** — You MUST explicitly call `OS.request_permission()` and verify with `OS.get_granted_permissions()`.
+- **NEVER call handheld vibration without permission** — On Android, vibration calls are ignored unless the `VIBRATE` permission is enabled in the export preset.
+- **NEVER block the main thread for I/O** — Large file saves on mobile can trigger ANR (Application Not Responding) errors. Use background threads.
+
+---
+
 ## Available Scripts
 
-### [mobile_safe_area_handler.gd](scripts/mobile_safe_area_handler.gd)
-Expert safe area handling for notched screens using anchored margins.
+> **MANDATORY**: Read the appropriate script before implementing the corresponding pattern.
 
-## NEVER Do in Mobile Development
+### [mobile_gesture_recognizer.gd](scripts/mobile_gesture_recognizer.gd)
+Expert multi-touch logic for pinch-to-zoom and two-finger rotation.
 
-- **NEVER use mouse events for touch** — `InputEventMouseButton` on mobile? Unreliable. Use `InputEventScreenTouch` + `InputEventScreenDrag` for touch.
-- **NEVER ignore safe areas** — UI behind iPhone notch = unusable. Call `DisplayServer.get_display_safe_area()`, offset UI by top/bottom insets.
-- **NEVER keep 60 FPS when backgrounded** — App in background @ 60 FPS = battery drain + store rejection. Set `Engine.max_fps = 0` on `NOTIFICATION_APPLICATION_FOCUS_OUT`.
-- **NEVER use desktop UI sizes** — 12pt font on phone = unreadable. Minimum 16-18pt for mobile. Use `get_viewport().size` to scale dynamically.
-- **NEVER forget VRAM compression**  — Uncompressed textures on mobile = out of memory crash. Enable `rendering/textures/vram_compression/import_etc2_astc=true` in project.godot.
-- **NEVER block main thread for saves**  — Saving large file on touch = freeze = ANR (Application Not Responding). Use `FileAccess` on worker thread.
-- **NEVER ignore orientation changes** — Game locked to portrait but device rotates? Jarring. Handle `size_changed` signal or specify `window/handheld/orientation` in project.godot.
+### [adaptive_safe_area_inset.gd](scripts/adaptive_safe_area_inset.gd)
+Dynamic safe-area (notch) handling using `DisplayServer` insets.
+
+### [thermal_throttle_monitor.gd](scripts/thermal_throttle_monitor.gd)
+Battery and heat management via `NOTIFICATION_APPLICATION_PAUSED`.
+
+### [mobile_iap_flow_boilerplate.gd](scripts/mobile_iap_flow_boilerplate.gd)
+Unified boilerplate for Android/iOS In-App Purchases (IAP).
+
+### [haptic_pattern_generator.gd](scripts/haptic_pattern_generator.gd)
+Advanced vibration patterns for mobile haptic feedback.
+
+### [android_runtime_permissions.gd](scripts/android_runtime_permissions.gd)
+Expert Android permission requesting and verification logic.
+
+### [mobile_sensor_fusion.gd](scripts/mobile_sensor_fusion.gd)
+Stable motion controls using Accelerometer and Gravity fusion.
+
+### [orientation_layout_adaptor.gd](scripts/orientation_layout_adaptor.gd)
+Adaptive UI swapping for Landscape/Portrait transitions.
+
+### [mobile_vram_optimizer.gd](scripts/mobile_vram_optimizer.gd)
+VRAM monitoring and texture compression enforcement rules.
+
+### [native_share_invoker.gd](scripts/native_share_invoker.gd)
+OS-level native share sheet integration for social features.
 
 ---
 

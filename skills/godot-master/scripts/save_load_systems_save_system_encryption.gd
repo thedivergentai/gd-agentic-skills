@@ -1,4 +1,4 @@
-# godot-master/scripts/save_load_systems_save_system_encryption.gd
+# skills/save-load-systems/scripts/save_system_encryption.gd
 extends Node
 
 ## Save System Encryption Expert Pattern

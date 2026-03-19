@@ -7,30 +7,60 @@ description: "Expert blueprint for roguelikes including procedural generation (W
 
 Expert blueprint for roguelikes balancing challenge, progression, and replayability.
 
-## NEVER Do
+## NEVER Do (Expert Anti-Patterns)
 
-- **NEVER make runs pure RNG** — Skill should mitigate bad luck. Provide  guaranteed item shops, reroll mechanics, or starting loadout choices.
-- **NEVER overpowered meta-upgrades** — If meta-progression is too strong, game becomes "grind to win" not "learn to win". Keep modest (+10% damage max).
-- **NEVER lack variety in content** — Procedural generation shuffles content. Need 50+ rooms, 20+ enemies, 100+ items minimum for freshness.
-- **NEVER use unseeded RNG** — Always initialize RandomNumberGenerator with seed. Enables shareable/reproducible runs.
-- **NEVER allow save scumming** — Save state only on floor transition. Delete save on load (standard for strict roguelikes).
----
+### Generation & RNG
+- NEVER make runs dependent on pure RNG; strictly provide **mitigation** (rerolls, shops, pity timers) to ensure every run is winnable.
+- NEVER use unseeded RNG for world generation; strictly initialize isolated `RandomNumberGenerator` with a predictable seed for daily runs/debugging.
+- NEVER rely on `@GlobalScope.randi()` for critical logic; strictly use local RNG instances to prevent global state pollution.
+- NEVER use `Array.pick_random()` for critical content drops; strictly use a **Shuffle Bag** to prevent statistically unfair streaks.
+- NEVER generate massive dungeons on the main thread; strictly use **`WorkerThreadPool.add_task()`** or **`add_group_task()`** to distribute generation across cores and prevent frame freezes.
+- NEVER interact with the SceneTree from a background thread; strictly generate dungeon data in a **thread-safe Array/PackedByteArray** before parsing on the main thread.
 
-## Available Scripts
+### Data & State
+- NEVER allow **Save Scumming**; strictly delete mid-run save files immediately upon loading to enforce permadeath.
+- NEVER allow Run State to leak into Meta State; strictly use separate singletons or Resources for `RunManager` and `MetaManager`.
+- NEVER scale meta-progression to be overpowered (+100% damage); strictly keep upgrades subtle (+5-15%) to maintain skill-based play.
+- NEVER forget to call `duplicate(true)` on base stat Resources; failing to deep-duplicate causes all entities to share a single health instance.
+- NEVER save run states to `.tscn` files; strictly serialize to JSON or binary in `user://` to prevent bloat.
+- NEVER rely on the `SceneTree` as the source of truth for grid logic; strictly maintain grid data in a separate Dictionary or Array.
 
-> **MANDATORY**: Read the appropriate script before implementing the corresponding pattern.
+### Grid & Performance
+- NEVER forget to handle **Navigation re-baking**; strictly rebake `NavigationRegion2D` AFTER procedural tiles are placed.
+- NEVER use AStar2D for tile grids; strictly use **`AStarGrid2D`** with **`jumping_enabled = true`** (Jump Point Search) for O(1) queries and high-performance pathing across open areas.
+- NEVER forget to call `update()` on `AStarGrid2D` after modifying states; strictly ensures pathfinding queries aren't stale.
+- NEVER use floats (`Vector2`) for discrete grid coordinates; strictly use **Vector2i** to prevent precision drift.
+- NEVER use Manhattan heuristics for 8-way movement; strictly use **`HEURISTIC_CHEBYSHEV`** or **`HEURISTIC_OCTILE`**.
+- NEVER iterate over every cell coordinate (0 to W,H) in GDScript; strictly use `get_used_cells()` for optimized tile access.
+- NEVER clear procedural levels using `free()`; strictly use `queue_free()` to avoid mid-frame segmentation faults.
+- NEVER broadcast mass state changes to a grid immediately; strictly use `call_deferred()` or **`call_group_flags`** to avoid frame spikes during turn transitions.
+- NEVER use heavy TileMapLayer nodes for high-resolution Fog of War; strictly use a **GPU Shader Mask** via `ColorRect` and an `ImageTexture` updated via **`RenderingServer.texture_2d_update()`**.
 
-### [meta_progression_manager.gd](scripts/meta_progression_manager.gd)
-Cross-run persistence for currency and upgrades. JSON save/load with upgrade purchase/level tracking. Encrypt for production builds.
+## 🛠 Expert Components (scripts/)
 
----
+### Original Expert Patterns
+- [meta_progression_manager.gd](scripts/meta_progression_manager.gd) - Foundational meta-progression logic with secure data persistence and currency unlocks.
+- [roguelike_patterns.gd](scripts/roguelike_patterns.gd) - 10 Essential Roguelike Expert Snippets (AStar, BSP, WorkerThreadPool, ShuffleBag, etc.).
+
+### Modular Components
+- [dungeon_generator_walker.gd](scripts/dungeon_generator_walker.gd) - Drunkard's Walk algorithm for carving procedural rooms and caves.
+- [fov_raycast_calculator.gd](scripts/fov_raycast_calculator.gd) - High-performance LOS checking using physics server queries.
+- [seeded_rng_resource.gd](scripts/seeded_rng_resource.gd) - RNG state persistence for deterministic and shareable replayability.
+- [turn_manager_decoupled.gd](scripts/turn_manager_decoupled.gd) - Signal-driven turn coordination for decoupled entity logic.
+- [astar_grid_handler.gd](scripts/astar_grid_handler.gd) - Specialised AStarGrid2D wrapper for optimized roguelike pathfinding.
+- [weighted_loot_table.gd](scripts/weighted_loot_table.gd) - Native-optimized weighted random item drops with drop-rate controls.
+- [json_state_serializer.gd](scripts/json_state_serializer.gd) - Persistent serialization for procedural entity data and run states.
+- [fog_of_war_masker.gd](scripts/fog_of_war_masker.gd) - TileMapLayer-based visibility masking and discovery system.
+- [meta_progression_resource.gd](scripts/meta_progression_resource.gd) - Data separation for permanent game unlocks and skill trees.
+- [move_command_object.gd](scripts/move_command_object.gd) - Command pattern implementation for reversible turn-based actions.
+- [dungeon_generator.gd](scripts/dungeon_generator.gd) - High-level procedural orchestrator for room-and-hallway layout generation.
 
 ## Core Loop
-1.  **Preparation**: Select character, equip meta-upgrades.
-2.  **The Run**: complete procedural levels, acquire temporary power-ups.
-3.  **The Challenge**: Survive increasingly difficult encounters/bosses.
+1.  **Preparation**: Select character, equip meta-upgrades (see `meta_progression_resource.gd`).
+2.  **The Run**: complete procedural levels (`dungeon_generator_walker.gd`), acquire temporary power-ups.
+3.  **The Challenge**: Survive increasingly difficult encounters using A* pathfinding (`astar_grid_handler.gd`).
 4.  **Death/Victory**: Run ends, resources calculated.
-5.  **Meta-Progression**: Spend resources on permanent unlocks/upgrades.
+5.  **Meta-Progression**: Spend resources on permanent unlocks (`meta_progression_resource.gd`).
 6.  **Repeat**: Start a new run with new capabilities.
 
 ## Skill Chain
@@ -114,8 +144,10 @@ static func load_or_create() -> MetaProgression:
 
 ## Key Mechanics implementation
 
-### Procedural Dungeon Generation (Walker Method)
-A simple "drunkard's walk" algorithm for organic, cave-like or connected room layouts.
+### Procedural Dungeon Generation
+- **Drunkard's Walk (Walker)**: Ideal for organic, cave-like or connected room layouts.
+- **Binary Space Partitioning (BSP)**: Best for rectangular, connected room-and-hallway dungeons.
+- **Wave Function Collapse (WFC)**: For highly detailed, rule-based tile environments and modular room assembly.
 
 ```gdscript
 # dungeon_generator.gd

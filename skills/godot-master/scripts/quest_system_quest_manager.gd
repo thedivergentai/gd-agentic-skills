@@ -1,4 +1,4 @@
-# godot-master/scripts/quest_system_quest_manager.gd
+# skills/quest-system/code/quest_manager.gd
 extends Node
 
 ## Quest System Expert Pattern

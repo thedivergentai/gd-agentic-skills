@@ -1,4 +1,4 @@
-# godot-master/scripts/ui_theming_ui_scale_manager.gd
+# skills/ui-theming/scripts/ui_scale_manager.gd
 extends Node
 
 ## UI Scale & Theme Manager Expert Pattern

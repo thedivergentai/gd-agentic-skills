@@ -1,4 +1,4 @@
-# godot-master/scripts/ui_containers_responsive_layout_builder.gd
+# skills/ui-containers/code/responsive_layout_builder.gd
 extends Control
 
 ## UI Containers Expert Pattern

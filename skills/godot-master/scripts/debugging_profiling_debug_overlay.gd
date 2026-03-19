@@ -1,4 +1,4 @@
-# godot-master/scripts/debugging_profiling_debug_overlay.gd
+# skills/debugging-profiling/scripts/debug_overlay.gd
 extends CanvasLayer
 
 ## Debug Overlay Expert Pattern

@@ -1,4 +1,4 @@
-# godot-master/scripts/signal_architecture_signal_spy.gd
+# skills/signal-architecture/scripts/signal_spy.gd
 extends Node
 
 ## Signal Spy Expert Pattern

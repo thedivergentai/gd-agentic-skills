@@ -7,23 +7,52 @@ description: "Expert blueprint for multiplayer networking (Among Us, Brawlhalla,
 
 Authoritative servers, client prediction, and state synchronization define robust multiplayer.
 
-## Available Scripts
+### [net_enet_expert_config.gd](scripts/net_enet_expert_config.gd)
+Expert logic for tuning ENet channels, compression, and bandwidth thresholds.
 
-### [server_authoritative_controller.gd](scripts/server_authoritative_controller.gd)
-Advanced player controller with client prediction, server reconciliation, and interpolation.
+### [net_packet_bit_packer.gd](scripts/net_packet_bit_packer.gd)
+Professional manual serialization tools for bit-packing data into PackedByteArray.
 
-### [client_prediction_synchronizer.gd](scripts/client_prediction_synchronizer.gd)
-Expert client-side prediction with server reconciliation pattern.
+### [net_headless_server_auto_start.gd](scripts/net_headless_server_auto_start.gd)
+Logic for detecting dedicated server mode and parsing CLI arguments for headless launch.
 
-## NEVER Do in Multiplayer Networking
+### [net_heartbeat_monitor.gd](scripts/net_heartbeat_monitor.gd)
+RTT (Round Trip Time) and Jitter monitoring system for high-fidelity lag tracking.
 
-- **NEVER trust client input without server validation** — Client sends "deal 9999 damage" RPC? Cheating. Server MUST validate actions: `if not multiplayer.is_server(): return`.
-- **NEVER use `@rpc("any_peer")` for gameplay actions** — Any peer can call = cheating vector. Use `@rpc("authority")` for damage/spawns. Only `any_peer` for chat/cosmetics.
-- **NEVER use reliable RPCs for position updates** — 60 position updates/sec with `"reliable"` = bandwidth explosion + lag. Use `"unreliable"` for frequent, non-critical data.
-- **NEVER forget to set multiplayer authority** — Both client and server process input? Desync. Call `set_multiplayer_authority(peer_id)` and check `is_multiplayer_authority()`.
-- **NEVER sync every variable** — MultiplayerSynchronizer syncing 50 properties = bandwidth waste. Only sync state OTHER clients need (skip animation frame, local UI state).
-- **NEVER block on `peer.create_server()`** — ENet is async. Calling `multiplayer.multiplayer_peer = peer` before server ready = crash. Await `peer_connected` signal.
-- **NEVER forget interpolation for remote players** — Teleporting remote players (direct position assignment) = jittery. Use `lerp()` to smooth between received positions.
+### [net_lan_discovery.gd](scripts/net_lan_discovery.gd)
+UDP broadcasting system for local server discovery without master servers.
+
+### [net_adaptive_sync_throttle.gd](scripts/net_adaptive_sync_throttle.gd)
+Dynamic synchronization manager that adapts sync-rates to peer connection quality.
+
+### [net_anti_desync_reconciler.gd](scripts/net_anti_desync_reconciler.gd)
+Server-authoritative state validation and forced-correction logic.
+
+### [net_visibility_grid_culling.gd](scripts/net_visibility_grid_culling.gd)
+Interest Management system for optimizing bandwidth in large-scale worlds.
+
+### [net_packet_rate_limiter.gd](scripts/net_packet_rate_limiter.gd)
+Essential flood-protection and anti-spam manager for RPC security.
+
+### [net_custom_id_mapper.gd](scripts/net_custom_id_mapper.gd)
+Mapping utility for linking permanent UserIDs to volatile Network PeerIDs.
+
+## NEVER Do (Expert Networking Rules)
+
+### Core Architecture
+- **NEVER use `Reliable` for high-frequency data (Position/Movement)** — Reliable packets block all following packets until acknowledged (Head-of-Line blocking). Use `UnreliableOrdered`.
+- **NEVER trust the client for shared state (Health/Money/Inventory)** — Clients should only suggest actions. The Server MUST validate and broadcast the result.
+- **NEVER hardcode the Server IP** — Always allow for discovery (`net_lan_discovery.gd`) or pass the IP via CLI/UI.
+
+### Performance & Bandwidth
+- **NEVER send the same data every frame** — Use `net_adaptive_sync_throttle.gd` to only send updates when state changes significantly or at fixed Hz intervals (e.g., 20Hz).
+- **NEVER use `JSON` for high-speed synchronization** — String serialization is massive over the wire. Use bit-packing (`net_packet_bit_packer.gd`) to keep packets under 100 bytes.
+- **NEVER broadcast to all peers if it's not needed** — In large worlds, use Interest Management (`net_visibility_grid_culling.gd`). A player in the forest doesn't need the position of a player in the city.
+
+### Security
+- **NEVER allow unlimited RPC calls per second** — An attacker can flood the server with 1,000 "Attack" RPCs to crash the game. Use `net_packet_rate_limiter.gd`.
+- **NEVER expose PeerIDs to the end-user** — PeerIDs are internal. Always map them to persistent `UserIDs` (`net_custom_id_mapper.gd`) from a database.
+- **NEVER run a dedicated server with a GUI enabled** — Use `--headless` (`net_headless_server_auto_start.gd`) to save resources and ensure stability.
 
 ---
 

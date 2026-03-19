@@ -1,6 +1,5 @@
-# godot-master/scripts/mcp_setup_mcp_config_generator.gd
 @tool
-# skills/mcp_setup/scripts/mcp_config_generator.gd
+# skills/godot-mcp-setup/scripts/mcp_config_generator.gd
 extends EditorScript
 
 ## MCP Config Generator Expert Tool

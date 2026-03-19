@@ -3,11 +3,14 @@
 # -----------------------------
 # Exclude common agent configuration and memory directories
 .agent/
+.agents/
 .gemini/
 .cursor/
 .windsurf/
 .cline/
 .aider/
+GEMINI.md
+LEARNINGS.gemini.md
 
 # Agent memory, databases, and logs
 brain/

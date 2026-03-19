@@ -8,43 +8,32 @@ description: Use when implementing collection quests, scavenger hunts, or "find 
 ## Overview
 This skill provides a standardized framework for "Collection Loops" – gameplay objectives where the player must find and gather a specific set of items (e.g., hidden eggs, data logs, coins).
 
-## Core Components
+## NEVER Do
 
-### 1. Collection Manager (`collection_manager.gd`)
-The central brain of the hunt.
-- **Role**: Tracks progress (`current / target`).
-- **Behavior**: Listens for `item_collected(id)` -> Updates items -> Signals `collection_completed` on valid count.
-- **Tip**: Use `collection_id` strings to run multiple hunts simultaneously (e.g., "red_eggs" vs "blue_eggs").
+- **NEVER use free() to destroy an active state node or level** — This can cause crashes if the node is still processing. Always use `queue_free()` to safely dispose of it at the end of the frame.
+- **NEVER calculate physics-dependent game state in _process()** — Movement and precise collisions must happen in `_physics_process()` to stay synced with the engine's fixed timestep.
+- **NEVER execute heavy state transitions (like loading massive levels) synchronously** — Calling `load()` on a huge scene stalls the main thread. Use `ResourceLoader.load_threaded_request()`.
+- **NEVER use exact floating-point equality (==) for time-based states** — Floating-point errors will eventually cause missed triggers. Use `is_equal_approx()` or relative comparisons.
+- **NEVER manipulate the active SceneTree from a background thread** — The SceneTree is not thread-safe. Use `call_deferred()` to push results back to the main thread.
+- **NEVER rely on a monolithic "GameManager" with hardcoded absolute paths** — This creates tight coupling. Use groups, signals, and exported references for a modular architecture.
+- **NEVER assume child nodes are ready before their parent** — `_ready()` executes from bottom-to-top. If you need child references, use `@onready` or `await ready`.
+- **NEVER use string-based signals for critical state transitions** — Avoid `connect("signal", _on_func)`. Use the Signal object syntax (`signal.connect(_on_func)`) for compile-time validation.
+- **NEVER poll for input state every frame for discrete menu events** — Use the `_unhandled_input()` callback to cleanly intercept events without wasting CPU cycles in `_process()`.
+- **NEVER crash the engine intentionally via CRASH_NOW_MSG** — Regular state handling should always recover gracefully. Crashing is for unrecoverable internal engine failures.
+- **NEVER hardcode spawn positions in code** — Always use `Marker3D` or `CollisionShape3D` nodes in the scene so designers can adjust layout without touching code.
+- **NEVER neglect "juice" before an item disappears** — Immediate `queue_free()` feels dry. Always spawn particles or play a sound before removal.
+- **NEVER use global variables for local collection progress** — Keep counts encapsulated within the `CollectionManager` and emit signals to update the UI.
+- **NEVER leave orphaned nodes in the tree during state swaps** — Always ensure the previous level/state is properly queued for deletion before instantiating the new one.
+- **NEVER scale collision shapes non-uniformly for collectibles** — This breaks collision detection math. Adjust the internal shape resource properties instead.
 
-### 2. Collectible Item (`collectible_item.gd`)
-The physical object in the world.
-- **Role**: Handles interaction and self-destruction.
-- **Behavior**: On Interact -> Play VFX -> Emit Signal -> Queue Free.
+---
 
-### 3. Hidden Item Spawner (`hidden_item_spawner.gd`)
-Automates the placement of items.
-- **Role**: Populates the level.
-- **Behavior**: Instantiates the item scene at:
-    -   Hand-placed `Marker3D` nodes (Deterministic).
-    -   Random points within a `CollisionShape` volume (Procedural).
+## Available Scripts
 
-## Usage Example
+> **MANDATORY**: Read the appropriate script before implementing the corresponding pattern.
 
-```gdscript
-# In a Level Script or Game Mode
-@onready var manager = $CollectionManager
+### [collection_loop_patterns.gd](scripts/collection_loop_patterns.gd)
+Collection of 10 expert patterns: Custom MainLoop extensions, deferred scene switching, threaded loading, and frame throttling.
 
-func _ready():
-    manager.start_collection("easter_egg_2024", 10)
-    manager.collection_completed.connect(_on_all_eggs_found)
-
-func _on_all_eggs_found():
-    print("You found all the eggs! Here is a bunny hat.")
-    # Unlock reward
-```
-
-## Best Practices
-- **Persistence**: Combine with `godot-mechanic-secrets` to save which specific IDs have been found if the player needs to quit and resume.
-- **NEVER hardcode spawn positions in code**: Always use `Marker3D` or `CollisionShape3D` nodes in the scene so designers can adjust layout without touching code.
-- **Avoid "God Objects"**: The `CollectionManager` shouldn't handle input, UI, AND audio. Let it emit signals and let other systems react.
-- **Juice**: Always spawn particles or play a sound *before* the item disappears. Immediate `queue_free()` feels dry.
+### [collection_manager.gd](scripts/collection_manager.gd)
+The central brain of the hunt. Tracks progress and manages completion signals.

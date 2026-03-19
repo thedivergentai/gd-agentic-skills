@@ -1,4 +1,4 @@
-# godot-master/scripts/dialogue_system_dialogue_engine.gd
+# skills/dialogue-system/code/dialogue_engine.gd
 extends Node
 
 ## Dialogue Engine Expert Pattern

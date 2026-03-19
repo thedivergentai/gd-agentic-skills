@@ -1,4 +1,4 @@
-# skills/genre-metroidvania/scripts/minimap_fog.gd
+# godot-master/scripts/metroidvania_minimap_fog.gd
 extends Node2D
 
 ## Minimap Fog Expert Pattern

@@ -9,18 +9,51 @@ Seeded algorithms, noise functions, and constraint propagation define replayable
 
 ## Available Scripts
 
+### [fast_noise_noise2d_master.gd](scripts/fast_noise_noise2d_master.gd)
+Advanced usage of `FastNoiseLite` with image-based sampling for maximum performance.
+
+### [cellular_automata_dungeon.gd](scripts/cellular_automata_dungeon.gd)
+The classic 4-5 rule implementation for organic cave and terrain generation.
+
+### [poisson_disk_sampling_2d.gd](scripts/poisson_disk_sampling_2d.gd)
+Blue-noise distribution algorithm for non-clumping object and enemy placement.
+
+### [multi_threaded_chunk_gen.gd](scripts/multi_threaded_chunk_gen.gd)
+Expert pattern for offloading procedural generation to the `WorkerThreadPool`.
+
+### [drunknard_walk_path.gd](scripts/drunknard_walk_path.gd)
+Lightweight algorithm for generating winding paths, tunnels, and rivers.
+
+### [marching_squares_metaballs.gd](scripts/marching_squares_metaballs.gd)
+Implementing the Marching Squares algorithm for smooth contouring and influential maps.
+
+### [bsp_tree_rooms.gd](scripts/bsp_tree_rooms.gd)
+Binary Space Partitioning for generating structured, non-overlapping floor plans.
+
+### [wave_function_collapse_lite.gd](scripts/wave_function_collapse_lite.gd)
+Foundation for Wave Function Collapse (WFC) using entropy-based adjacency rules.
+
+### [mesh_gen_infinite_terrain.gd](scripts/mesh_gen_infinite_terrain.gd)
+Runtime 3D terrain generation using `ArrayMesh` and `SurfaceTool` with LOD potential.
+
+### [l_system_tree_gen.gd](scripts/l_system_tree_gen.gd)
+L-System string grammar for procedural plant and tree growth in 3D.
+
 ### [wfc_level_generator.gd](scripts/wfc_level_generator.gd)
 Expert Wave Function Collapse implementation with tile adjacency rules.
 
 ## NEVER Do in Procedural Generation
 
-- **NEVER forget to seed RNG** — `randi()` without seed = same dungeon every time. Use `seed(hash(Time.get_ticks_msec()))` OR expose seed for speedrunning.
-- **NEVER use `randf()` in `_ready()` for multiplayer** — Each client calls `_ready()` at different times = desynced RNG = different dungeons. Use shared seed from server.
-- **NEVER skip validation** — Drunkard's walk dungeon with no exit? Playability fail. ALWAYS validate (e.g., A* from start to end) OR regenerate.
-- **NEVER use noise.get_noise_2d() every frame** — Calling noise 10,000x/frame = lag. Pre-generate heightmap in `_ready()`, cache in Array.
-- **NEVER use BSP without minimum room size** — Infinite splits = 1x1 rooms = crash. Set `min_size` (e.g., 6x6) to prevent over-subdivision.
-- **NEVER ignore WFC contradictions** — Wave Function Collapse fails when no valid tiles remain. MUST detect contradiction, backtrack OR restart generation.
-- **NEVER block main thread for large generations** —  Generating 1000x1000 terrain in `_ready()` = freeze. Use worker thread OR split across frames with `await`.
+- **NEVER generate chunks on the Main Thread** — Proc-gen is CPU intensive and causes frame-rate spikes. Use `WorkerThreadPool` or a background `Thread` to keep the UI responsive.
+- **NEVER query `FastNoiseLite` every frame** — Sampling noise per frame (especially in `_process`) is a massive waste. Generate your map into an `Image` or `Array` once and sample from memory [NoiseSampling].
+- **NEVER use `randi()` for reproducible seeds** — Always store and reuse a specific `seed` within your random number generator (`RandomNumberGenerator.new()`) to ensure consistent world generation.
+- **NEVER use pure randomness for object placement** — Pure random (white noise) causes clumping and overlapping. Use **Poisson Disk Sampling** or **Jittered Grids** for natural-looking distributions.
+- **NEVER forget to bound your loops** — Procedural loops (like WFC or Cellular Automata) can easily enter infinite states if constraints are impossible. Always include a `max_iterations` safety break.
+- **NEVER instantiate nodes directly from proc-gen threads** — You cannot touch the SceneTree from a worker thread. Generate the *data* in the thread, then notify the Main Thread to handle `add_child()`.
+- **NEVER use complex WFC for simple layouts** — Wave Function Collapse is powerful but overkill for simple paths. Use **Drunkard's Walk** or **BSP** for lightweight structured layouts.
+- **NEVER rely on `TileMap.set_cell()` for large-scale updates** — Updating 10,000 cells individually is slow. Prepare a `TileMapPattern` and use `set_pattern()` or `set_cells_terrain_connect()` for batch updates.
+- **NEVER forget to bake Navigation at the end** — Procedurally generated worlds need their navmeshes rebaked at runtime or the AI will walk into walls.
+- **NEVER ignore data serialization** — If you generate a world, you must be able to save the *seed* and any *player modifications*. Don't try to save the entire raw chunk state if avoidable.
 
 ---
 

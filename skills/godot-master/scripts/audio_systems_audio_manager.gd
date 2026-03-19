@@ -1,4 +1,4 @@
-# godot-master/scripts/audio_systems_audio_manager.gd
+# skills/audio-systems/code/audio_manager.gd
 extends Node
 
 ## AudioManager Singleton Expert Pattern

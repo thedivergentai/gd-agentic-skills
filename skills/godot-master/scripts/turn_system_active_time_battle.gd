@@ -1,4 +1,4 @@
-# godot-master/scripts/turn_system_active_time_battle.gd
+# skills/turn-system/scripts/active_time_battle.gd
 extends Node
 
 ## Active Time Battle (ATB) Expert Pattern

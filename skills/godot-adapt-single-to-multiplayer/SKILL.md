@@ -7,13 +7,22 @@ description: "Expert patterns for adding multiplayer to single-player games incl
 
 Expert guidance for retrofitting multiplayer into single-player games.
 
-## NEVER Do
+## NEVER Do (Expert Multiplayer Rules)
 
-- **NEVER trust client input** — Always validate on server. Clients can send fake position/health/inventory data.
-- **NEVER use get_tree().get_nodes_in_group() for authority checks** — Use `is_multiplayer_authority()` on individual nodes. Group iteration is unreliable for network identity.
-- **NEVER forget to set multiplayer_authority** — Nodes without authority assignment will desync. Server should own world objects, clients own their player.
-- **NEVER run physics on both client and server identically** — Leads to double-speed movement. Use client prediction with server reconciliation OR server-only physics.
-- **NEVER send raw input every frame** — Buffer inputs client-side, send in batches (every 3-5 frames). Reduces bandwidth 60-80%.
+### Security & Authority
+- **NEVER trust client-reported state** — Clients own their 'Input', NOT their 'Position' or 'Health'. Server must validate every coordinate and health change.
+- **NEVER use `get_tree()` groups for authority checks** — Use `is_multiplayer_authority()`. Group registration is non-deterministic in high-latency joins.
+- **NEVER allow unrestricted RPC rates** — A malicious client can call a 'FireWeapon' RPC 10,000 times per second. Always implement rate-limiting (`net_rpc_rate_limiter.gd`).
+
+### Movement & Lag
+- **NEVER skip Client-Side Prediction** — Movement without prediction feels 'heavy' and unresponsive. Predict movement locally, then correct only on server disagreement.
+- **NEVER sync peers at 60Hz** — Sending entire state every frame will saturate client bandwidth. Use a lower tick-rate (20-30Hz) and interpolate between packets.
+- **NEVER snap peer positions** — Abrupt position updates cause 'jitter'. Store a buffer of past states and lerp between them with a 100ms delay.
+
+### Bandwidth & Sync
+- **NEVER sync 'Full Floats' if possible** — Quantize Vector3 data (truncating decimals) to save 50%+ bandwidth. Use `MultiplayerSynchronizer` with delta-sync enabled.
+- **NEVER ignore 'Late Joiners'** — Players who join mid-game won't see existing environmental changes. Broadcast a full world-state 'Snapshot' on peer connection.
+- **NEVER test on 0ms ping** — Everything works on localhost. Use a simulator (`net_latency_simulator.gd`) with 150ms ping to identify sync bugs.
 
 ---
 
@@ -21,11 +30,35 @@ Expert guidance for retrofitting multiplayer into single-player games.
 
 > **MANDATORY**: Read the appropriate script before implementing the corresponding pattern.
 
-### [multiplayer_sync.gd](scripts/multiplayer_sync.gd)
-Latency-aware synchronization with MultiplayerSynchronizer. Demonstrates peer interpolation (lerp to network position) and authority-based update logic.
+### [net_prediction_reconciliation.gd](scripts/net_prediction_reconciliation.gd)
+Expert CharacterBody3D prediction with input-buffer replaying for server reconciliation.
 
-### [rpc_bridge.gd](scripts/rpc_bridge.gd)
-Signal-to-RPC bridge pattern. Shows authority guard pattern: client requests → server validates → server broadcasts. Essential for cheat prevention.
+### [net_snapshot_interpolation.gd](scripts/net_snapshot_interpolation.gd)
+Professional snapshot interpolation logic for smoothing peer movement via jitter buffers.
+
+### [net_auth_server_validator.gd](scripts/net_auth_server_validator.gd)
+Authoritative server validator for anti-cheat (Position, Speed, and Action checks).
+
+### [net_rpc_rate_limiter.gd](scripts/net_rpc_rate_limiter.gd)
+Expert rate-limiter to prevent RPC flooding and macro-abuse by clients.
+
+### [net_interest_management.gd](scripts/net_interest_management.gd)
+Distance-based visibility management to optimize binary bandwidth per-peer.
+
+### [net_delta_compression_sync.gd](scripts/net_delta_compression_sync.gd)
+Expert quantization and significance-checking logic for delta-compression.
+
+### [net_upnp_discovery_logic.gd](scripts/net_upnp_discovery_logic.gd)
+Robust script for P2P network discovery and automatic port forwarding via UPNP.
+
+### [net_debug_overlay_monitor.gd](scripts/net_debug_overlay_monitor.gd)
+In-game diagnostic overlay reporting RTT (Ping), Packet Loss, and Jitter.
+
+### [net_lobby_late_join_sync.gd](scripts/net_lobby_late_join_sync.gd)
+Professional state-initialization logic to bridge 'Late Joiners' into a synced session.
+
+### [net_latency_simulator.gd](scripts/net_latency_simulator.gd)
+Editor-only tool for simulating high-ping and loss conditions for stress-testing.
 
 ---
 

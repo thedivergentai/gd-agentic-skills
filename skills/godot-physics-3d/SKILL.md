@@ -9,15 +9,50 @@ Expert guidance for high-performance 3D physics and ragdolls.
 
 ## NEVER Do
 
-- **NEVER scale RigidBody3D** — Scale collision shapes, NEVER the body itself. Non-uniform scaling breaks physics engines logic.
-- **NEVER use `move_and_slide` inside `_process`** — Always use `_physics_process`. Frame-rate dependency kills simulation stability.
-- **NEVER simulate ragdolls 24/7** — Only enable physical bones on death or impact. Animate static meshes otherwise to save CPU.
-- **NEVER ignore Jolt** — Godot Jolt plugin is strictly superior to default Godot Physics in 4.x for stability and performance. Use it if possible.
-- **NEVER use ConcaveCollisionShape3D for dynamic bodies** — Concave shapes (Trimesh) are for static ground only. Moving bodies MUST be Convex or Primitive (Box/Capsule).
+- **NEVER move `PhysicsBody3D` nodes in `_process()`** — Use `_physics_process()`. Moving bodies outside the physics step causes visual jitter and unreliable collision detection [12, 13].
+- **NEVER scale collision shapes directly** — Scaling physics shapes causes instability, inaccurate normals, and jitter. Use the `shape` properties (height, radius, size) instead.
+- **NEVER modify `RigidBody3D` transforms directly** — This ignores the physics solver. Use `apply_impulse()`, `apply_torque()`, or the `_integrate_forces()` callback for safe manipulation [17].
+- **NEVER use `RigidBody3D` for platformer player controllers** — RigidBody is for objects driven by physics. For refined movement, use `CharacterBody3D` with `move_and_slide()` [move_and_slide].
+- **NEVER leave Continuous CD (CCD) enabled for static meshes** — It adds heavy CPU cost. Reserve it for high-speed small objects (bullets) to prevent them from passing through walls.
+- **NEVER use `PhysicsServer3D` RIDs without manual cleanup** — RIDs are not garbage collected. If you create bodies via the server, you MUST call `free_rid()` when done to avoid memory leaks.
+- **NEVER use `RayCast3D` for precise ground detection on stairs** — A single ray is too thin. Use `ShapeCast3D` with a cylinder or sphere shape to detect walkable steps reliably [Stair Logic].
+- **NEVER rely on `VehicleBody3D` for non-racing arcade vehicles** — It's a complex sim. For arcade hovercraft or simple cars, a custom `CharacterBody3D` with Raycasts is often easier to tune.
+- **NEVER forget to set `collision_layer` and `collision_mask` properly** — If everything is on layer 1, performance will tank from redundant checks. Categorize your world.
+- **NEVER use `Area3D` for high-frequency blocking** — Areas are for detection. For walls/barriers, use `StaticBody3D` to ensure immediate, robust containment.
 
 ---
 
 ## Available Scripts
+
+### [physics_server_3d_bullets.gd](scripts/physics_server_3d_bullets.gd)
+Direct `PhysicsServer3D` RID management for thousands of high-speed 3D projectiles.
+
+### [ray_query_3d_vision.gd](scripts/ray_query_3d_vision.gd)
+Expert line-of-sight and AI vision logic using low-level space state interrupts.
+
+### [shapecast_3d_ground_check.gd](scripts/shapecast_3d_ground_check.gd)
+Robust stair and ledge detection using `ShapeCast3D` for 3D CharacterBody stability.
+
+### [physics_ccd_3d_projectile.gd](scripts/physics_ccd_3d_projectile.gd)
+Continuous Collision Detection configuration and sub-stepping logic for anti-tunneling.
+
+### [physics_layers_3d_config.gd](scripts/physics_layers_3d_config.gd)
+Clean collision matrix architecture for 3D using named bitmask layers and masks.
+
+### [custom_gravity_well_3d.gd](scripts/custom_gravity_well_3d.gd)
+Planet-style gravity wells and zero-G zones implemented via priority Area3D nodes.
+
+### [soft_body_3d_interaction.gd](scripts/soft_body_3d_interaction.gd)
+Managing high-performance SoftBody3D flags, cloaks, and foliage attachments.
+
+### [joint_3d_breakage_logic.gd](scripts/joint_3d_breakage_logic.gd)
+Dynamic joint stress monitoring and procedural snaps for destructible 3D objects.
+
+### [kinematic_3d_stairs_logic.gd](scripts/kinematic_3d_stairs_logic.gd)
+Advanced procedural stair-stepping and snapping for professional 3D character controllers.
+
+### [vehicle_simulation_tuning.gd](scripts/vehicle_simulation_tuning.gd)
+Tuning `VehicleBody3D` and `VehicleWheel3D` for high-speed drifting and arcade feel.
 
 ### [ragdoll_manager.gd](scripts/ragdoll_manager.gd)
 Expert manager for transitioning Skeleton3D from animation to physical simulation (death effect). Handles impulse application and cleanup.

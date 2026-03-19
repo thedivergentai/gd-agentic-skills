@@ -7,13 +7,22 @@ description: "Expert patterns for Godot audio including AudioStreamPlayer varian
 
 Expert guidance for Godot's audio engine and mixing architecture.
 
-## NEVER Do
+## NEVER Do (Expert Audio Rules)
 
-- **NEVER create new AudioStreamPlayer nodes for every sound** — Causes memory bloat and GC spikes. Use audio pooling (reuse players) or one-shot helper function.
-- **NEVER set AudioServer bus volume with linear values** — `set_bus_volume_db()` expects decibels (-80 to 0). Use `linear_to_db()` for 0.0-1.0 conversion.
-- **NEVER forget to set `autoplay = false` on music players** — Music autoplays on scene load by default. Causes overlapping tracks when changing scenes.
-- **NEVER use AudioStreamPlayer3D without attenuation model** — Default attenuation is NONE (no falloff). Set `attenuation_model` to ATTENUATION_INVERSE_DISTANCE or audio is global.
-- **NEVER play AudioStreamPlayer without checking `playing` first** — Restarting an already-playing sound cuts it off. Check `if not player.playing:` before play().
+### Mixing & Buses
+- **NEVER set bus volume with linear values** — `set_bus_volume_db()` is logarithmic. Use `linear_to_db()` for sliders OR everything will sound too loud until the last 5%.
+- **NEVER skip 'Bus Routing'** — Playing music on the 'SFX' bus makes volume menus useless. Strictly route every player to its dedicated sub-bus (Music, SFX, UI, Voice).
+- **NEVER use 'Master' for gameplay sounds** — Dedicate Master to final limiting. Route all gameplay to sub-groups so you can mute/duck categories.
+
+### Positional & Spatial
+- **NEVER use 3D players without an Attenuation Model** — Default is NONE. If you don't set it to `Inverse Distance`, a whisper on the other side of the map will be global volume.
+- **NEVER play 3D sounds exactly on top of the listener** — Causes "Panning Jitter" where the sound snaps between Left/Right speakers. Offset by `0.1` units.
+- **NEVER forget Doppler for high-speed objects** — A car flying by without `DOPPLER_TRACKING_PHYSICS_STEP` feels flat and static.
+
+### Performance & Polish
+- **NEVER spam same-frame sounds** — Playing 50 explosions at once causes constructive interference (clipping/distortion). Use a `Limiter` (`audio_voice_limiter_manager.gd`).
+- **NEVER instantiate nodes for one-shots** — Creating a node, playing a 0.5s clap, and `queue_free()`ing causes frame-time spikes. Use a Pool.
+- **NEVER skip Crossfades/Transitions** — Abrupt music cuts break immersion. Always use a 0.5s-1.0s `Tween` to bridge tracks.
 
 ---
 
@@ -21,11 +30,35 @@ Expert guidance for Godot's audio engine and mixing architecture.
 
 > **MANDATORY**: Read the appropriate script before implementing the corresponding pattern.
 
-### [audio_manager.gd](scripts/audio_manager.gd)
-AudioManager singleton with sound pooling (32-player pool), bus assignment, and crossfade preparation. Prevents node spam and GC spikes.
+### [audio_voice_pool_manager.gd](scripts/audio_voice_pool_manager.gd)
+Expert high-performance voice pooler with priority-based 'voice stealing' logic.
 
-### [audio_visualizer.gd](scripts/audio_visualizer.gd)
-Real-time FFT spectrum analysis. Captures low/mid/high frequency ranges to drive visual effects like lighting pulses or shader parameters.
+### [audio_occlusion_raycast.gd](scripts/audio_occlusion_raycast.gd)
+Professional Raycast-based audio occlusion for dynamic muffling behind walls.
+
+### [audio_adaptive_music_player.gd](scripts/audio_adaptive_music_player.gd)
+BPM-synced horizontal re-sequencer for seamless musical transitions.
+
+### [audio_reactive_visualizer_component.gd](scripts/audio_reactive_visualizer_component.gd)
+Expert FFT spectrum analysis component for driving logic-to-data visuals.
+
+### [audio_bus_ducker_logic.gd](scripts/audio_bus_ducker_logic.gd)
+Professional sidechain-style bus ducking (Dialogue-over-Music).
+
+### [audio_procedural_generator_synth.gd](scripts/audio_procedural_generator_synth.gd)
+Expert real-time synthesizer for procedural hums, engines, and signals.
+
+### [audio_environmental_reverb_zone.gd](scripts/audio_environmental_reverb_zone.gd)
+Dynamic reverb/bus effect management via Area3D trigger zones.
+
+### [audio_voice_limiter_manager.gd](scripts/audio_voice_limiter_manager.gd)
+Concurrency manager that prevents 'Ear Bleed' by capping identical SFX instances.
+
+### [audio_linear_volume_interpolator.gd](scripts/audio_linear_volume_interpolator.gd)
+Expert helper for smooth, musically-accurate UI volume slider mapping.
+
+### [audio_footstep_surface_selector.gd](scripts/audio_footstep_surface_selector.gd)
+Physics-driven surface detection and sound-bank selector for footsteps.
 
 ---
 

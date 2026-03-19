@@ -1,4 +1,4 @@
-# godot-master/scripts/gdscript_mastery_signal_architecture_validator.gd
+# skills/gdscript-mastery/scripts/signal_architecture_validator.gd
 @tool
 extends EditorScript
 

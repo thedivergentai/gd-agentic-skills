@@ -9,16 +9,51 @@ Expert guidance for player-controlled 2D movement using Godot's physics system.
 
 ## NEVER Do
 
-- **NEVER multiply velocity by delta when using `move_and_slide()`** — `move_and_slide()` already accounts for delta time. Multiplying causes slow, frame-dependent movement.
-- **NEVER forget to check `is_on_floor()` before jump** — Allows mid-air jumps without double-jump mechanic.
-- **NEVER use `velocity.x = direction * SPEED` without friction** — Character slides infinitely without friction in else branch. Use `move_toward(velocity.x, 0, FRICTION * delta)`.
-- **NEVER set `velocity.y` to exact value when falling** — Overwrites gravity accumulation. Use `velocity.y += gravity * delta` instead of `velocity.y = gravity`.
-- **NEVER use floor_snap_length > 16px** — Large snap values cause "sticking" to slopes and walls.
+- **NEVER use `RigidBody2D` for standard player controllers** — RigidBody is for physics-simulated objects. For responsive, feel-driven player movement, always use `CharacterBody2D`.
+- **NEVER multiply `velocity` by `delta` before `move_and_slide()`** — `move_and_slide()` handles delta internally. Manual multiplication makes movement framerate-dependent [12].
+- **NEVER use `global_position` updates for movement** — Use `velocity` and `move_and_slide()`. Direct position updates bypass collision detection and floor snapping.
+- **NEVER ignore the return value of `move_and_slide()`** — While optional, checking `is_on_floor()` or `get_last_motion()` immediately after is critical for state logic.
+- **NEVER rely on default `floor_snap_length` for fast stair-climbing** — Default snapping is too small for high-velocity characters. Use custom raycast-based stair logic for smooth transitions.
+- **NEVER apply gravity while `is_on_floor()` is true** — Constant downward force on the floor can cause "micro-jitter" or prevent floor-snap from working correctly. Reset `velocity.y` to 0 or a small constant.
+- **NEVER use `Area2D` for ground detection** — Real collisions (rays/shapecasts) are more precise. `is_on_floor()` is highly optimized; only augment it if necessary.
+- **NEVER forget Ceiling Bonk detection** — If you don't reset `velocity.y` to 0 when `is_on_ceiling()`, the player will "float" against the ceiling until gravity pulls them down.
+- **NEVER use high-precision physics for pixel art visuals** — Keep physics math high-precision, but round your Sprite nodal positions in `_process` to avoid visual sub-pixel jitter.
+- **NEVER use `queue_free()` on characters every frame** — Use object pooling for bullets or enemies to avoid SceneTree performance spikes.
 ---
 
 ## Available Scripts
 
 > **MANDATORY**: Read the appropriate script before implementing the corresponding pattern.
+
+### [frame_perfect_coyote_time.gd](scripts/frame_perfect_coyote_time.gd)
+Professional platformer mechanics: Coyote Time (jump after fall) and Input Buffering.
+
+### [slope_stair_snapping.gd](scripts/slope_stair_snapping.gd)
+Advanced procedural stair-climbing and smooth slope snapping logic.
+
+### [variable_jump_height.gd](scripts/variable_jump_height.gd)
+Customizable 'Short Hop' vs 'Full Jump' implementation based on input duration.
+
+### [wall_slide_jump_refined.gd](scripts/wall_slide_jump_refined.gd)
+Responsive Wall Slide and Wall Jump mechanics with proper push-back forces.
+
+### [dash_state_controller.gd](scripts/dash_state_controller.gd)
+State-based dash logic with invincibility frames and customizable cooldowns.
+
+### [subpixel_movement_rounding.gd](scripts/subpixel_movement_rounding.gd)
+Expert pattern for maintaining pixel-perfect visuals in low-res games while keeping smooth physics.
+
+### [performance_character_pooling.gd](scripts/performance_character_pooling.gd)
+Logic for optimizing 100+ active characters using visibility-based physics toggling.
+
+### [impulse_response_handler.gd](scripts/impulse_response_handler.gd)
+Expert handling of external forces (Knockback, Blow-back, Wind) integrated with `move_and_slide`.
+
+### [aerial_drift_acceleration.gd](scripts/aerial_drift_acceleration.gd)
+Precise air control and acceleration logic for professional platformer feel.
+
+### [ceiling_bonk_detection.gd](scripts/ceiling_bonk_detection.gd)
+Fixing 'sticky head' syndrome by correctly handling vertical momentum on ceiling hits.
 
 ### [expert_physics_2d.gd](scripts/expert_physics_2d.gd)
 Complete platformer movement with coyote time, jump buffering, smooth acceleration/friction, and sub-pixel stabilization. Uses move_toward for precise control.

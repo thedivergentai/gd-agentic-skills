@@ -1,4 +1,4 @@
-# godot-master/scripts/3d_materials_organic_material.gd
+# skills/3d-materials/code/organic_material.gd
 extends MeshInstance3D
 
 ## Runtime Texture & SSS Manipulation Expert Pattern

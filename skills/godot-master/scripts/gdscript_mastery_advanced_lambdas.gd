@@ -1,4 +1,4 @@
-# godot-master/scripts/gdscript_mastery_advanced_lambdas.gd
+# skills/gdscript-mastery/code/advanced_lambdas.gd
 extends Node
 
 ## GDScript Mastery Expert Pattern

@@ -1,4 +1,4 @@
-# godot-master/scripts/mcp_scene_builder_scene_builder_manifest.gd
+# skills/mcp-scene-builder/scripts/scene_builder_manifest.gd
 extends Resource
 
 ## Scene Builder Manifest Expert Pattern

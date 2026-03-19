@@ -14,17 +14,51 @@ Expert guidance for finding and fixing bugs efficiently with Godot's debugging t
 - **NEVER ignore `push_warning()` messages** — Warnings indicate potential bugs (null refs, deprecated APIs). Fix them before they become errors.
 - **NEVER use `assert()` for runtime validation in release** — Asserts are disabled in release builds. Use `if not condition: push_error()` for runtime checks.
 - **NEVER profile in debug mode** — Debug builds are 5-10x slower. Always profile with release exports or `--release` flag.
+- **NEVER assume `Engine.capture_script_backtraces(true)` is cheap** — Capturing locals allocates significant memory and can prevent objects from being deallocated, causing artificial leaks [19].
+- **NEVER call `push_error()` or `print()` inside a custom `Logger._log_message` override** — This causes infinite recursion and crashes as the logger intercepts its own output [20].
+- **NEVER leave the Visual Profiler running during gameplay tests** — Continuous polling degrades framerates significantly, invalidating actual performance metrics [21].
+- **NEVER rely on `OS.get_ticks_msec()` for microbenchmarking** — Milliseconds lack precision for logic timing; ALWAYS use `Time.get_ticks_usec()` for microsecond precision [22].
+- **NEVER assume `OBJECT_ORPHAN_NODE_COUNT` works in production** — This monitor is strictly debug-only; it safely returns 0 in release builds, potentially hiding leaks [23].
+- **NEVER benchmark with V-Sync enabled** — V-Sync throttles metrics to the monitor refresh rate, masking the true CPU/GPU processing overhead [24].
+- **NEVER leave `print_stack()` or `print_debug()` in release builds** — These are often stripped or useless outside the debugger. Use structured logging for production [25].
+- **NEVER strip debugging symbols if using external C++ profilers** — Stripping destroys call stack readability for external tools like Perfetto or VerySleepy [26].
+- **NEVER forget to unregister an `EditorDebuggerPlugin` in `_exit_tree()`** — Failing to clean up leaves "ghost" connections in the engine's debugging loop [27].
+- **NEVER trust the Visual Profiler on macOS when using the Compatibility renderer** — Platform-specific driver limitations severely restrict OpenGL profiling accuracy on macOS [28].
 ---
 
 ## Available Scripts
 
 > **MANDATORY**: Read the appropriate script before implementing the corresponding pattern.
 
-### [performance_plotter.gd](scripts/performance_plotter.gd)
-Custom Performance monitors for gameplay metrics (projectile/enemy count). Includes automated error state capture with stack traces and memory stats.
+### [high_precision_benchmarker.gd](scripts/high_precision_benchmarker.gd)
+Micrometer-precision execution timing using `Time.get_ticks_usec()`, essential for identifying CPU micro-bottlenecks.
 
-### [debug_overlay.gd](scripts/debug_overlay.gd)
-In-game debug UI with real-time FPS, memory, orphan nodes, and custom metrics.
+### [orphan_node_detector.gd](scripts/orphan_node_detector.gd)
+Automated detection and logging of "Orphan Nodes" (nodes removed from tree but not freed) using internal Performance monitors.
+
+### [advanced_backtrace_recorder.gd](scripts/advanced_backtrace_recorder.gd)
+Capturing detailed script backtraces programmatically, including local variable snapshots for deep crash reporting.
+
+### [engine_error_interceptor.gd](scripts/engine_error_interceptor.gd)
+Intercepting underlying C++ engine errors and piping them to custom backend logs or analytics services.
+
+### [custom_editor_monitor.gd](scripts/custom_editor_monitor.gd)
+Exposing game-specific performance metrics (AI counts, bullet physics) directly to the Godot Editor's Debugger > Monitors tab.
+
+### [debugger_tab_plugin.gd](scripts/debugger_tab_plugin.gd)
+Project-specific debugger extensions that inject custom visual tabs and data into the Godot bottom panel.
+
+### [thread_safe_logger.gd](scripts/thread_safe_logger.gd)
+Mutext-locked logger subclass for thread-safe writing of logs from worker threads to external files.
+
+### [custom_debug_draw.gd](scripts/custom_debug_draw.gd)
+Pro-level visualization patterns for non-visual data like pathfinding nodes, physics raycasts, and local AI influence maps.
+
+### [break_on_condition.gd](scripts/break_on_condition.gd)
+Hardcoded breakpoint triggers for halting execution on invalid logic states in a team-agnostic manner.
+
+### [remote_debug_console.gd](scripts/remote_debug_console.gd)
+In-game command console for debugging mobile and console builds where standard terminal output is inaccessible.
 
 > **Do NOT Load** debug_overlay.gd in release builds - wrap usage in `if OS.is_debug_build()`.
 

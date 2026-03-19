@@ -1,4 +1,4 @@
-# godot-master/scripts/input_handling_input_buffer.gd
+# skills/input-handling/scripts/input_buffer.gd
 extends Node
 
 ## Input Buffer Expert Pattern

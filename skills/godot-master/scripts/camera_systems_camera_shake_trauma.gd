@@ -1,4 +1,4 @@
-# godot-master/scripts/camera_systems_camera_shake_trauma.gd
+# skills/camera-systems/scripts/camera_shake_trauma.gd
 extends Camera2D
 
 ## Trauma-Based Camera Shake Expert Pattern  

@@ -1,4 +1,4 @@
-# godot-master/scripts/economy_system_loot_table_weighted.gd
+# skills/economy-system/code/loot_table_weighted.gd
 extends Resource
 
 ## Weighted Loot Table Expert Pattern

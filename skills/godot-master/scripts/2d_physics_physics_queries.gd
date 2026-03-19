@@ -1,4 +1,4 @@
-# godot-master/scripts/2d_physics_physics_queries.gd
+# skills/2d-physics/code/physics_queries.gd
 extends Node2D
 
 ## High-Performance Physics Queries Pattern

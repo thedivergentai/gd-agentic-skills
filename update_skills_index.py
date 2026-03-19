@@ -3,8 +3,8 @@ import json
 import re
 
 # Use relative paths for portability, or absolute if preferred
-SKILLS_DIR = r"D:\Development\GDSkills\skills"
-OUTPUT_FILE = r"D:\Development\GDSkills\skills_index.json"
+SKILLS_DIR = os.path.join(os.path.dirname(__file__), "skills")
+OUTPUT_FILE = os.path.join(os.path.dirname(__file__), "skills_index.json")
 
 def get_frontmatter(content):
     match = re.search(r'^---\s*\n(.*?)\n---', content, re.DOTALL)

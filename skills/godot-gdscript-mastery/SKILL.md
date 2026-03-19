@@ -7,32 +7,50 @@ description: "Expert GDScript best practices including static typing (var x: int
 
 Expert guidance for writing performant, maintainable GDScript following official Godot standards.
 
-## NEVER Do
-
-- **NEVER use dynamic typing for performance-critical code** — `var x = 5` is 20-40% slower than `var x: int = 5`. Type everything.
-- **NEVER call parent methods from children ("Call Up")** — Use "Signal Up, Call Down". Children emit signals, parents call child methods.
-- **NEVER use `get_node()` in `_process()` or `_physics_process()`** — Caches with `@onready var sprite = $Sprite`. get_node() is slow in loops.
-- **NEVER access dictionaries without `.get()` default** — `dict["key"]` crashes if missing. Use `dict.get("key", default)` for safety.
-- **NEVER skip `class_name` for reusable scripts** — Without `class_name`, you can't use as type hints (`var item: Item`). Makes code harder to maintain.
----
-
 ## Available Scripts
 
-> **MANDATORY**: Read the appropriate script before implementing the corresponding pattern.
+### [typed_collections_mastery.gd](scripts/typed_collections_mastery.gd)
+Expert performance optimization using statically typed Arrays and Dictionaries.
 
-### [advanced_lambdas.gd](scripts/advanced_lambdas.gd)
-Higher-order functions in GDScript: filter/map with lambdas, factory functions returning Callables, typed array godot-composition, and static utility methods.
+### [functional_lambda_logic.gd](scripts/functional_lambda_logic.gd)
+Advanced list processing using `reduce()`, `all()`, and `any()` with clean lambda syntax.
 
-### [type_checker.gd](scripts/type_checker.gd)
-Scans codebase for missing type hints. Run before releases to enforce static typing standards.
+### [safe_type_casting.gd](scripts/safe_type_casting.gd)
+Best practices for using the `as` operator for crash-proof object identification.
 
-### [performance_analyzer.gd](scripts/performance_analyzer.gd)
-Detects performance anti-patterns: get_node() in loops, string concat, unsafe dict access.
+### [typed_signal_definitions.gd](scripts/typed_signal_definitions.gd)
+Enforcing type safety across script boundaries using strictly typed signal arguments.
 
-### [signal_architecture_validator.gd](scripts/signal_architecture_validator.gd)
-Enforces "Signal Up, Call Down" pattern. Detects get_parent() calls and untyped signals.
+### [callable_binding_context.gd](scripts/callable_binding_context.gd)
+Injecting extra context into signal callbacks using `Callable.bind()`.
 
-> **Do NOT Load** performance_analyzer.gd unless profiling hot paths or optimizing frame rates.
+### [unbind_signal_args.gd](scripts/unbind_signal_args.gd)
+Safely discarding unneeded signal arguments using `Callable.unbind()`.
+
+### [await_sequence_manager.gd](scripts/await_sequence_manager.gd)
+Managing complex asynchronous flows and timers using `await` without thread-blocking.
+
+### [array_preallocation_perf.gd](scripts/array_preallocation_perf.gd)
+Eliminating memory reallocation lag by pre-sizing large arrays with `resize()`.
+
+### [static_var_singleton_alt.gd](scripts/static_var_singleton_alt.gd)
+Using `static var` for global state management as an alternative to heavy Autoloads.
+
+### [dictionary_safe_iteration.gd](scripts/dictionary_safe_iteration.gd)
+The correct pattern for erasing dictionary keys while iterating to avoid runtime errors.
+
+## NEVER Do in GDScript
+
+- **NEVER use `@onready` and `@export` on the same variable** — Initialization order will cause `@onready` to overwrite the Inspector value [1].
+- **NEVER modify a Dictionary's size while iterating it** — Use `dict.keys().duplicate()` or iterate a clone to safely erase elements [2, 3].
+- **NEVER use string-based `connect("signal", ...)`** — Always use the Signal object syntax (`button.pressed.connect(...)`) for compile-time safety [4].
+- **NEVER attempt to override non-virtual native engine methods** — Overriding `queue_free()` or `get_class()` is unsupported and will be ignored by engine callbacks [5, 6].
+- **NEVER use dynamic `get_node()` or `$` inside `_process()`** — Fetching paths every frame stalls the CPU. Cache and use `@onready` [7, 8].
+- **NEVER use `Parent.method()` calls** — Violates "Signal Up, Call Down". Use signals to communicate with parents.
+- **NEVER use `is` followed by a hard cast** — If the type check passes but the object changes, it crashes. Use `as` and check for null.
+- **NEVER use `print()` for production debugging** — Use `push_error()`, `push_warning()`, or breakpoints to ensure errors are visible in the console/logs.
+- **NEVER pre-load huge resources in `_ready()`** — This causes frame stutters. Use `ResourceLoader.load_threaded_request()` for async loading.
+- **NEVER use global variables in Autoloads when `static var` is sufficient** — Static variables offer better encapsulation and less project pollution [24].
 
 
 ---

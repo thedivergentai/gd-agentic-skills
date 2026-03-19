@@ -9,11 +9,16 @@ Expert guidance for creating smooth, responsive cameras in 2D and 3D games.
 
 ## NEVER Do
 
-- **NEVER use `global_position = target.global_position` every frame** — Instant position matching causes jittery movement. Use `lerp()` or `position_smoothing_enabled = true`.
-- **NEVER forget `limit_smoothed = true` for Camera2D** — Hard limits cause sudden stops at edges. Smoothing prevents jarring halts.
-- **NEVER use offset for permanent camera positioning** — `offset` is for shake/sway effects only. Use `position` for permanent camera placement.
-- **NEVER enable multiple Camera2D nodes simultaneously** — Only one camera can be active. Others must have `enabled = false`.
-- **NEVER use SpringArm3D without collision mask** — SpringArm clips through walls if `collision_mask` is empty. Set to world layer
+- **NEVER use `global_position = target.global_position` every frame** — Instant position matching causes jittery movement. Use `lerp()` or `position_smoothing_enabled = true` [12].
+- **NEVER use `offset` for permanent camera positioning** — `offset` is for shake, sway, or temporary recoil effects only. Use `position` for permanent framing to avoid logic conflicts [14].
+- **NEVER forget `limit_smoothed = true` for `Camera2D`** — Hard boundaries cause jarring visual stops. Smoothing against limits ensures a professional feel [13].
+- **NEVER enable multiple `Camera2D` nodes in the same viewport simultaneously** — Only the last enabled camera takes precedence. Explicitly disable inactive cameras [15].
+- **NEVER use `SpringArm3D` without a collision mask** — It will clip through terrain and walls. Set it to the world/environment layer [16].
+- **NEVER implement screen shake by randomizing `position` directly** — This overwrites follow-logic. Use `offset` or a dedicated Trauma/Noise system to Layer shake over the follow-position [27, 28].
+- **NEVER parent the Camera directly to a high-speed physics body** — Physics stutter or parent rotation will cause motion sickness. Use `RemoteTransform2D/3D` with rotation sync disabled for a stable view [30].
+- **NEVER use `look_at()` in 3D without a fallback for the 'Up' vector** — If the target is directly above/below, the camera will flip wildly. Use guards or `Quaternion` math for vertical tracking.
+- **NEVER rely on `SubViewport` defaults for Mini-maps** — Viewports are expensive; explicitly set `render_target_update_mode` to `UPDATE_WHEN_VISIBLE` or a fixed lower framerate to save GPU [156].
+- **NEVER use linear interpolation for Zoom** — It feels 'robotic'. Use exponential lerp or a `Tween` with `TRANS_CUBIC` for a more natural tactical feel.
 
 ---
 
@@ -21,14 +26,35 @@ Expert guidance for creating smooth, responsive cameras in 2D and 3D games.
 
 > **MANDATORY**: Read before implementing camera behaviors.
 
-### [camera_follow_2d.gd](scripts/camera_follow_2d.gd)
-Smooth camera following with look-ahead prediction, deadzones, and boundary limits.
+### [camera_shake_trauma_pro.gd](scripts/camera_shake_trauma_pro.gd)
+Advanced noise-based screenshake (Trauma system) for organic, non-jittery explosions and impacts.
 
-### [camera_shake_trauma.gd](scripts/camera_shake_trauma.gd)
-Trauma-based camera shake using Perlin noise - industry-standard screenshake implementation. Uses FastNoiseLite for smooth camera shake (squared trauma for feel) with automatic decay.
+### [cinematic_framing_logic.gd](scripts/cinematic_framing_logic.gd)
+Rule of Thirds and Lead Room management in code, ensuring high-quality cinematic composition.
 
-### [phantom_decoupling.gd](scripts/phantom_decoupling.gd)
-Phantom camera pattern: separates "where we look" from "what we follow". Camera follows phantom node, enabling cinematic offsets and area bounds.
+### [camera_state_machine.gd](scripts/camera_state_machine.gd)
+Managing transitions between 'Follow', 'Static', and 'Cinematic' camera states with Tweens.
+
+### [minimap_viewport_manager.gd](scripts/minimap_viewport_manager.gd)
+SubViewport optimization for Mini-maps and UI overlays. Reduces render updates for better FPS.
+
+### [split_screen_setup.gd](scripts/split_screen_setup.gd)
+Dynamic split-screen architecture for local multiplayer, handling viewport stretching and audio listeners.
+
+### [remote_transform_decoupling.gd](scripts/remote_transform_decoupling.gd)
+Decoupling camera position from player rotation/scale using `RemoteTransform2D` for high-speed stability.
+
+### [zoom_damping_controller.gd](scripts/zoom_damping_controller.gd)
+Non-linear, smooth zoom logic with tactical overview bounds and mouse-wheel support.
+
+### [spring_lerp_camera_3d.gd](scripts/spring_lerp_camera_3d.gd)
+Physics-stable 3D follow camera using spring-mass interpolation to reduce follow-latency jitter.
+
+### [first_person_sway.gd](scripts/first_person_sway.gd)
+Procedural 8-figure head bob and weapon sway logic for immersive First-Person systems.
+
+### [deadzone_drag_margins.gd](scripts/deadzone_drag_margins.gd)
+Platformer-specific deadzone management using code to control follow-margins and drag-center behavior.
 
 ---
 

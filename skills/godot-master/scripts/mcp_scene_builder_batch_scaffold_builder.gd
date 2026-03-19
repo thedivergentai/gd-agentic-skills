@@ -1,4 +1,4 @@
-# godot-master/scripts/mcp_scene_builder_batch_scaffold_builder.gd
+# skills/mcp-scene-builder/code/batch_scaffold_builder.gd
 @tool
 extends EditorScript
 

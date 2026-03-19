@@ -1,4 +1,4 @@
-# godot-master/scripts/ability_system_ability_manager.gd
+# skills/ability-system/code/ability_manager.gd
 extends Node
 class_name AbilityManager
 

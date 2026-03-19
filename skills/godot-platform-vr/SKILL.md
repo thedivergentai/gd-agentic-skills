@@ -7,20 +7,58 @@ description: "Expert blueprint for VR platforms (Meta Quest, PSVR, SteamVR, Pico
 
 90+ FPS, comfort-first design, and motion control accuracy define VR development.
 
+## NEVER Do (Expert VR Rules)
+
+### Rendering & Comfort
+- **NEVER drop below 90 FPS** — In VR, 72 FPS or less causes instant nausea. You MUST maintain at least 90 FPS (Meta Quest 2/3 typical) and minimize rendering jank.
+- **NEVER use smooth rotation without a vignette (comfort mask)** — Smooth rotation causes motion sickness. Always provide snap turning OR dynamic vignetting.
+- **NEVER force 3D MSAA if Foveated Rendering is enabled** — Foveation can conflict with MSAA natively in the OpenXR pipeline on some hardware.
+
+### Locomotion & Interaction
+- **NEVER skip a teleport locomotion option** — Smooth movement is intolerable for many. Always offer teleportation as an accessibility alternative.
+- **NEVER use billboarding for VR UI** — `BILLBOARD_ENABLED` breaks stereoscopic depth cues. Use static `MeshInstance3D` planes with `SubViewports`.
+- **NEVER place UI too close or too far** — 0.5m causes eye strain; 10m is unreadable. Optimal distance is 1-3 meters from the player.
+
+### Safety & System
+- **NEVER forget to respect physical play area boundaries** — Stepping into real-world objects is a safety risk. Use `XRServer` to fetch guardian bounds.
+- **NEVER ignore focus_lost or session_ended signals** — Gracefully handle disconnections or system menu overlays by pausing the simulation.
+- **NEVER hardcode XRControllerTracker names** — Use the **OpenXR Action Map** system to decouple gameplay from specific hardware labels.
+
+---
+
 ## Available Scripts
 
-### [vr_physics_hand.gd](scripts/vr_physics_hand.gd)
-Expert physics-based hand controller with grab detection and velocity throwing.
+> **MANDATORY**: Read the appropriate script before implementing the corresponding pattern.
 
-## NEVER Do in VR Development
+### [vr_openxr_initializer.gd](scripts/vr_openxr_initializer.gd)
+Expert OpenXR initialization with driver support and feature verification.
 
-- **NEVER drop below 90 FPS** — 72 FPS in VR = instant nausea. MUST maintain 90 FPS minimum (Quest 2/3), 120 FPS preferred. Use Debug → Profiler aggressively.
-- **NEVER use smooth rotation without vignetting** — Smooth camera rotation = vestibular mismatch = motion sickness. Provide snap turning (30°/45°) OR vignette during rotation.
-- **NEVER place UI too close or too far** — UI at 0.5m = eye strain, at 10m = unreadable. Optimal distance: 1-3m from player.
-- **NEVER ignore motion-to-photon latency** — >20ms latency = visible lag in hand tracking = breaks immersion. Minimize physics steps + rendering delay.
-- **NEVER skip teleport locomotion option** — Not everyone tolerates smooth locomotion. MUST offer teleport as alternative for accessibility.
-- **NEVER forget physical boundaries** — Player punches wall IRL = lawsuit. Use `XRServer.get_reference_frame()` to respect guardian/chaperone bounds.
-- **NEVER use standard 3D audio** — Stereo audio in VR = disorienting. Use spatial audio (AudioStreamPlayer3D) for positional sound cues.
+### [vr_hand_gesture_detector.gd](scripts/vr_hand_gesture_detector.gd)
+Pinch and Grab recognition using `XRHandModifier3D` for hand tracking.
+
+### [vr_locomotion_handler.gd](scripts/vr_locomotion_handler.gd)
+Expert Snap Turn and Comfort Vignette (Shader-less) implementation.
+
+### [vr_passthrough_manager.gd](scripts/vr_passthrough_manager.gd)
+Alpha blending and underlay setup for Mixed Reality (AR/VR) transitions.
+
+### [vr_performance_config.gd](scripts/vr_performance_config.gd)
+Expert Foveated Rendering and Variable Rate Shading (VRS) setup.
+
+### [vr_haptic_sequencer.gd](scripts/vr_haptic_sequencer.gd)
+Complex haptic pulse sequencing using `XRController3D` triggers.
+
+### [vr_physics_hand_controller.gd](scripts/vr_physics_hand_controller.gd)
+Non-clipping, physics-following hands that respect environmental solid.
+
+### [vr_safety_guardian_warner.gd](scripts/vr_safety_guardian_warner.gd)
+Guardian/Chaperone boundary distance warning logic using `XRServer`.
+
+### [vr_headset_focus_guard.gd](scripts/vr_headset_focus_guard.gd)
+Headset-aware pause logic for focus loss (System Menu / Headset Off).
+
+### [vr_input_action_mapper.gd](scripts/vr_input_action_mapper.gd)
+OpenXR Action Map abstraction to decouple logic from hwardware buttons.
 
 ---
 

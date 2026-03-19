@@ -12,6 +12,36 @@ TileMapLayer grids, TileSet atlases, terrain autotiling, and custom data define 
 ### [tilemap_data_manager.gd](scripts/tilemap_data_manager.gd)
 Expert TileMap serialization and chunking manager for large worlds.
 
+### [terrain_path_painter.gd](scripts/terrain_path_painter.gd)
+Advanced runtime terrain autotiling (Terrains v2) for roads, rivers, and organic paths.
+
+### [destructible_tile_logic.gd](scripts/destructible_tile_logic.gd)
+Pattern for managing tile health and breakage based on Custom Data Layers.
+
+### [gameplay_data_query.gd](scripts/gameplay_data_query.gd)
+Efficiently reading Custom Data (friction, hazards) to drive character/physics logic.
+
+### [procedural_chunk_batcher.gd](scripts/procedural_chunk_batcher.gd)
+Optimized procedural generation using bulk tile placement logic for better performance.
+
+### [sorting_Z_layering.gd](scripts/sorting_Z_layering.gd)
+Handling Y-sorting and Z-index layering for 2.5D effects and multi-floor buildings.
+
+### [physics_shape_interaction.gd](scripts/physics_shape_interaction.gd)
+Expert TileMap physics: handling one-way collisions and collision layer management.
+
+### [nav_mesh_teleport_fix.gd](scripts/nav_mesh_teleport_fix.gd)
+Runtime navigation updates for dynamic world-shifting and destructible environments.
+
+### [tile_pattern_stamper.gd](scripts/tile_pattern_stamper.gd)
+Using `TileMapPattern` for efficiently "stamping" complex, multi-tile structural pieces.
+
+### [fast_metadata_cache.gd](scripts/fast_metadata_cache.gd)
+Optimization: caching TileData metadata for high-frequency gameplay queries.
+
+### [tilemap_layer_v43_upgrade.gd](scripts/tilemap_layer_v43_upgrade.gd)
+Managing the transition to the Godot 4.3 standard of multiple `TileMapLayer` nodes.
+
 ## NEVER Do in TileMaps
 
 - **NEVER use set_cell() in loops without batching** — 1000 tiles × `set_cell()` = 1000 individual function calls = slow. Use `set_cells_terrain_connect()` for bulk OR cache changes, apply once.

@@ -1,4 +1,4 @@
-# godot-master/scripts/resource_data_patterns_resource_pool.gd
+# skills/resource-data-patterns/scripts/resource_pool.gd
 extends RefCounted
 
 ## Resource Pool Expert Pattern

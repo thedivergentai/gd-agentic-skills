@@ -7,21 +7,48 @@ description: "Expert blueprint for fighting games including frame data (startup/
 
 Expert blueprint for 2D/3D fighters emphasizing frame-perfect combat and competitive balance.
 
-## NEVER Do
+## NEVER Do (Expert Anti-Patterns)
 
-- **NEVER use variable frame rates** — Fighting games require fixed 60fps. Implement custom frame-based loop, not `_physics_process(delta)`.
-- **NEVER skip input buffering** — Without 5-10 frame buffer, players miss inputs. Command inputs feel unresponsive.
-- **NEVER forget damage scaling** — Infinite combos break competitive play. Apply 10% damage reduction per hit in combo.
-- **NEVER make all moves safe on block** — If all attacks have +0 or better advantage on block, defense has no value. Mix safe and unsafe moves.
-- **NEVER use client-side hit detection for netplay** — Client predicts, server validates. Peer-to-peer needs rollback netcode or desyncs occur.
+### Frame-Data & Logic
+- NEVER use variable framerates; strictly lock logic to a **Deterministic Fixed Loop** (using `_physics_process` with a frame-counter) and call **`reset_physics_interpolation()`** on teleport.
+- NEVER use standard Physics for hit detection; strictly use **`PhysicsDirectSpaceState.intersect_shape()`** to query hitboxes instantly without Area2D signal lag.
+- NEVER skip **Damage Scaling**; strictly apply 10% reduction per hit in a combo to prevent infinite matches.
+- NEVER make all moves safe on block; strictly ensure high-reward moves have **Recovery Windows** where the attacker is punishable.
+- NEVER rely on `Area2D.get_overlapping_areas()`; strictly use **`intersect_shape()`** for immediate, frame-perfect resolution.
+- NEVER forget **Hitbox Proximity (Proximity Guard)**; strictly trigger guard states when a hitbox enters a nearby zone, even if it hasn't landed.
+
+### Character & Animation
+- NEVER use simple parenting (`scale.x = -1`) for character flip; strictly adjust the dedicated **Visuals node** while managing hitbox offsets programmatically.
+- NEVER use string-based animation triggers; strictly use `AnimationMixer` with `ADVANCE_MANUAL` for frame-synced playback.
+- NEVER use `yield` or `await` for frame-critical logic; strictly use **Integer Frame Counting** within state machines to manage recovery/startup windows perfectly.
+- NEVER store frame data in raw scripts; strictly use **`Resource` files (.tres)** with delegated logic for damage scaling, cancels, and combo-state tracking.
+- NEVER use deep node hierarchies for character parts; strictly keep skeletons shallow to reduce transformation overhead.
+
+### Input & Networking
+- NEVER skip **Input Buffering**; strictly implement a 5-10 frame buffer to ensure lenient, responsive execution for the player.
+- NEVER leave `Input.use_accumulated_input` enabled; strictly disable it to preserve sub-frame timing for precise combo links.
+- NEVER use client-side hit detection for netplay; strictly use **rollback netcode** or server validation to prevent desyncs.
+- NEVER use standard TCP for multiplayer; strictly use **UDP/ENet** to avoid head-of-line blocking during latency spikes.
+- NEVER rely on the SceneTree for fighter transforms in netplay; strictly manage positions in a **serializable data buffer**.
 ---
 
-## Available Scripts
+## 🛠 Expert Components (scripts/)
 
-> **MANDATORY**: Read the appropriate script before implementing the corresponding pattern.
+### Original Expert Patterns
+- [fighting_input_buffer.gd](scripts/fighting_input_buffer.gd) - Frame-locked input engine (60fps) with motion command fuzzy matching (QCF/DP).
+- [hitbox_component.gd](scripts/hitbox_component.gd) - Professional hitbox/hurtbox utility with layered collision zones (High/Low/Throw).
 
-### [fighting_input_buffer.gd](scripts/fighting_input_buffer.gd)
-Frame-locked input polling with motion command detection. Stores 20-frame history, fuzzy-matches QCF/DP inputs, uses _physics_process for deterministic timing.
+### Modular Components
+- [deterministic_physics_loop.gd](scripts/deterministic_physics_loop.gd) - Custom loop pattern for frame-perfect game state progression.
+- [direct_hitbox_query.gd](scripts/direct_hitbox_query.gd) - PhysicsServer shape-casting for immediate collision resolution.
+- [hit_stop_controller.gd](scripts/hit_stop_controller.gd) - Dynamic time-scale manipulation for "impact" feel.
+- [manual_animation_advancer.gd](scripts/manual_animation_advancer.gd) - Frame-synced animation control via manual delta processing.
+- [rollback_state_serializer.gd](scripts/rollback_state_serializer.gd) - Serialization logic for managing discrete game state snapshots.
+- [bitwise_state_flags.gd](scripts/bitwise_state_flags.gd) - High-performance bitwise flags for fighter state tracking.
+- [input_accumulation_control.gd](scripts/input_accumulation_control.gd) - Toggle for disabling Godot's input accumulation for sub-frame timing.
+- [raw_byte_network_sync.gd](scripts/raw_byte_network_sync.gd) - UDP-based state synchronization for netplay efficiency.
+- [string_name_optimization.gd](scripts/string_name_optimization.gd) - Pattern for using pointer-level `StringName` comparisons in AI states.
+- [round_timer_logic.gd](scripts/round_timer_logic.gd) - Logic for frame-synced match timers and timeout triggers.
 
 ---
 

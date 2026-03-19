@@ -1,4 +1,4 @@
-# godot-master/scripts/resource_data_patterns_data_factory_resource.gd
+# skills/resource-data-patterns/code/data_factory_resource.gd
 @tool
 extends Resource
 class_name DataFactoryResource

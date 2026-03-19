@@ -9,20 +9,49 @@ GUT framework, assertion patterns, mocking, and async testing define automated v
 
 ## Available Scripts
 
-### [integration_test_base.gd](scripts/integration_test_base.gd)
-Base class for GUT integration tests with auto-cleanup and scene helpers.
+### [basic_unit_test.gd](scripts/basic_unit_test.gd)
+Minimal GdUnit4 test structure for verifying simple logic and arithmetic.
 
-### [headless_test_runner.gd](scripts/headless_test_runner.gd)
-Expert headless test runner for CI/CD with JUnit XML output and exit code handling.
+### [signal_emission_test.gd](scripts/signal_emission_test.gd)
+Expert pattern for monitoring and verifying signal emissions in decoupled architectures.
+
+### [mock_dependency_test.gd](scripts/mock_dependency_test.gd)
+Using Mocks and Doubles to isolate test subjects from external services or databases.
+
+### [scene_integration_test.gd](scripts/scene_integration_test.gd)
+Full scene lifecycle testing, verifying node interactions after instantiation.
+
+### [performance_benchmark_runner.gd](scripts/performance_benchmark_runner.gd)
+High-precision execution time measurement using microsecond-scale timers.
+
+### [memory_leak_detector.gd](scripts/memory_leak_detector.gd)
+Automated orphan node detection to catch memory leaks during long-running tests.
+
+### [parameter_fuzz_tester.gd](scripts/parameter_fuzz_tester.gd)
+Stress testing systems with randomized data ranges to catch edge-case crashes.
+
+### [wait_for_frame_test.gd](scripts/wait_for_frame_test.gd)
+Advanced async testing for logic that spans multiple frames or game ticks.
+
+### [physics_collision_test.gd](scripts/physics_collision_test.gd)
+Automated verification of physics layer interactions and collision resolution.
+
+### [test_data_factory.gd](scripts/test_data_factory.gd)
+Centralized data generation patterns for clean, schemas-compliant test objects.
 
 ## NEVER Do in Testing
 
-- **NEVER test implementation details** — `assert_eq(player._internal_state, 5)`? Private variables = brittle tests. Test PUBLIC behavior, not internals.
-- **NEVER share state between tests** — Test 1 modifies global variable, test 2 assumes clean state? Flaky tests. Use `before_each()` for fresh setup.
-- **NEVER use sleep() for timing** — `await get_tree().create_timer(1.0).timeout` in tests? Slow + unreliable. Use GUT's `wait_seconds()` OR manual frame stepping.
-- **NEVER skip cleanup in after_each()** — Test spawns 100 nodes, doesn't free? Memory leak + slow test suite. ALWAYS free nodes in `after_each()`.
-- **NEVER test randomness without seeding** — `randi()` in test = non-deterministic failure. Use `seed(12345)` for repeatable tests.
-- **NEVER forget to watch signals** — `assert_signal_emitted(obj, "died")` without `watch_signals`? Fails silently. MUST call `watch_signals(obj)` first.
+- **NEVER test implementation details** — `assert_eq(player._internal_state, 5)`? Private variables = brittle tests. Test PUBLIC behavior, not internals [20].
+- **NEVER share state between tests** — Test 1 modifies global variable, test 2 assumes clean state? Flaky tests. Use `before_each()` for fresh setup [21].
+- **NEVER use sleep() for timing** — `await get_tree().create_timer(1.0).timeout` in tests? Slow + unreliable. Use GUT's `wait_seconds()` OR manual frame stepping [22].
+- **NEVER skip cleanup in after_each()** — Test spawns 100 nodes, doesn't free? Memory leak + slow test suite. ALWAYS free nodes in `after_each()` [23].
+- **NEVER test randomness without seeding** — `randi()` in test = non-deterministic failure. Use `seed(12345)` for repeatable tests [24].
+- **NEVER forget to watch signals** — `assert_signal_emitted(obj, "died")` without `watch_signals`? Fails silently. MUST call `watch_signals(obj)` first [25].
+- **NEVER perform tests without an explicit "Definition of Done"** — Vague tests like `assert_true(true)` provide zero value. Every test should verify a specific requirement.
+- **NEVER rely on editor-only features for CI/CD tests** — Headless environments lack Viewports. Ensure tests are `headless`-compatible.
+- **NEVER ignore the cost of "Integration Tests"** — Testing a whole level is slow. Favor narrow Unit Tests for logic and small Scene Tests for interaction.
+- **NEVER hardcode file paths in tests** — Use `Path` constants or project-relative strings. If a resource directory moves, your suite shouldn't break.
+- **NEVER test third-party plugins** — Trust the library; test YOUR integration of it.
 
 ---
 

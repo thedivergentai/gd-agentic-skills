@@ -1,59 +1,66 @@
-# Mechanic: Revival, Mortality & Corpse Runs
+---
+name: godot-mechanic-revival
+description: Use when implementing player death, resurrection, or "second chance" mechanics.
+---
 
-> [!NOTE]
-> **Resource Context**: This module provides expert patterns for **Player Mortality**. Accessed via Godot Master.
+# Revival & Resurrection Mechanics
 
-## Architectural Thinking: The "Second Chance" Pipeline
+## Overview
+This skill provides a robust framework for handling player mortality and return. It moves beyond simple "Game Over" screens to integrated risk/reward systems like those found in *Sekiro*, *Hades*, or *Dark Souls*.
 
-Player death is not an error—it is a **Gameplay Event**. A Master implementation uses death as a mechanic to balance tension, risk, and narrative consequence.
+## NEVER Do (Expert Revival Rules)
 
-### Key Concepts
-- **Revival Manager**: Intercepts the "Death" moment and triggers state transitions (Respawn vs Game Over).
-- **Corpse Runs**: Adding spatial value to death by dropping resources that must be retrieved (Risk).
-- **Consequence Tracking**: Long-term meta-adjustment based on player failure (Dragonrot, Difficulty shifts).
+### Lifecycle & State
+- **NEVER respawn the player with existing velocity** — Always zero out `velocity` and `angular_velocity` in `revival_state_reset_guard.gd` or the player will fly into a wall upon respawning.
+- **NEVER trust the nearest checkpoint by distance** — Always use a 'Progress Index' (`revival_checkpoint_validator.gd`). Players in non-linear games may wander back to the start area; don't downgrade their respawn point.
+- **NEVER skip 'Invincibility Frames' (I-frames)** — Respawning inside a hazard or near an enemy without a 2s invincibility buffer leads to "Death Loops" and player frustration.
 
-## Expert Code Patterns
+### Persistence & Data
+- **NEVER save checkpoints solely in RAM** — If the game crashes, the player loses progress. Use `revival_checkpoint_persistence.gd` to write to `user://` immediately.
+- **NEVER hardcode checkpoint coordinates** — Use `Marker3D` or `Area3D` nodes in the scene. Hardcoded coords break as soon as level geometry changes.
+- **NEVER delete the player node on death** — `queue_free()`ing the player breaks UI refs and references from enemies. Disable processing, hide the mesh, and 'Revive' the existing instance instead.
 
-### 1. Duck-Type Safe Instantiation
-When spawning graves/corpses, NEVER assume the scene has the correct script. Always validate methods before execution.
+### UX & Pacing
+- **NEVER respawn instantly** — An instant snap is disorienting. Always use a 1-2s delay with a screen fade or death animation to allow the player to process the failure.
+- **NEVER reset the entire world on player death** — In modern design, opened doors and collected unique items should stay persisted. Use a bitmask in the checkpoint resource to track 'World Progress'.
 
-```gdscript
-# mechanic_revival_corpse_run_dropper.gd
-var instance = grave_scene.instantiate()
-if not instance.has_method("setup"):
-    push_error("Grave scene missing required 'setup' protocol")
-    return
-instance.setup(amount)
-```
+---
 
-### 2. State-Driven Revival
-Manage revival charges as a finite resource that requires specific gameplay actions (recharging at save points or via kills).
+## Available Scripts
 
-```gdscript
-# mechanic_revival_revival_manager.gd
-func attempt_revive() -> bool:
-    if current_charges > 0:
-        consume_charge()
-        return true
-    return false
-```
+> **MANDATORY**: Read the appropriate script before implementing the corresponding pattern.
 
-## Master Decision Matrix: Death Consequence
+### [revival_global_manager.gd](../scripts/mechanic_revival_revival_global_manager.gd)
+Expert singleton for managing the global respawn loop and death transitions.
 
-| Model | Tension | Best For |
-| :--- | :--- | :--- |
-| **Soul-like** | Very High | Recovery-focused loops (Corpse Run). |
-| **Rogue-lite** | High | Pure restart with meta-progression. |
-| **Arcade** | Medium | Simple life counter (Lives). |
+### [revival_checkpoint_persistence.gd](../scripts/mechanic_revival_revival_checkpoint_persistence.gd)
+Resource-based system for saving last checkpoint and world state to disk.
 
-## Veteran-Only Gotchas (Never List)
+### [revival_health_restitution.gd](../scripts/mechanic_revival_revival_health_restitution.gd)
+Professional I-frame and health replenishment logic for post-revive stability.
 
-- **NEVER Assume Scene Types**: `PackedScene.instantiate()` returns a generic `Node`. ALWAYS check `if instance.has_method("setup")` before calling methods to prevent runtime crashes.
-- **Don't punish without feedback**: A difficulty spike is frustrating if the player doesn't know *why* it happened. Always pair consequence with UI/VFX.
-- **The "Walk of Shame"**: Corpse runs add tension. The player fears losing *progress*, not just time. Ensure the path back is challenging but fair.
+### [revival_soul_grave.gd](../scripts/mechanic_revival_revival_soul_grave.gd)
+Expert 'Soul Retrieval' mechanic for spawning graves at death coordinates.
 
-## Registry
+### [revival_checkpoint_validator.gd](../scripts/mechanic_revival_revival_checkpoint_validator.gd)
+Progress-aware validator that prevents backtracking from overwriting newer checkpoints.
 
-- **Expert Manager**: [revival_manager.gd](../scripts/mechanic_revival_revival_manager.gd)
-- **Expert Component**: [corpse_run_dropper.gd](../scripts/mechanic_revival_corpse_run_dropper.gd)
-- **Expert Tracker**: [consequence_tracker.gd](../scripts/mechanic_revival_consequence_tracker.gd)
+### [revival_death_timer.gd](../scripts/mechanic_revival_revival_death_timer.gd)
+Professional respawn delay manager with UI and animation hooks.
+
+### [revival_ghost_mode.gd](../scripts/mechanic_revival_revival_ghost_mode.gd)
+Expert 'Spirit World' transition logic involving collision layer swapping.
+
+### [revival_state_reset_guard.gd](../scripts/mechanic_revival_revival_state_reset_guard.gd)
+Essential utility for purging velocity and state locks upon player respawn.
+
+### [revival_checkpoint_visuals.gd](../scripts/mechanic_revival_revival_checkpoint_visuals.gd)
+Material-swapping logic for providing clear 'Active' feedback to players.
+
+### [revival_auto_save_manager.gd](../scripts/mechanic_revival_revival_auto_save_manager.gd)
+Automatic save-trigger logic for ensuring checkpoint persistence.
+
+---
+
+## Reference
+- Master Skill: [godot-master](../SKILL.md)

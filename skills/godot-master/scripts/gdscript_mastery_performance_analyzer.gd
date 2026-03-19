@@ -1,4 +1,4 @@
-# godot-master/scripts/gdscript_mastery_performance_analyzer.gd
+# skills/gdscript-mastery/scripts/performance_analyzer.gd
 @tool
 extends EditorScript
 

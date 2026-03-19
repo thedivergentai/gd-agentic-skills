@@ -7,22 +7,50 @@ description: "Expert blueprint for RichTextLabel with BBCode formatting (bold, i
 
 BBCode tags, meta clickable links, and RichTextEffect shaders define formatted text systems.
 
-## Available Scripts
+### [rich_text_rainbow_effect.gd](scripts/rich_text_rainbow_effect.gd)
+Expert custom `RichTextEffect` that rotates colors over time.
 
-### [custom_bbcode_effect.gd](scripts/custom_bbcode_effect.gd)
-Expert custom RichTextEffect examples (wave, rainbow, shake, typewriter).
+### [rich_text_glitch_effect.gd](scripts/rich_text_glitch_effect.gd)
+Professional horror-style glitch effects with spatial jitter and alpha flickering.
 
-### [rich_text_animator.gd](scripts/rich_text_animator.gd)
-Typewriter effect for BBCode text with support for custom event tags and pausing.
+### [rich_text_typewriter_controller.gd](scripts/rich_text_typewriter_controller.gd)
+Dialogue manager that parses sequential event tags (`[pause]`, `[speed]`) during animations.
 
-## NEVER Do in Rich Text
+### [rich_text_meta_dispatch.gd](scripts/rich_text_meta_dispatch.gd)
+Advanced handling for multi-prefix URLs in meta-clicks (items, quests, NPCs).
 
-- **NEVER forget bbcode_enabled** — `text = "[b]bold[/b]"` without `bbcode_enabled = true`? Literal brackets shown. ALWAYS enable BBCode first.
-- **NEVER use [img] without res:// path** — `[img]icon.png[/img]` with relative path? Image not found. Use full resource path: `[img]res://assets/icon.png[/img]`.
-- **NEVER skip newline preservation** — `text = "Line1\nLine2"` renders as "Line1Line2"? BBCode eats newlines. Use `[br]` OR `\n` with proper escaping.
-- **NEVER use [url] without meta_clicked** — `[url=shop]Buy[/url]` without signal connection? Click does nothing. MUST connect `meta_clicked` signal.
-- **NEVER nest same tag types** — `[b][b]text[/b][/b]`? Undefined behavior. Nest different tags: `[b][i]text[/i][/b]`.
-- **NEVER use [color] with invalid formats** — `[color=redd]text[/color]` typo? Falls back to white OR black. Use named colors OR hex: `[color=#FF0000]` for validation.
+### [rich_text_image_scaler.gd](scripts/rich_text_image_scaler.gd)
+Utility to dynamically scale `[img]` tags to match runtime font sizes.
+
+### [rich_text_hover_reactive.gd](scripts/rich_text_hover_reactive.gd)
+Signals and logic for making text spans reactive to mouse hover (SFX/Cursors).
+
+### [rich_text_bbcode_sanitizer.gd](scripts/rich_text_bbcode_sanitizer.gd)
+Security utility to prevent BBCode injection in public chat interfaces.
+
+### [rich_text_gradient_generator.gd](scripts/rich_text_gradient_generator.gd)
+Generator for multi-stop linear gradients using granular character-level tagging.
+
+### [rich_text_auto_scroller.gd](scripts/rich_text_auto_scroller.gd)
+Smooth vertical auto-scrolling logic for credits, news feeds, and logs.
+
+### [rich_text_syntax_highlighter.gd](scripts/rich_text_syntax_highlighter.gd)
+Simple regex-based syntax highlighting pattern for code blocks in UI.
+
+## NEVER Do (Expert UI Rules)
+
+### Formatting & Rendering
+- **NEVER use complex BBCode in tight loops** — Parsing a 10,000 character string with 500 tags every frame will tank performance. Cache your formatted strings.
+- **NEVER forget to register Custom Effects** — Writing the script isn't enough. You MUST add the instance to `RichTextLabel.custom_effects` list via Inspector or `install_effect()`.
+- **NEVER use absolute pixel sizes in [img]** — `[img width=128]` fails on higher resolutions. Use `rich_text_image_scaler.gd` to sync with line height.
+
+### Click & Hover UX
+- **NEVER use [url] without visual feedback** — If the text doesn't change color on hover or the cursor doesn't change, players won't know it's clickable. Use `rich_text_hover_reactive.gd`.
+- **NEVER perform heavy logic inside `meta_clicked`** — This signal is on the Main Thread. Use it to emit a command and handle processing asynchronously if needed.
+
+### Dialogue & Narrative
+- **NEVER use `visible_ratio` for pausing typewriter** — `visible_ratio` is unreliable for per-character logic. Use `visible_characters` and explicit character indexing (`rich_text_typewriter_controller.gd`).
+- **NEVER allow unfiltered user input in Chat Labels** — A user could type `[img]huge_image_path[/img]` or `[color=transparent]` to break your UI. ALWAYS use `rich_text_bbcode_sanitizer.gd`.
 
 ---
 

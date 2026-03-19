@@ -1,4 +1,4 @@
-# godot-master/scripts/platform_web_web_bridge_sync.gd
+# skills/platform-web/scripts/web_bridge_sync.gd
 extends Node
 
 ## Web Bridge Sync Expert Pattern

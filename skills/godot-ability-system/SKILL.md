@@ -14,6 +14,9 @@ Expert guidance for building flexible, extensible ability systems.
 - **NEVER hardcode ability effects in manager code** — Use the Strategy pattern. Each ability is a Resource with execute() method, not a giant switch statement.
 - **NEVER allow ability use during animation lock** — Check `is_casting` or `animation_playing` before allowing new casts. Interrupting animations breaks state machines.
 - **NEVER save cooldown state without time normalization** — Save "cooldown_end_time" (OS.get_unix_time() + remaining), not "remaining_time". Prevents exploits (change system clock, reload game).
+- **NEVER use Singletons (Autoloads) for combat managers** — Centralizing combat state in a global object makes tracking bugs difficult and breaks encapsulation. Keep abilities and stats scoped to the scenes that actually use them.
+- **NEVER use Object Pooling with GDScript** — GDScript uses reference counting memory management, so you generally do not need to pool instantiated abilities or projectiles. Simply instantiate and queue_free().
+- **NEVER rely on deep inheritance trees** — Avoid having a BaseAbility -> MagicAbility -> FireAbility inheritance hell. Use node composition instead.
 
 ---
 
@@ -26,6 +29,9 @@ Ability orchestration with cooldown registry, can_use checks, and visual cooldow
 
 ### [ability_resource.gd](scripts/ability_resource.gd)
 Scriptable ability resource base class with metadata, stats, and effects array. Virtual execute() method for inheritance (ProjectileAbility, BuffAbility).
+
+### [buff_stat.gd](scripts/buff_stat.gd)
+Resource-Driven Buff System setup. Extends Resource and creates highly modular, drag-and-drop ability data.
 
 ---
 
@@ -483,6 +489,20 @@ func _on_animation_player_animation_finished(anim_name: String) -> void:
         ability_manager.is_casting = false
 ```
 
+
+
+---
+
+## Expert Techniques & Optimizations
+
+### 1. Dependency Injection for Loose Coupling
+Design your ability scenes so they have no hardcoded dependencies on the player context (e.g., getting parent nodes to reduce health). Instead, the parent context should inject itself or wire the signals. 
+
+### 2. Duck Typing for Hit Detection
+Do not enforce strict class checks. Rely on duck-typing: `if collision.get_collider().has_method("hit"): collision.get_collider().hit()`
+
+### 3. Group Broadcasting for AoE
+For Area-of-Effect abilities, assign entities to groups. Process damage efficiently by calling `get_tree().call_group("enemies", "apply_damage", 50)` instead of looping manually.
 
 ## Reference
 - Master Skill: [godot-master](../godot-master/SKILL.md)

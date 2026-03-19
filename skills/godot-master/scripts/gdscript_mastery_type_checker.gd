@@ -1,4 +1,4 @@
-# godot-master/scripts/gdscript_mastery_type_checker.gd
+# skills/gdscript-mastery/scripts/type_checker.gd
 @tool
 extends EditorScript
 

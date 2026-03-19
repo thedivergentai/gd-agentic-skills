@@ -76,11 +76,21 @@ Components should process the data given to them.
 - **Bad:** `NetworkComponent` finds the username text field itself.
 - **Good:** `NetworkComponent` has a function `login(username, password)`. The Orchestrator passes the text field data into that function.
 
-## Anti-Patterns (NEVER DO THIS)
+## NEVER Do (Expert Architectural Rules)
 
-1.  **The Monolith:** A root script that handles UI events, HTTP requests, AND business logic.
-2.  **The Chain:** Passing data through 4 layers of nodes to get to the destination. (Use Signals).
-3.  **Hard Dependency:** `InputComponent` checking `get_parent().health`. (The component must work on a rock; rocks don't have health).
+### Hierarchy & Dependencies
+- **NEVER use get_parent() to fetch data** — Components must be blind. If they need data, it must be injected via `@export` or passed into a function call.
+- **NEVER talk sideways** — `ComponentA` must never call functions on `ComponentB`. High-coupling makes refactoring impossible. Always signal up to the Orchestrator.
+- **NEVER use brittle Node Paths** — `get_node("Child/Subchild/Node")` breaks when you move a single node. Use `@export` and the Inspector.
+
+### Logic & State
+- **NEVER put business logic in the Orchestrator** — The Orchestrator should only have `_on_signal` methods that delegate to other components.
+- **NEVER store global state in individual components** — Use a shared `Context` Resource or the Global Autoload for cross-scene state.
+- **NEVER assume a component's parent is of a specific type** — If a `HealthComponent` requires its parent to be a `CharacterBody2D`, it fails the "Rock Test."
+
+### Polish & Orchestration
+- **NEVER skip signal cleanup** — Connecting signals dynamically without disconnecting can lead to memory leaks or multiple execution bugs.
+- **NEVER let Logic know about Visuals** — A `CombatComponent` should never call `AnimationPlayer.play()`. It emits `attack_performed`, and a `Syncer` or `Orchestrator` handles the visual response.
 
 ## Code Structure Example (General App)
 
@@ -123,5 +133,34 @@ func _on_copy_success():
 ```
 
 
-## Reference
-- Master Skill: [godot-master](../godot-master/SKILL.md)
+## Expert Composition Components
+
+### [comp_orchestrator_base.gd](scripts/comp_orchestrator_base.gd)
+Central hub for signal delegation and component wiring. Logic-free manager.
+
+### [comp_base_component.gd](scripts/comp_base_component.gd)
+Foundational component with type-safe signals and auto-group registration.
+
+### [comp_health_component.gd](scripts/comp_health_component.gd)
+Context-agnostic health/damage logic that works on players, enemies, or barrels.
+
+### [comp_hitbox_component.gd](scripts/comp_hitbox_component.gd)
+Area-based collision interface that bridges physical hits to the HealthComponent.
+
+### [comp_ability_sequencer.gd](scripts/comp_ability_sequencer.gd)
+Dynamic ability manager that executes child 'Ability' nodes via unified interfaces.
+
+### [comp_data_driven_config.gd](scripts/comp_data_driven_config.gd)
+Late-binding configuration loader for hot-swapping behavior via Resources (`.tres`).
+
+### [comp_dependency_injector.gd](scripts/comp_dependency_injector.gd)
+Expert injection pattern for passing refs to dynamic components without `get_node`.
+
+### [comp_persistence_component.gd](scripts/comp_persistence_component.gd)
+Automated save/load registration for modular node persistence.
+
+### [comp_logic_visual_syncer.gd](scripts/comp_logic_visual_syncer.gd)
+Decoupling agent that syncs gameplay logic state to visual animations/VFX.
+
+### [comp_rock_test_boilerplate.gd](scripts/comp_rock_test_boilerplate.gd)
+Architectural validator to ensure components are truly decoupled.

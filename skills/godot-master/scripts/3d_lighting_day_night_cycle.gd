@@ -1,4 +1,4 @@
-# godot-master/scripts/3d_lighting_day_night_cycle.gd
+# skills/3d-lighting/scripts/day_night_cycle.gd
 extends DirectionalLight3D
 
 ## Day/Night Cycle (Expert Pattern)

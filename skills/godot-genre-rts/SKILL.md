@@ -7,21 +7,52 @@ description: "Expert blueprint for real-time strategy games including unit selec
 
 Expert blueprint for RTS games balancing strategy, micromanagement, and performance.
 
-## NEVER Do
+## NEVER Do (Expert Anti-Patterns)
 
-- **NEVER pathfinding jitter** — Units pushing each other endlessly. Enable RVO avoidance (NavigationAgent2D.avoidance_enabled with radius).
-- **NEVER excessive micromanagement** — Automate mundane tasks (auto-attack nearby enemies, auto-resume gathering after drop-off).
-- **NEVER _process on every unit** — For 100+ units, use central UnitManager iterator. Saves massive function call overhead.
-- **NEVER skip command queuing** — Players expect Shift+Click to chain commands. Store Array[Command] and process sequentially.
-- **NEVER forget fog of war** — Unvisited areas should be hidden. Use SubViewport + shader mask for performance.
+### Unit Logic & Pathfinding
+- NEVER allow pathfinding "Jitter" when moving group units; strictly **stagger path queries** and enable **RVO Avoidance** only when units are in motion to save CPU cycles.
+- NEVER update RVO avoidance every frame for all units; strictly use **Avoidance Threading** (Project Settings) and replace static units with `NavigationObstacle`.
+- NEVER let units get stuck in infinite path loops; strictly implement a **timeout and IDLE state** if a destination is unreachable.
+- NEVER use `_process()` on hundreds of individual units; strictly use a central **UnitManager** or `_physics_process` only when required.
+- NEVER calculate unit visibility manually for Fog of War; strictly use a **Shader-based mask** (SubViewport + ColorRect) for GPU efficiency.
+- NEVER process unit AI or pathfinding synchronously for mass groups; strictly offload to **`WorkerThreadPool`** and stagger path updates.
+- NEVER use high-poly visual meshes as NavMesh source geometry; strictly use simplified **Collision Shapes** for baking.
+
+### Interaction & Commands
+- NEVER forget **Command Queuing** (Shift-Click); strictly store an `Array[Command]` and implement a "Force Move/Attack" bypass.
+- NEVER create excessive micromanagement; strictly automate low-level tasks like **auto-aggro range** and auto-return for resource gathering.
+- NEVER use exact floating-point equality (==) for grid or timers; strictly use `is_equal_approx()` for deterministic triggers.
+- NEVER rely on the visual SceneTree for selection data; strictly maintain a **Typed Selection Set** of `RefCounted` or `Resource` objects for deterministic serialization and netcode.
+- NEVER forget **Command Queuing**; strictly implement a **Command Pattern** using serializable `Dictionary` or `JSON` states for save-game and multiplayer playback.
+- NEVER forget to **duplicate_deep()** globally shared Resources; otherwise, modifying one unit's data (e.g., stats) affects all.
+
+### Performance & Simulation
+- NEVER render thousands of units using separate `MeshInstance3D` nodes; strictly use **`MultiMeshInstance`** with **`INSTANCE_CUSTOM`** data to drive unique GPU-side state animations (walking/attacking/color).
+- NEVER calculate transforms for mass units on the main thread; strictly use **`WorkerThreadPool`** to push buffers to `RenderingServer.multimesh_set_buffer()`.
+- NEVER update every unit's navigation path in the same frame; strictly use random timers to **stagger updates**.
+- NEVER use standard Strings for high-frequency AI state identifiers; strictly use **StringName** (&"harvesting") for pointer-speed comparisons.
+- NEVER allow simulation coordinates to exceed 8192 units without float-precision management; strictly use world-origin shifts.
+- NEVER use `CSGShape3D` for building placement ghosts; strictly use optimized static `ArrayMesh` geometry.
+
 ---
 
-## Available Scripts
+## 🛠 Expert Components (scripts/)
 
-> **MANDATORY**: Read the appropriate script before implementing the corresponding pattern.
+### Original Expert Patterns
+- [selection_manager_marquee_2d.gd](scripts/selection_manager_marquee_2d.gd) - Professional-grade unit selection system with drag-box, unit filtering, and shift-add support.
 
-### [rts_selection_manager.gd](scripts/rts_selection_manager.gd)
-Mouse-box unit selection with shift-add. Camera projection for 3D units, command issuing with queue support (shift+right click).
+### Modular Components
+- [rts_army_manager.gd](scripts/rts_army_manager.gd) - Multithreaded AI update system for managing mass units on background cores.
+- [selection_manager_raycast_3d.gd](scripts/selection_manager_raycast_3d.gd) - Optimized 3D selection using direct PhysicsServer raycasting.
+- [rts_path_query_pool.gd](scripts/rts_path_query_pool.gd) - Pooled Navigation query system to prevent memory allocations.
+- [navigation_mask_helper.gd](scripts/navigation_mask_helper.gd) - Bitmask utilities for dynamic navigation layers and avoidance.
+- [rts_targeting_logic.gd](scripts/rts_targeting_logic.gd) - Distance-squared performance optimization for mass enemy filtering.
+- [rts_group_commander.gd](scripts/rts_group_commander.gd) - SceneTree group broadcasting pattern for decoupled mass units.
+- [rts_unit_stat_duplicator.gd](scripts/rts_unit_stat_duplicator.gd) - Pattern for deep duplicating unit data for isolation.
+- [rts_unit.gd](scripts/rts_unit.gd) - Comprehensive unit controller with state management and navigation integration.
+- [building_grid_astar.gd](scripts/building_grid_astar.gd) - High-speed grid-based pathfinding for building placement.
+- [fog_of_war_tile_mask.gd](scripts/fog_of_war_tile_mask.gd) - Efficient Fog of War clearing using the TileMapLayer API and Vector2i.
+- [rendering_ghost_spawner.gd](scripts/rendering_ghost_spawner.gd) - Optimized placement ghosts using RenderingServer RIDs.
 
 ---
 
@@ -120,6 +151,12 @@ func _physics_process(delta):
         var direction = global_position.direction_to(next_pos)
         velocity = direction * speed
         move_and_slide()
+
+### 3. Group Movement & Flocking
+Instead of moving all units directly to a single point (clumping), use **Relative Offsets**:
+- Calculate the **Center of Mass** for the selected group.
+- On click, calculate each unit's **Relative Offset** from the center.
+- Issue `target_position + unit_offset` to each unit to maintain formation.
 ```
 
 ### 3. Fog of War

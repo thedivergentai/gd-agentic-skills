@@ -1,4 +1,4 @@
-# godot-master/scripts/ability_system_ability_resource.gd
+# skills/ability-system/code/ability_resource.gd
 extends Resource
 class_name AbilityResource
 

@@ -1,4 +1,4 @@
-# godot-master/scripts/2d_physics_physics_query_cache.gd
+# skills/2d-physics/scripts/physics_query_cache.gd
 extends Node2D
 
 ## Physics Query Cache (Expert Pattern)

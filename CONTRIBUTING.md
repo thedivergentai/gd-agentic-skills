@@ -81,4 +81,4 @@ If you include scripts, they must be:
 
 ## ⚖️ License
 
-By contributing, you agree that your code will be licensed under the project's **MIT License**.
+By contributing, you agree that your code will be licensed under the project's **GNU Lesser General Public License v3.0 (LGPLv3)**.

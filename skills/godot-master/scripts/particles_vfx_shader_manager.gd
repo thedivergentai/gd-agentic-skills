@@ -1,4 +1,4 @@
-# godot-master/scripts/particles_vfx_shader_manager.gd
+# skills/particles/code/vfx_shader_manager.gd
 extends Node
 
 ## VFX Shader Manager Expert Pattern

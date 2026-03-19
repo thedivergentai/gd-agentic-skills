@@ -1,4 +1,4 @@
-# godot-master/scripts/export_builds_version_manager.gd
+# skills/export-builds/scripts/version_manager.gd
 extends Node
 
 ## Version Manager Expert Pattern

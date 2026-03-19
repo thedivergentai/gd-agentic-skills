@@ -7,21 +7,50 @@ description: "Expert patterns for game economies including currency management (
 
 Expert guidance for designing balanced game economies with currency, shops, and loot.
 
-## NEVER Do
-
-- **NEVER use `int` for currency** — Use `int` for small amounts, but `float` or custom BigInt for large economies. Integer overflow destroys economies (max 2.1B).
-- **NEVER forget buy/sell price spread** — Selling for same price as buying creates infinite money loop. Sell price should be 30-50% of buy price.
-- **NEVER skip currency sinks** — Without sinks (repairs, taxes, consumables), economy inflates. Players hoard unlimited wealth.
-- **NEVER use client-side currency validation** — Client calculates "I have 1000 gold". Server validates all transactions or exploits occur.
-- **NEVER hardcode loot drop chances** — Use Resources or JSON for loot tables. Designers need iteration without code changes.
----
-
 ## Available Scripts
 
-> **MANDATORY**: Read the appropriate script before implementing the corresponding pattern.
+### [currency_resource.gd](scripts/currency_resource.gd)
+Specialized data container for defining distinct denominations (Gold, Gems, XP) with UI metadata.
 
-### [loot_table_weighted.gd](scripts/loot_table_weighted.gd)
-Weighted loot table using cumulative probability. Resource-based design allows designer iteration via inspector without code changes.
+### [wallet_manager_singleton.gd](scripts/wallet_manager_singleton.gd)
+Centralized AutoLoad orchestrator for managing balances and processing secure transactions.
+
+### [shop_item_data.gd](scripts/shop_item_data.gd)
+Resource-based definition for purchasables, including pricing, currency types, and stock limits.
+
+### [shop_system_logic.gd](scripts/shop_system_logic.gd)
+Decoupled logic for handling buy/sell exchanges between the Wallet and Inventory systems.
+
+### [dynamic_price_modifier.gd](scripts/dynamic_price_modifier.gd)
+Injection pattern for applying temporary discounts or markups based on world state (e.g. Sales).
+
+### [currency_label_sync.gd](scripts/currency_label_sync.gd)
+Reactive UI hook for automatically updating currency displays when balances change.
+
+### [loot_drop_economy_bridge.gd](scripts/loot_drop_economy_bridge.gd)
+Bridge node for capturing loot events and adding funds to the player's wallet.
+
+### [economy_persistence_handler.gd](scripts/economy_persistence_handler.gd)
+Expert logic for serializing financial states into secure, loadable dictionaries.
+
+### [currency_pickup_effect.gd](scripts/currency_pickup_effect.gd)
+Visual feedback controller that triggers particles or animations upon financial gain.
+
+### [trade_contract_resource.gd](scripts/trade_contract_resource.gd)
+Advanced barter system definition for multi-item "Quid Pro Quo" transactions.
+
+## NEVER Do in Economy Systems
+
+- **NEVER use `int` for large-scale premium economies** — Standard 32-bit integers cap at 2.1 billion. For massive quantities, use `float` or a custom `BigInt` structure [12].
+- **NEVER forget to implement a Buy/Sell price spread** — Allowing players to sell items for the same price they bought them creates infinite money exploits [13].
+- **NEVER skip "Currency Sinks"** — Without mandatory costs (repairs, taxes, consumables), the game economy will suffer from hyper-inflation [14].
+- **NEVER perform currency validation only on the client** — In multiplayer or persistent games, the server MUST be the source of truth for all financial transactions [15].
+- **NEVER hardcode loot drop percentages inside scripts** — Changing drop rates should not require a recompile. Use Resources or outside data files for easy balancing [16].
+- **NEVER allow negative balances via underflow** — Always check `if current >= amount` BEFORE subtracting. Negative gold can break logic and save files.
+- **NEVER modify the wallet balance directly from the UI** — The UI should only request a transaction. The `WalletManager` should decide if it's valid and update the state.
+- **NEVER use floating point math for exact currency counts** — `0.1 + 0.2` might equal `0.30000000000000004`, leading to discrepancies. Use `int` for cents/smallest units.
+- **NEVER ignore "Transaction Logs" in serious RPGs** — If money disappears, you need a history of events to debug whether it was a bug or a legitimate game event.
+- **NEVER give rewards without checking "Max Limit"** — If a player is capped at 999,999 gold, adding 1,000 should result in 999,999, not a wrapped negative number.
 
 ---
 

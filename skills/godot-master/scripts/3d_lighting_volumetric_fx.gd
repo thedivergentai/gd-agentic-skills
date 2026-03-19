@@ -1,4 +1,4 @@
-# godot-master/scripts/3d_lighting_volumetric_fx.gd
+# skills/3d-lighting/code/volumetric_fx.gd
 extends Node3D
 
 ## Volumetric Lighting (FogVolume) Expert Pattern

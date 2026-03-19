@@ -7,26 +7,38 @@ description: "Expert blueprint for save/load systems using JSON/binary serializa
 
 JSON serialization, version migration, and PERSIST group patterns define robust data persistence.
 
+## NEVER Do
+
+- **NEVER save without a version field** — When you update your game's data structure, old saves will break. Always include a `"version": "1.0.0"` field and implement migration logic.
+- **NEVER use absolute OS paths** — Hardcoding `C:/Users/...` will break on every other machine. Always use the `user://` protocol, which Godot maps to the correct OS-specific app data folder.
+- **NEVER attempt to save Node references directly** — Nodes are objects, not raw data. Extract the necessary primitive data (positions, health, levels) into a `Dictionary` or `Resource` instead.
+- **NEVER forget to close FileAccess handles** — Leaving a file open can lead to handle leaks and save-file corruption. In Godot 4, files auto-close when the variable goes out of scope, but explicit `close()` is safer for long-running logic.
+- **NEVER use JSON for very large binary data** — Storing 10MB of texture data as Base64 in JSON is slow and bloats file size. Use binary `store_var()` or separate dedicated asset files.
+- **NEVER trust loaded data without validation** — Users can edit save files. Always use `data.get("field", default_value)` and validate that numbers are within expected ranges to prevent crashes.
+- **NEVER trigger a save during high-frequency physics or animation updates** — A crash mid-write will corrupt the file. Save only on explicit game events like entering a menu, finishing a level, or at a checkpoint.
+- **NEVER modify a save Dictionary while iterating over its keys** — Calling `erase()` or `add()` inside a loop over the same dictionary causes iteration errors. Use `data.duplicate()` to iterate safely.
+- **NEVER store raw passwords or sensitive credentials in unencrypted JSON** — If you have sensitive data, use `FileAccess.open_encrypted_with_pass()` to secure it.
+- **NEVER use ResourceLoader.load() for massive scenes on the main thread** — It causes a visible freeze. Use `ResourceLoader.load_threaded_request()` to load levels in the background.
+- **NEVER rely on get_instance_id() for cross-session identification** — These IDs are assigned at runtime and change every time the game restarts. Generate your own persistent `String` UUIDs for game objects.
+- **NEVER forget to call duplicate(true) on a loaded Resource stats block** — If multiple enemies load the same "goblin_stats.tres", they will all share the same health pool unless duplicated.
+- **NEVER use the "allow_objects" flag in store_var/get_var for untrusted data** — Setting this to `true` allows full object decoding, which is a major security risk for saves downloaded from the web.
+- **NEVER use JSON for data requiring strict type preservation** — JSON converts `Vector3` to a string or dictionary. For strict data types, use `var_to_bytes()` or a binary format.
+- **NEVER leave internal metadata (set_meta) in persistent dictionaries** — This unnecessarily inflates save file size. Clean your dictionaries before serialization.
+
+---
+
 ## Available Scripts
+
+> **MANDATORY**: Read the appropriate script before implementing the corresponding pattern.
+
+### [save_load_patterns.gd](scripts/save_load_patterns.gd)
+10 Expert patterns: PERSIST group serialization, binary snapshots, JSON safe-parsing, and threaded loading.
 
 ### [save_migration_manager.gd](scripts/save_migration_manager.gd)
 Expert save file versioning with automatic migration between schema versions.
 
 ### [save_system_encryption.gd](scripts/save_system_encryption.gd)
 AES-256 encrypted saves with compression to prevent casual save editing.
-
-> **MANDATORY - For Production**: Read save_migration_manager.gd before shipping to handle schema changes.
-
-
-## NEVER Do in Save Systems
-
-- **NEVER save without version field** — Game updates, old saves break. MUST include `"version": "1.0.0"` + migration logic for schema changes.
-- **NEVER use absolute paths** — `FileAccess.open("C:/Users/...")` breaks on other machines. Use `user://` protocol (maps to OS-specific app data folder).
-- **NEVER save Node references** — `save_data["player"] = $Player`? Nodes aren't serializable. Extract data via `player.save_data()` method instead.
-- **NEVER forget to close FileAccess** — `var file = FileAccess.open(...)` without `.close()`? File handle leak = save corruption. Use `close()` OR GDScript auto-close on scope exit.
-- **NEVER use JSON for large binary data** — 10MB texture as base64 in JSON? Massive file size + slow parse. Use binary format (`store_var`) OR separate asset files.
-- **NEVER trust loaded data** — Save file edited by user? `data.get("health", 100)` prevents crash if field missing. VALIDATE all loaded values.
-- **NEVER save during physics/animation frames** — `_physics_process` trigger save? File corruption if game crashes mid-write. Save ONLY on explicit events (level complete, menu).
 
 ---
 

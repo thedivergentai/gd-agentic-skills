@@ -1,58 +1,80 @@
-# Mechanic Secrets: Hidden Interactions & Cheat Codes
+---
+name: godot-mechanic-secrets
+description: Use when implementing cheat codes, hidden interactions, or unlockable content based on player input/behavior.
+---
 
-> [!NOTE]
-> **Resource Context**: This module provides expert patterns for **Secrets**. Accessed via Godot Master.
+# Secrets & Easter Eggs (Mechanics)
 
-## Architectural Thinking: The "Secret" Economy
+## Overview
+This skill provides reusable components for hiding content behind specific player actions (e.g., Konami code, repetitive interaction) and managing the persistence of these discoveries.
 
-At a Master level, secrets are not just "Easter Eggs"—they are a layer of **Intentional Obfuscation** used for:
-1.  **Direct Debugging**: Hidden menus bypass complex UI flows for developers.
-2.  **Viral Engagement**: "Konami Code" style discovery as community meta-game.
-3.  **Progression Bypassing**: Allowing legacy players to skip content.
+## Core Components
 
-## Expert Code Patterns
+### [secret_meta_persistence.gd](../scripts/mechanic_secrets_secret_meta_persistence.gd)
+Expert logic for saving global unlocks and discovery flags across all save profiles.
 
-### 1. Robust Input Sequence Buffering
-Master-level sequence implementation avoids `Input.is_action_just_pressed()` polling in `_process`.
+### [secret_visibility_detector.gd](../scripts/mechanic_secrets_secret_visibility_detector.gd)
+View-dependent hidden wall detection using optimized Dot Product calculations.
+
+### [secret_sequence_combo_matcher.gd](../scripts/mechanic_secrets_secret_sequence_combo_matcher.gd)
+Professional time-sensitive input buffer for detecting complex cheat combos and sequences.
+
+### [secret_interaction_spam_tracker.gd](../scripts/mechanic_secrets_secret_interaction_spam_tracker.gd)
+Logic for tracking repetitive player actions to trigger curiosity-based Easter Eggs.
+
+### [secret_audio_environment_occluder.gd](../scripts/mechanic_secrets_secret_audio_environment_occluder.gd)
+Spatial logic for dynamically adjusting AudioBus effects in sealed or hidden areas.
+
+### [secret_progress_threshold_unlocker.gd](../scripts/mechanic_secrets_secret_progress_threshold_unlocker.gd)
+Percentage-based unlocker for meta-content and 'True Ending' triggers.
+
+### [secret_random_encounter_spawner.gd](../scripts/mechanic_secrets_secret_random_encounter_spawner.gd)
+Weighted random system for rarest-tier entities and secret vendor encounters.
+
+### [secret_lockout_cheat_guard.gd](../scripts/mechanic_secrets_secret_lockout_cheat_guard.gd)
+Anti-brute-force lockout manager to protect secret integrity.
+
+### [secret_vfx_discovery_glimmer.gd](../scripts/mechanic_secrets_secret_vfx_discovery_glimmer.gd)
+Subtle procedural visual cues for hinting at hidden interactables.
+
+### [secret_konami_legacy_code.gd](../scripts/mechanic_secrets_secret_konami_legacy_code.gd)
+Specialized implementation of the iconic Konami code using the buffer matcher.
+
+## Usage Example (Cheat Code)
 
 ```gdscript
-# mechanic_secrets_input_sequence_watcher.gd
-# Use event-based buffering with a strict timeout to ensure clean input intent.
-func _input(event: InputEvent) -> void:
-    if not event.is_pressed() or event.is_echo(): return
-    
-    _timer.start(timeout) # Keep combo alive
-    _buffer.append(matched_action)
-    
-    if _buffer == target:
-        sequence_matched.emit()
+# In your Game Manager or Player Controller
+@onready var cheat_watcher = $InputSequenceWatcher
+
+func _ready():
+    # Define UP, UP, DOWN, DOWN...
+    cheat_watcher.sequence = [
+        "ui_up", "ui_up", "ui_down", "ui_down"
+    ]
+    cheat_watcher.sequence_matched.connect(_on_cheat_unlocked)
+
+func _on_cheat_unlocked():
+    print("God Mode Enabled!")
+    SecretPersistence.unlock_secret("god_mode")
 ```
 
-### 2. Isolated Secret Persistence
-NEVER pollute `settings.cfg` or `save_game.dat` with secret flags. Keep a dedicated configuration for "Meta-Discovery".
+## NEVER Do (Expert Secret Rules)
 
-```gdscript
-# mechanic_secrets_secret_persistence_handler.gd
-var config = ConfigFile.new()
-const PATH = "user://secrets.cfg" # Keep separate from volatile save data
-```
+### Discovery & Triggers
+- **NEVER hardcode input checks in `_process`** — Frame-dependent polling is unreliable for fast combos. Always use an event-based buffer like `secret_sequence_combo_matcher.gd`.
+- **NEVER use complex Raycasts for 'LookingAt' secrets** — Physics raycasts are expensive if every wall is checking. Use the Dot Product method in `secret_visibility_detector.gd` for overhead efficiency.
+- **NEVER make 'Hidden Walls' identical to real walls** — Players need a subtle "Glimmer" or texture discrepancy. Total invisibility isn't a secret; it's a bug to the player.
 
-## Master Decision Matrix: Secret Implementation
+### Persistence & Meta
+- **NEVER save "Secrets Found" in the main Save Slot** — If the player deletes their save to try a different build, their meta-progress (Gallery, Achievement flags) should persist. Use `secret_meta_persistence.gd`.
+- **NEVER trust client-side cheat validation in Peer-to-Peer** — If a secret grants a stat boost, other peers should validate the "Unlock" to prevent simple memory-editing cheats.
+- **NEVER use `PlayerPrefs` (Godot's equivalent of Settings) for secrets** — Use a dedicated `user://secrets.cfg`.
 
-| Pattern | Best For | Trade-off |
-| :--- | :--- | :--- |
-| **Input Sequence** | Cheats / Debug Menus | Rigid. Requires player knowledge. |
-| **Interaction Threshold** | "Poking" content / Wall Hitting | Narrative "Juice". Predictable. |
-| **Environment Trigger** | Classic 3-pillar / Lever puzzles | Physical space required. |
+### UX & Anti-Brute Force
+- **NEVER allow unlimited rapid-fire cheat attempts** — A simple macro can brute-force a 4-button combo in seconds. Use `secret_lockout_cheat_guard.gd` to add a penalty for excessive failures.
+- **NEVER trigger a secret without an 'Aha!' audio/visual cue** — The reward for finding a secret is the *feeling* of discovery. Use `secret_audio_environment_occluder.gd` to change the atmosphere.
 
-## Veteran-Only Gotchas (Never List)
+---
 
-- **NEVER Hardcode Input Checks**: Polling `Input.is_action_just_pressed` in `_process` for sequences is frame-dependent and brittle. Always use a signal-driven buffer.
-- **NEVER Pollute Player Settings**: Resolved resolution/volume settings are volatile; secret unlocks are permanent "discovery" data. Use `user://secrets.cfg`.
-- **NEVER Use Cleartext for Competitive Secrets**: If secrets grant multiplayer/leaderboard advantages, store them as hashes or server-side only.
-
-## Registry
-
-- **Expert Component**: [input_sequence_watcher.gd](../scripts/mechanic_secrets_input_sequence_watcher.gd)
-- **Expert Component**: [interaction_threshold_trigger.gd](../scripts/mechanic_secrets_interaction_threshold_trigger.gd)
-- **Expert Handler**: [secret_persistence_handler.gd](../scripts/mechanic_secrets_secret_persistence_handler.gd)
+## Reference
+- Master Skill: [godot-master](../SKILL.md)

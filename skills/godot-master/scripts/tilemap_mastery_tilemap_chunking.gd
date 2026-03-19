@@ -1,4 +1,4 @@
-# godot-master/scripts/tilemap_mastery_tilemap_chunking.gd
+# skills/tilemap-mastery/scripts/tilemap_chunking.gd
 extends Node
 
 ## TileMap Chunking Expert Pattern

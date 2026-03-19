@@ -9,23 +9,54 @@ Hierarchical states, state stacks, and context passing define complex behavior m
 
 ## Available Scripts
 
-### [hsm_logic_state.gd](scripts/hsm_logic_state.gd)
-Expert HSM base class with state stack management and validation.
+### [hsm_hierarchical_base.gd](scripts/hsm_hierarchical_base.gd)
+Advanced HSM base delegator for propagating physics and input to sub-states.
 
-### [pushdown_automaton.gd](scripts/pushdown_automaton.gd)
-Stack-based state machine for interrupt-resume behavior (pause menus, cutscenes).
+### [hsm_pushdown_stack.gd](scripts/hsm_pushdown_stack.gd)
+Professional Pushdown Automata for interruptive state (Pause/Menu) stacking.
+
+### [hsm_state_context.gd](scripts/hsm_state_context.gd)
+Decoupled context object pattern for passing persistent data between states.
+
+### [hsm_transition_guard.gd](scripts/hsm_transition_guard.gd)
+Expert transition validation logic to prevent illegal state changes.
+
+### [hsm_animation_syncer.gd](scripts/hsm_animation_syncer.gd)
+Automated Logic-to-AnimationTree syncing with state-based travel logic.
+
+### [hsm_concurrent_logic.gd](scripts/hsm_concurrent_logic.gd)
+Orchestration for parallel state machines (e.g., Move + Attack).
+
+### [hsm_resource_state_loader.gd](scripts/hsm_resource_state_loader.gd)
+Data-driven state definition using custom Godot Resources (`.tres`).
+
+### [hsm_reentry_aware_state.gd](scripts/hsm_reentry_aware_state.gd)
+Handling resume-from-stack logic vs fresh entry events.
+
+### [hsm_state_history_logger.gd](scripts/hsm_state_history_logger.gd)
+Debug ring-buffer for tracking state transition history and stack depth.
+
+### [hsm_state_timer_component.gd](scripts/hsm_state_timer_component.gd)
+Auto-transition component for finite states like Stun or Dash.
 
 > **MANDATORY**: Read hsm_logic_state.gd before implementing hierarchical AI behaviors.
 
 
-## NEVER Do in Advanced State Machines
+## NEVER Do (Expert State Rules)
 
-- **NEVER forget to call exit() before enter()** — Transition without exit? Previous state cleanup skipped = resource leaks (timers, tweens). ALWAYS exit → enter.
-- **NEVER use push_state() without pop_state()** — Pushed 100 interrupt states? Stack overflow + memory leak. EVERY push needs matching pop.
-- **NEVER modify state during transition** — `transition_to()` called inside `exit()`? Re-entrant transition = undefined behavior. Flag transitions, execute after current completes.
-- **NEVER skip state validation** — `transition_to("AttackState")` but state doesn't exist? Silent failure OR crash. Validate state exists before transition.
-- **NEVER forget to process child states** — Hierarchical state with sub-states? Parent `update()` must call `current_child_state.update()` for delegation.
-- **NEVER use string state names in code** — `transition_to("Idel")` typo = silent failure. Use constants OR enums: `transition_to(States.IDLE)`.
+### Hierarchy & Delegation
+- **NEVER forget to propagate physics/input to children** — In an HSM, failing to call `child.physics_update()` from the parent's `_physics_process` orphans child logic.
+- **NEVER use deep nesting (>3 levels)** — Extreme hierarchy creates "State Spaghetti." If logic is that complex, consider a Behavior Tree or Utility AI.
+
+### Transitions & Lifecycle
+- **NEVER call enter() without a preceding exit()** — Skipping exit logic leaves timers, tweens, or audio loops running in the background, causing resource leaks.
+- **NEVER modify state during a transition frame** — Re-entrant `transition_to()` calls inside `enter()` cause recursion crashes. Use `call_deferred` if immediate sub-transitioning is required.
+- **NEVER hardcode state names as strings** — Typos like `transition_to("Idel")` are silent killers. Use `class_name` based checks OR Constants.
+
+### Architecture & Context
+- **NEVER use global singletons for state data** — Coupling states to `GameManager.player_health` makes them non-reusable. Pass a `Context` object.
+- **NEVER push states indefinitely** — In a Pushdown Automaton, every `push_state` MUST have a retirement plan (`pop_state`) to avoid stack overflow.
+- **NEVER assume state re-entry is always a fresh start** — Resuming from a stack pop should often bypass "Entry SFX/VFX"; use re-entry flags.
 
 ---
 

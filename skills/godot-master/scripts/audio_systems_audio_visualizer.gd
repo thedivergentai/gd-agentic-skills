@@ -1,4 +1,4 @@
-# godot-master/scripts/audio_systems_audio_visualizer.gd
+# skills/audio-systems/code/audio_visualizer.gd
 extends Node
 
 ## Real-Time FFT Visualization Expert Pattern

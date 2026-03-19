@@ -21,11 +21,36 @@ Expert guidance for porting desktop games to mobile platforms.
 
 > **MANDATORY**: Read the appropriate script before implementing the corresponding pattern.
 
-### [mobile_ui_adapter.gd](scripts/mobile_ui_adapter.gd)
-Automatic mobile overrides: scales buttons for touch, applies safe area margins, disables heavy effects (SSAO, SDFGI) for battery/performance.
+### [dynamic_joystick_spawner.gd](scripts/dynamic_joystick_spawner.gd)
+Expert Dynamic Virtual Joystick that appears exactly where the user touches the left half of the screen instead of relying on fixed UI positions.
 
-### [virtual_joystick.gd](scripts/virtual_joystick.gd)
-Production-ready virtual joystick with multi-touch support, deadzone handling, and visual feedback. Outputs normalized Vector2 direction.
+### [resolution_scaler.gd](scripts/resolution_scaler.gd)
+Adaptive Viewport scaler that dynamically drops the `scaling_3d_scale` to maintain 60FPS on weak GPUs while keeping the 2D UI perfectly sharp.
+
+### [gesture_combo_system.gd](scripts/gesture_combo_system.gd)
+Advanced touch gesture recognizer tracking duration, distance, and multi-touch ratios to output precise swipe and pinch-to-zoom signals.
+
+### [battery_saver_mode.gd](scripts/battery_saver_mode.gd)
+Crucial lifecycle manager that hooks `NOTIFICATION_APPLICATION_PAUSED` to instantly lock `Engine.max_fps = 1` and pause physics to prevent the OS from killing the app due to background battery drain.
+
+### [ui_safe_area_margins.gd](scripts/ui_safe_area_margins.gd)
+Dynamic MarginContainer script querying `DisplayServer.get_display_safe_area()` to automatically pad UI elements around iPhone notches and Android hole-punch cameras.
+
+### [touch_camera_pan_zoom.gd](scripts/touch_camera_pan_zoom.gd)
+Smooth Camera2D controller combining 1-finger relative panning and 2-finger distance-ratio pinch zooming simultaneously.
+
+### [haptic_feedback_manager.gd](scripts/haptic_feedback_manager.gd)
+Centralized singleton triggering `Input.vibrate_handheld` for Android, and demonstrating the hook pattern for iOS native haptic plugins.
+
+### [mobile_shader_fallback.gd](scripts/mobile_shader_fallback.gd)
+SceneTree crawler that strips expensive sub-surface scattering, clearcoats, and dynamic shading from `StandardMaterial3D` on weak mobile renderers.
+
+### [on_screen_keyboard_handler.gd](scripts/on_screen_keyboard_handler.gd)
+Listens to `DisplayServer.virtual_keyboard_update` to tween the entire UI upward, preventing the OS keyboard from occluding LineEdits.
+
+### [offline_save_sync.gd](scripts/offline_save_sync.gd)
+Memory-based save dictionary that bypasses `NOTIFICATION_WM_CLOSE_REQUEST` (which fails on mobile kill) and guarantees encrypted disk writes during the App Pause lifecycle.
+
 
 ---
 

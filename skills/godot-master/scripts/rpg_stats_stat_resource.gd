@@ -1,4 +1,4 @@
-# godot-master/scripts/rpg_stats_stat_resource.gd
+# skills/rpg-stats/scripts/stat_resource.gd
 extends Resource
 
 ## Stat Resource Expert Pattern

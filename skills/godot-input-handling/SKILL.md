@@ -9,22 +9,50 @@ Handle keyboard, mouse, gamepad, and touch input with proper buffering and acces
 
 ## Available Scripts
 
-### [input_buffer.gd](scripts/input_buffer.gd)
-Input buffering for responsive controls - buffers actions for 150ms to ensure tight game feel.
+### [advanced_input_buffer.gd](scripts/advanced_input_buffer.gd)
+Frame-perfect input buffering system for responsive jumps, dashes, and combo chains.
 
-### [input_remapper](scripts/input_remapper.gd)
-Runtime input rebinding with conflict detection and save/load persistence.
+### [safe_runtime_rebind.gd](scripts/safe_runtime_rebind.gd)
+Dynamic input rebinding with conflict detection, persistence, and multi-device support.
+
+### [analog_deadzone_manager.gd](scripts/analog_deadzone_manager.gd)
+Radial deadzone management for analog sticks to eliminate drift while maintaining natural follow-through.
+
+### [multi_touch_gestures.gd](scripts/multi_touch_gestures.gd)
+Handling touch, drags, and pinch-to-zoom gestures for mobile and touchscreen compatibility.
+
+### [input_echo_filter.gd](scripts/input_echo_filter.gd)
+Filtering echo events to distinguish between hold-to-navigate (UI) and one-time gameplay actions.
+
+### [mouse_capture_manager.gd](scripts/mouse_capture_manager.gd)
+Robust mouse capture and sensitivity scaling logic for FPS and mouse-intensive systems.
+
+### [hold_toggle_accessibility.gd](scripts/hold_toggle_accessibility.gd)
+Software-side support for user-defined 'Hold' vs 'Toggle' accessibility preferences.
+
+### [glyph_prompt_manager.gd](scripts/glyph_prompt_manager.gd)
+Real-time switching between Keyboard and Gamepad UI prompts based on the last active device.
+
+### [action_state_machine.gd](scripts/action_state_machine.gd)
+Tracking the lifecycle of an action ('Just Pressed', 'Held', 'Released') for complex state logic.
+
+### [unhandled_input_priority.gd](scripts/unhandled_input_priority.gd)
+Demonstrating the correct use of `_unhandled_input` to prevent gameplay logic from leaking into UI.
 
 > **MANDATORY - For Responsive Controls**: Read input_buffer.gd before implementing jump/dash mechanics.
 
 ## NEVER Do in Input Handling
 
-- **NEVER poll input in `_process()` for gameplay actions** — Use `_physics_process()` or `_unhandled_input()`_process()` = frame-rate dependent, causes input drops at low FPS.
-- **NEVER use hardcoded key checks (`KEY_W`, `KEY_SPACE`)** — Use InputMap actions. Hardcoded keys = no rebinding, breaks non-QWERTY keyboards.
-- **NEVER ignore controller deadzones** — Stick drift at 0.05 magnitude = character walks alone. ALWAYS implement `Input.get_axis()` with 0.15-0.2 deadzone.
-- **NEVER assume single input device** — Player might switch keyboard → gamepad mid-session. Listen to `Input.joy_connection_changed` and update UI prompts dynamically.
-- **NEVER use `//_input()` for gameplay actions** — `_input()` fires for ALL events (including UI). Use `_unhandled_input()` which only fires if UI didn't consume the event.
-- **NEVER forget input buffering for responsive controls** — Player presses jump 50ms before landing? Without buffer, jump is lost. Buffer inputs for 100-150ms for tight game-feel.
+- **NEVER poll input in `_process()` for gameplay actions** — Use `_physics_process()` or `_unhandled_input()`. `_process()` is frame-rate dependent, causing dropped inputs at low FPS [22].
+- **NEVER use hardcoded key checks (e.g., `KEY_W`)** — Always use `InputMap` actions. Hardcoded keys prevent rebinding and break compatibility with non-QWERTY layouts [23].
+- **NEVER ignore analog stick deadzones** — Drifting sticks at 0.05 magnitude will cause unintended movement. Implement a radial deadzone (not axial) in code or settings [24].
+- **NEVER assume a single input device** — Players may switch between Keyboard and Controller mid-session. Use `Input.joy_connection_changed` to update UI prompts dynamically [25].
+- **NEVER use `_input()` for gameplay actions** — `_input()` fires for ALL events (including UI). Use `_unhandled_input()` so gameplay logic doesn't trigger while clicking menus [26].
+- **NEVER omit input buffering in fast-paced games** — If a player presses jump 50ms before landing, the input is lost without a buffer. Implement a 100-150ms buffer for a "tight" feel [27].
+- **NEVER use `Input.is_action_pressed()` for one-time triggers** — It returns true every frame the key is held. Use `_just_pressed` for jumps, attacks, and toggles to avoid logic spam.
+- **NEVER implement manual 'Hold vs Toggle' logic in multiple places** — Centralize it in a setting or input wrapper to ensure accessibility consistency across the whole game.
+- **NEVER forget to handle `InputEvent.is_echo()` in UI navigation** — Echo events (keyboard repeat) should move menus but rarely should they trigger "Confirm" or "Back" actions.
+- **NEVER capture the mouse without a 'Release' shortcut** — If your game crashes or blocks `ui_cancel`, the user is trapped. Always provide a fallback escape for mouse capture.
 
 ---
 

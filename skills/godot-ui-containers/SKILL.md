@@ -13,16 +13,51 @@ Container auto-layout, size flags, anchors, and split ratios define responsive U
 Expert container builder with breakpoint-based responsive layouts.
 
 ### [responsive_grid.gd](scripts/responsive_grid.gd)
-Auto-adjusting GridContainer that changes column count based on available width. Essential for responsive inventory screens and resizing windows.
+Auto-adjusting GridContainer that changes column count based on available width.
+
+### [responsive_inventory_grid.gd](scripts/responsive_inventory_grid.gd)
+Expert logic for dynamic Grid columns based on available width and item minimum size.
+
+### [terminal_autoscroll.gd](scripts/terminal_autoscroll.gd)
+Safe ScrollContainer management. Handles the common "one-frame delay" bug when adding logs or chat.
+
+### [viewport_3d_preview.gd](scripts/viewport_3d_preview.gd)
+High-performance 3D-in-UI setup. Uses `stretch_shrink` and `transparent_bg` for character previews.
+
+### [dynamic_tab_manager.gd](scripts/dynamic_tab_manager.gd)
+Pattern for dynamic tab spawning, custom titles, and tab closing logic.
+
+### [responsive_tag_cloud.gd](scripts/responsive_tag_cloud.gd)
+Wrapping item lists using `HFlowContainer`, essential for tag clouds and responsive menus.
+
+### [performance_anchor_layout.gd](scripts/performance_anchor_layout.gd)
+Optimization architecture. Replaces deep container nesting with lightweight Anchor and Offset logic.
+
+### [custom_radial_container.gd](scripts/custom_radial_container.gd)
+Expert custom container logic implementing a radial/circle layout via `NOTIFICATION_SORT_CHILDREN`.
+
+### [animated_container_shuffle.gd](scripts/animated_container_shuffle.gd)
+Dynamic sibling reordering and animation logic for interactive UI lists.
+
+### [aspect_ratio_mini_map.gd](scripts/aspect_ratio_mini_map.gd)
+Enforcing strict aspect ratios (e.g. 1:1, 16:9) across fluid window resizes using `AspectRatioContainer`.
+
+### [container_size_flags_pro.gd](scripts/container_size_flags_pro.gd)
+Advanced sizing logic using `SIZE_EXPAND_FILL` and `stretch_ratio` for weighted layouts.
 
 ## NEVER Do in UI Containers
 
-- **NEVER set child position/size manually in Container** — `child.position = Vector2(10, 10)` inside HBoxContainer? Container overrides it on layout. Use `custom_minimum_size` OR margins instead.
-- **NEVER forget size_flags for expansion** — Child in VBoxContainer doesn't expand? Default is SHRINK. Set `size_flags_vertical = SIZE_EXPAND_FILL` for fill behavior.
-- **NEVER use GridContainer without columns** — `GridContainer` with default `columns = 1`? Vertical list, wrong layout. ALWAYS set `columns` property to grid width.
-- **NEVER nest too many containers** — 10 levels of HBox in VBox in HBox? Re-layout overhead + hard to debug. Flatten OR use Control with custom layout.
-- **NEVER skip separation override** — Default 4px separation? Cramped UI. Override with `add_theme_constant_override("separation", value)` for breathing room.
-- **NEVER use ScrollContainer without minimum size** — ScrollContainer with no `custom_minimum_size`? Expands infinitely, no scrolling. Set minimum OR use anchors.
+- **NEVER manually set child `position` or `size` in a Container** — Containers override child transforms during `queue_sort()`. Use `custom_minimum_size` or `size_flags` instead [1].
+- **NEVER forget `size_flags` for expansion** — Default is `SIZE_SHRINK_BEGIN`. Children will stay tiny unless you set `SIZE_EXPAND_FILL` for responsive containers.
+- **NEVER use `GridContainer` without setting `columns`** — Default is 1, creating a simple vertical list. For responsive wrapping, use `HFlowContainer` instead [8].
+- **NEVER nest containers too deeply (10+ levels)** — Heavy nesting causes layout recalculation spikes. Replace intermediate containers with Anchor Layouts for static padding [16].
+- **NEVER skip separation overrides** — Default theme separation is often too tight. Use `add_theme_constant_override("separation", value)` for professional breathing room.
+- **NEVER use `ScrollContainer` without a minimum size** — Without it, the container may collapse to zero or expand infinitely, breaking the scroll mechanism.
+- **NEVER scroll to a new child on the same frame it was added** — The layout hasn't updated yet. You MUST `await get_tree().process_frame` before setting `scroll_vertical` [5].
+- **NEVER scale a `SubViewportContainer` to change its size** — This distorts the rendered contents. Adjust margins or use `stretch` and `stretch_shrink` properties instead [2].
+- **NEVER leave `mouse_filter` on default for layered Viewports** — Input events might not reach children. Use `MOUSE_FILTER_PASS` or `STOP` to ensure events drill down [6].
+- **NEVER use `GridContainer` for responsive wrapping** — Use `HFlowContainer` if you want items to wrap based on width. GridContainer enforces a strict column count [7].
+- **NEVER animate `position` directly inside a container** — Use `Tween` on `custom_minimum_size` to smoothly "push" siblings during transitions [1].
 
 ---
 

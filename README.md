@@ -6,7 +6,7 @@
 <br/>
 
 [![GitHub Stars](https://img.shields.io/github/stars/thedivergentai/gd-agentic-skills?style=for-the-badge&logo=github&color=58A6FF)](https://github.com/thedivergentai/gd-agentic-skills/stargazers)
-[![License](https://img.shields.io/github/license/thedivergentai/gd-agentic-skills?style=for-the-badge&color=79C0FF)](LICENSE)
+[![License](https://img.shields.io/badge/License-LGPL--3.0-blue?style=for-the-badge)](LICENSE)
 [![Godot Version](https://img.shields.io/badge/Godot-4.5%2B-478CBF?style=for-the-badge&logo=godotengine&logoColor=white)](https://godotengine.org/)
 [![Skills](https://img.shields.io/badge/Skills-94-green?style=for-the-badge)](skills_index.json)
 [![Last Commit](https://img.shields.io/github/last-commit/thedivergentai/gd-agentic-skills?style=for-the-badge&color=purple)](https://github.com/thedivergentai/gd-agentic-skills/commits/main)
@@ -19,14 +19,32 @@
 
 ---
 
-<div align="center">
-  <img src="assets/banner_0_0_5.webp" alt="The Looper Update - v0.0.5" width="100%" />
-</div>
+> **💬 A Message from the Creator (Divergent AI) — March 19, 2026:**
+> 
+> Hey everyone, Divergent AI here! I'm super happy that I'm seeing the project getting some love. It's motivated me to come back at it with a really strong update for you all. I've spent many hours working on updating all microskills to be completely packed with top expert-level knowledge as learned directly from the robot's mouth—the Godot documentation.
+> 
+> <details>
+> <summary><b>Read the full message...</b></summary>
+> <br/>
+> The reason I did this was two-fold:
+> 
+> 1. I wanted all resources to be as true to the current documentation as possible and filled with top-level expert information.
+> 2. Because I think it's important to make AI useful and that includes avoiding slop. A big part of that is ensuring the code we write follows the best practices set out by the Godot documentation and team itself.
+> 
+> <br/>
+> My hope is that this agentic skillset will allow anyone to make a game if they wish and have it be good and natively, and proactively follow best practices. Not everyone is gifted with the detailed vocabulary specific to Godot they may need to make their dream game come true. I hope GDSkills acts as an assistant and expert in making them quickly come to reality.
+> <br/><br/>
+> I have many things I want to add to this project and a lot of testing and things I would like to do to ensure it continues to improve in quality over time.
+> <br/><br/>
+> Please enjoy and remember to use AI for good. Most importantly, have fun and dream big!
+> </details>
 
-#### v0.0.5 — The Looper Update
-- **Resource Harvesting**: Introduced `godot-game-loop-harvest` for interactive gathering, node depletion, and rarity-based drop tables.
-- **Time Trials & Ghosts**: Added `godot-game-loop-time-trial` with precise millisecond timing and ghost transform recording/playback.
-- **Wave-Based Survival**: Implemented `godot-game-loop-waves` for round-based difficulty scaling and dynamic enemy pool management.
+---
+
+#### v0.0.6 — The Expert Augmentation & Master Orchestration Update
+- **Microskill Overhaul**: We spent many hours updating *all* microskills to contain top expert-level knowledge, directly extracted from the Godot documentation. This massive update ensures all resources are true to the current engine state, empowering developers with best practices and reducing AI slop.
+- **Godot Master Takes Control**: We updated the `godot-master` skill to fully orchestrate and integrate this major skill update. It is now a true, all-in-one Godot Master skill!
+- **Feedback Requested**: We'd love your feedback on the new updates! The easiest way to share your thoughts is to [open an issue or start a discussion on our GitHub](https://github.com/thedivergentai/gd-agentic-skills/issues).
 
 <br/>
 
@@ -36,6 +54,16 @@
 <summary><b>📜 Update Archive</b></summary>
 
 <br/>
+
+<div align="center">
+  <img src="assets/banner_0_0_5.webp" alt="The Looper Update - v0.0.5" width="100%" />
+</div>
+
+#### v0.0.5 — The Looper Update
+- **Resource Harvesting**: Introduced `godot-game-loop-harvest` for interactive gathering, node depletion, and rarity-based drop tables.
+- **Time Trials & Ghosts**: Added `godot-game-loop-time-trial` with precise millisecond timing and ghost transform recording/playback.
+- **Wave-Based Survival**: Implemented `godot-game-loop-waves` for round-based difficulty scaling and dynamic enemy pool management.
+
 
 <div align="center">
   <img src="assets/banner_0_0_4.webp" alt="The Easter & Renewal Update - v0.0.4" width="100%" />
@@ -122,7 +150,7 @@ Unlike individual micro-skills that focus on isolated features, **godot-master**
 
 **📚 Comprehensive Knowledge Base**
 - **94 Reference Documents**: Complete markdown guides for every skill, from foundations to advanced genres
-- **191 Production Scripts**: Battle-tested, production-ready GDScript implementations
+- **1960 Production Scripts**: Battle-tested, production-ready GDScript implementations
 - **10 Workflow Patterns**: Step-by-step architectural workflows (scaffolding, entity orchestration, persistence, optimization, multiplayer, etc.)
 
 **🧠 Expert Frameworks**
@@ -325,7 +353,7 @@ Think of micro-skills as your **component library**: Drop them into your project
 - **[godot-genre-moba](skills/godot-genre-moba/SKILL.md)**: Lane management, tower aggro, fog of war, ability cooldowns
 - **[godot-genre-rts](skills/godot-genre-rts/SKILL.md)**: Unit selection, command queues, fog of war, pathfinding
 - **[godot-genre-tower-defense](skills/godot-genre-tower-defense/SKILL.md)**: Wave spawning, targeting priority, mazing mechanics
-- **[godot-genre-turn-system](skills/godot-genre-turn-system/SKILL.md)**: Turn-based combat, initiative systems, action economies
+- **[godot-genre-turn-system](skills/godot-turn-system/SKILL.md)**: Turn-based combat, initiative systems, action economies
 
 **Exploration & Adventure**
 - **[godot-genre-metroidvania](skills/godot-genre-metroidvania/SKILL.md)**: Ability gating, interconnected worlds, map revelation
@@ -443,10 +471,10 @@ If this project accelerates your Godot development or empowers your AI agents, c
 |:---|:---|
 | **Total Skills** | 94 |
 | **Genre Blueprints** | 27 |
-| **Production Scripts** | 191 |
+| **Production Scripts** | 1960 |
 | **Reference Documents** | 94 |
 | **Target Engine** | Godot 4.5+ |
-| **License** | MIT |
+| **License** | LGPLv3 |
 
 ---
 
@@ -462,9 +490,12 @@ We are seeking **financial sponsors and infrastructure partners** to sustain the
 
 ## 📜 License
 
-This project is licensed under the **MIT License** - see [LICENSE](LICENSE) for details.
+This project is licensed under the **GNU Lesser General Public License v3.0** - see [LICENSE](LICENSE) for details.
 
-**By contributing**, you agree that your code will be licensed under the project's MIT License.
+**Why LGPLv3?**  
+We chose this license because it strikes the perfect balance for an open ecosystem. It ensures that any improvements or additions made directly to the GDSkills library itself remain open-source and shared with the community. At the same time, it empowers you to use these agentic skills to build and compile your own incredible games, which you are completely free to commercialize and keep closed-source if you wish.
+
+**By contributing**, you agree that your code will be licensed under the project's LGPLv3 License.
 
 ---
 

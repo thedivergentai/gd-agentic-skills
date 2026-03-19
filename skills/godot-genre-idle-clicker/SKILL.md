@@ -7,21 +7,40 @@ description: "Expert blueprint for idle/clicker games including big number handl
 
 Expert blueprint for idle/clicker games with exponential progression and prestige mechanics.
 
-## NEVER Do
+## NEVER Do (Expert Anti-Patterns)
 
-- **NEVER use standard float for currency** — Floats overflow at ~1.8e308. Implement BigNumber (mantissa + exponent) from day 1.
-- **NEVER use Timer nodes for revenue** — Timers drift and pause when game pauses. Use `_process(delta)` accumulator for precise timing.
-- **NEVER make prestige feel like punishment** — Post-prestige runs should be 2-5x faster. Otherwise players feel like they lost progress.
-- **NEVER update all UI labels every frame** — Updating 50+ labels at 60fps causes lag. Use signals to update only when values change, or throttle to 10fps.
-- **NEVER forget offline progress** — Calculate `seconds_offline * revenue_per_second` on game start. Missing this destroys retention.
+### Economics & Math
+- NEVER use standard floats for currency; strictly implement a **BigNumber** (Mantissa/Exponent) system (e.g., `1.5e300`) to prevent `INF` crashes at 1e308.
+- NEVER use `Timer` nodes for revenue generation; strictly use a manual accumulator in `_process(delta)` to prevent drift during frame fluctuations.
+- NEVER hardcode generator costs or growth; strictly use an exponential formula: `Cost = BasePrice * pow(GrowthFactor, OwnedCount)` (industry standard **1.15x**).
+- NEVER evaluate exact float equality (`==`); strictly use `is_equal_approx()` or `>=` to prevent "stuck" progress due to precision loss.
+- NEVER parse scientific notation strings with `to_int()`; strictly use `to_float()` or a dedicated BigNumber parser.
+
+### Performance & Optimization
+- NEVER update all UI labels every frame; strictly use **Signals** to update labels ONLY when values change, or throttle updates to 10 FPS.
+- NEVER ignore **Low Processor Usage Mode** for mobile; strictly enable `OS.low_processor_usage_mode = true` to preserve battery life.
+- NEVER instantiate/delete hundreds of text nodes per second; strictly use **Object Pooling** or `MultiMeshInstance` for click-feedback.
+- NEVER update massive logs by modifying the `text` property; strictly use `append_text()` to prevent main thread blocking.
+
+### Player Experience & Persistence
+- NEVER ignore **Offline Progress**; strictly calculate `seconds_offline * total_revenue` using system UNIX timestamps (`Time.get_unix_time_from_system()`).
+- NEVER make the "Prestige" reset feel like a loss; strictly provide a global multiplier that makes the next run **significantly** faster (2-5x).
+- NEVER calculate offline time using `Time.get_ticks_msec()`; strictly use **Persistent UNIX timestamps** as ticks reset on app restart.
+- NEVER use Node hierarchies for raw data; strictly use `RefCounted` or `Resource` objects for lightweight, serializable logic.
+
 ---
 
-## Available Scripts
+## 🛠 Expert Components (scripts/)
 
-> **MANDATORY**: Read the appropriate script before implementing the corresponding pattern.
+### Original Expert Patterns
+- [big_number.gd](scripts/idle_performance_setup.gd) - The foundation for handling e308+ scales using Mantissa + Exponent math.
+- [generator.gd](scripts/precision_cost_validator.gd) - Generic template for exponential cost units and rate calculation.
+- [scientific_notation_formatter.gd](scripts/scientific_notation_math.gd) - readable formatting for K, M, B, T suffixes and scientific notation.
 
-### [scientific_notation_formatter.gd](scripts/scientific_notation_formatter.gd)
-Big number formatter handling 1e303+. Uses K/M/B/T suffixes up to Vigintillion, falls back to scientific notation. Caching advice for high-label-count scenarios.
+### Modular Components
+- [offline_progress_calculator.gd](scripts/offline_progress_calculator.gd) - Real-world delta tracking using UNIX timestamps.
+- [functional_income_reducer.gd](scripts/functional_income_reducer.gd) - C++ optimized array reduction for fast income summation.
+- [threaded_catchup_simulator.gd](scripts/threaded_catchup_simulator.gd) - WorkerThreadPool background simulation patterns.
 
 ---
 

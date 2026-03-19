@@ -1,4 +1,4 @@
-# godot-master/scripts/3d_lighting_lighting_manager.gd
+# skills/3d-lighting/code/lighting_manager.gd
 extends Node
 
 ## SDFGI & Hybrid Lighting Expert Pattern

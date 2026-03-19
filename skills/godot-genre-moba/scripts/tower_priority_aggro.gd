@@ -1,4 +1,4 @@
-# skills/genre-moba/code/tower_priority_aggro.gd
+# godot-master/scripts/moba_tower_priority_aggro.gd
 extends Node2D
 
 ## Tower Priority Aggro Expert Pattern

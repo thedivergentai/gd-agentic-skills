@@ -1,4 +1,4 @@
-# godot-master/scripts/resource_data_patterns_resource_validator.gd
+# skills/resource-data-patterns/scripts/resource_validator.gd
 @tool
 extends EditorScript
 

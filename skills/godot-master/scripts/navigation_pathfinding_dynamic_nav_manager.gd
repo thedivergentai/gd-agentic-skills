@@ -1,4 +1,4 @@
-# godot-master/scripts/navigation_pathfinding_dynamic_nav_manager.gd
+# skills/navigation-pathfinding/code/dynamic_nav_manager.gd
 extends NavigationRegion3D
 
 ## Dynamic Navigation Expert Pattern

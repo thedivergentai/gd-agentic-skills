@@ -15,14 +15,50 @@ Expert shader template with parameter validation and common effect patterns.
 ### [shader_parameter_animator.gd](scripts/shader_parameter_animator.gd)
 Runtime shader uniform animation without AnimationPlayer - for dynamic effects.
 
+### [dissolve_scissor_expert.gdshader](scripts/dissolve_scissor_expert.gdshader)
+High-performance mask-based dissolve. Uses `ALPHA_SCISSOR` to enable depth-prepass optimization and shadow casting.
+
+### [instance_uniform_hitflash.gdshader](scripts/instance_uniform_hitflash.gdshader)
+Batch-friendly hit effects. Uses `instance uniform` to allow thousands of unique flashes in one draw call.
+
+### [screenspace_hex_pixelate.gdshader](scripts/screenspace_hex_pixelate.gdshader)
+Post-processing logic for stylizing screen output. Uses `hint_screen_texture` and optimized coordinate quantization.
+
+### [noise_terrain_displacement.gdshader](scripts/noise_terrain_displacement.gdshader)
+Procedural geometry displacement using `NoiseTexture2D` in the `vertex()` function for rolling terrain.
+
+### [foliage_wind_sway_expert.gdshader](scripts/foliage_wind_sway_expert.gdshader)
+GPU-driven wind animation using `world_vertex_coords` for uniform sway across the environment.
+
+### [global_grass_flatten.gdshader](scripts/global_grass_flatten.gdshader)
+World-interaction pattern using `global uniform`. Synchronizes player position to push grass down project-wide.
+
+### [depth_world_reconstruction.gdshader](scripts/depth_world_reconstruction.gdshader)
+Expert depth-buffer logic. Reconstructs world-space coordinates from `hint_depth_texture` for water/fog effects.
+
+### [triplanar_world_mapping.gdshader](scripts/triplanar_world_mapping.gdshader)
+UV-less texturing architecture. Seamlessly projects textures along world axes for procedural cliffs and rocks.
+
+### [instance_texture_array.gdshader](scripts/instance_texture_array.gdshader)
+Bypassing batching limits. Combines `sampler2DArray` with `instance uniform` to give unique textures to thousands of batched objects.
+
+### [screenspace_full_quad.gdshader](scripts/screenspace_full_quad.gdshader)
+Godot 4.3 specific full-rect shader. Handles Reversed-Z coordinate reconstruction to prevent clipping at the near plane.
+
 ## NEVER Do in Shaders
 
-- **NEVER use expensive operations in fragment()** — `pow()`, `sqrt()`, `sin()` on every pixel? 1920x1080 = 2M calls/frame = lag. Pre-calculate OR use texture lookups.
-- **NEVER forget to normalize vectors** — `reflect(direction, normal)` without normalization? Wrong reflections + rendering artifacts. ALWAYS normalize direction vectors.
-- **NEVER use if/else for branching** — GPUs hate branching (SIMD architecture). Use `mix()`, `step()`, `smoothstep()` for conditional logic.
-- **NEVER modify UV without bounds check** — `UV.x += 10.0` goes outside 0-1 range? Texture sampling breaks. Use `fract()` OR `clamp()`.
-- **NEVER use TIME without delta** — `COLOR.a = sin(TIME)` runs at variable speed on different framerates. Use `TIME * speed_factor` for consistent animation.
-- **NEVER forget hint_source_color for colors** — `uniform vec4 tint` without hint? Inspector shows raw floats. Use `uniform vec4 tint : source_color` for color picker.
+- **NEVER use `discard` unconditionally for optimization** — It prevents the depth prepass from working effectively. A discarded pixel still costs vertex processing; sometimes not rendering the object is better [1].
+- **NEVER use `if/else` for dynamic states in high-performance shaders** — GPUs hate branching. Use `mix()`, `step()`, and `smoothstep()` for mathematical, hardware-optimized selection [5, 21].
+- **NEVER compare floats exactly** — Hardware precision varies; `if (v == 0.5)` is unreliable. Use `abs(a - b) < epsilon` or `step()`.
+- **NEVER use standard Alpha Blending for massive foliage** — It prevents shadows and SSR. Use Alpha Scissor or Alpha Hash (dithering) to enable depth prepass and shadow casting [7].
+- **NEVER hardcode `POSITION` to `vec4(VERTEX, 1.0)` for full-screen quads in 4.3+** — Godot 4.3 uses Reversed-Z depth; this will cause clipping. Use `POSITION = vec4(VERTEX.xy, 1.0, 1.0)` [8, 9].
+- **NEVER duplicate materials to change one color/value on many enemies** — Use `instance uniform`. This allows unique values for thousands of nodes while maintaining a single draw call (batching) [10].
+- **NEVER use `TIME` without a speed multiplier** — Fragment speed should be controllable via uniforms to ensure consistency across different gameplay states.
+- **NEVER forget `hint_source_color` for color uniforms** — Without it, the engine treats colors as linear math, leading to incorrect gamma and washed-out visuals in the inspector.
+- **NEVER calculate complex math in `fragment()` that could be in `vertex()`** — `vertex()` runs once per point; `fragment()` runs millions of times per frame. Interpolate values via `varying` instead.
+- **NEVER use `#define` macros for dynamic runtime toggles** — These create new shader permutations, causing massive compilation stutters when first encountered in-game. Use uniforms instead.
+- **NEVER forget to normalize vectors** — Using `reflect(dir, normal)` on unnormalized vectors causes severe rendering artifacts and incorrect lighting math.
+- **NEVER modify UV without bounds checking or `fract()`** — Shifting UVs beyond 0.0-1.0 without `repeat` wrapping or clamping will sample edge pixels or return black, breaking texture consistency.
 
 ---
 

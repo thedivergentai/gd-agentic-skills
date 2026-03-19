@@ -1,4 +1,4 @@
-# godot-master/scripts/save_load_systems_save_migration_manager.gd
+# skills/save-load-systems/code/save_migration_manager.gd
 extends Node
 
 ## Save System Expert Pattern

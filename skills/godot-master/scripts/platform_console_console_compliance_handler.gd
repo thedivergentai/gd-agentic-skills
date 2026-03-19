@@ -1,4 +1,4 @@
-# godot-master/scripts/platform_console_console_compliance_handler.gd
+# skills/platform-console/scripts/console_compliance_handler.gd
 extends Node
 
 ## Console Compliance Handler Expert Pattern

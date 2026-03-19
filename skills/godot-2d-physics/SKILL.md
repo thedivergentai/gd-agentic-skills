@@ -9,11 +9,21 @@ Expert guidance for collision detection, triggers, and raycasting in Godot 2D.
 
 ## NEVER Do
 
-- **NEVER scale CollisionShape2D nodes** — Use the shape handles in the editor, NOT the Node2D scale property. Scaling causes unpredictable physics behavior and incorrect collision normals.
-- **NEVER confuse collision_layer with collision_mask** — Layer = "What AM I?", Mask = "What do I DETECT?". Setting both to the same value is almost always wrong.
-- **NEVER multiply velocity by delta when using move_and_slide()** — move_and_slide() automatically includes timestep in calculations. Only multiply gravity (acceleration) by delta.
-- **NEVER forget to call force_raycast_update() for manual raycasts** — Raycasts update once per physics frame. If you change target_position/rotation mid-frame, you MUST call force_raycast_update().
-- **NEVER use get_overlapping_bodies() every frame** — Cache results with body_entered/body_exited signals instead. Continuous queries are expensive and unnecessary.
+- **NEVER scale `CollisionShape2D` nodes** — Use the shape handles in the editor, NOT the Node2D scale property. Scaling causes unpredictable physics behavior and incorrect collision normals [12].
+- **NEVER confuse `collision_layer` with `collision_mask`** — Layer = "What AM I?", Mask = "What do I DETECT?". Setting both to the same value is usually wrong [13].
+- **NEVER multiply velocity by delta when using `move_and_slide()`** — `move_and_slide()` automatically includes timestep. Only multiply gravity/acceleration by delta [14].
+- **NEVER forget `force_raycast_update()` for manual mid-frame raycasts** — Raycasts update once per physics frame. If you change target_position, you MUST force an update [15].
+- **NEVER use `get_overlapping_bodies()` every frame** — It is expensive. Cache results with `body_entered`/`body_exited` signals instead [16].
+- **NEVER modify `RigidBody2D` state directly in `_process`** — Use `_integrate_forces()` for safe, synchronized access to `PhysicsDirectBodyState2D` [17, 411].
+- **NEVER move `PhysicsBody2D` nodes in `_process()`** — Use `_physics_process()`. Moving bodies outside the physics step causes stutter and unreliable collision detection.
+- **NEVER use `RigidBody2D` for 1000+ simple entities** — Use `PhysicsServer2D` to bypass node overhead for massive performance gains (Swarms/Bullets) [18, 397].
+- **NEVER use `Area2D` for high-frequency blocking (Bullets)** — Area signals can be delayed. Use `move_and_collide()` or `ShapeCast2D` for frame-perfect results [19].
+- **NEVER ignore 'Physics Jitter' on high-refresh monitors** — Enable Physics Interpolation to prevent micro-stutter in motion [21, 400].
+- **NEVER scale collision shapes directly at runtime** — It causes major instability. Resize the shape resource (size/radius) instead.
+- **NEVER use `set_deferred` for immediate physics transform logic** — It happens at the end of the frame. Use `force_raycast_update()` or `PhysicsServer2D` instead.
+- **NEVER leave Continuous CD (CCD) enabled for slow objects** — It adds significant CPU overhead. Reserve it for high-speed projectiles to prevent tunneling.
+- **NEVER use a single collision layer for all tiles/entities** — Separate layers (Ground, Walls, Enemies) to allow selective filtering via masks.
+- **NEVER forget to free `PhysicsServer2D` RIDs manually** — They are not garbage collected and will leak memory permanently.
 
 ---
 
@@ -32,6 +42,48 @@ Custom physics integration patterns for CharacterBody2D. Covers non-standard gra
 
 ### [physics_queries.gd](scripts/physics_queries.gd)
 PhysicsDirectSpaceState2D query patterns for raycasting, point queries, and shape queries. Use for line-of-sight, ground detection, or area scanning.
+
+### [physics_server_swarm.gd](scripts/physics_server_swarm.gd)
+Low-level `PhysicsServer2D` usage for thousands of moving objects. Bypasses node overhead for massive performance gains in bullet hells or swarms.
+
+### [substepping_logic.gd](scripts/substepping_logic.gd)
+Manual physics sub-stepping for high-velocity projectiles. Ensures frame-perfect collision for objects moving faster than the physics tick.
+
+### [safe_rigidbody_state.gd](scripts/safe_rigidbody_state.gd)
+Thread-safe `RigidBody2D` modification using `_integrate_forces`. Ideal for teleporting bodies or applying custom impulses without jitter.
+
+### [physics_direct_query.gd](scripts/physics_direct_query.gd)
+Lighweight environment sensing using `PhysicsDirectSpaceState2D`. Performs ray queries without the overhead of RayCast2D nodes.
+
+### [collision_bitmask_helper.gd](scripts/collision_bitmask_helper.gd)
+Clean architectural pattern for managing complex collision layers/masks using bitwise Enums and helpers.
+
+### [raycast_vision_stack.gd](scripts/raycast_vision_stack.gd)
+Optimized multicasting vision system for AI. Reuses a single RayCast2D to check multiple angles in one physics frame.
+
+### [shapecast_aoe.gd](scripts/shapecast_aoe.gd)
+Robust AOE detection using `ShapeCast2D`. Provides instant collision information without the signal-lag of Area2D.
+
+### [custom_gravity_override.gd](scripts/custom_gravity_override.gd)
+Logic for localized gravity zones (Water, Space, Wind) and manual character-weight simulation.
+
+### [collision_debouncer.gd](scripts/collision_debouncer.gd)
+Expert pattern for preventing signal spam when multi-shape bodies enter triggers.
+
+### [jitter_interpolation_fix.gd](scripts/jitter_interpolation_fix.gd)
+Standard configuration and runtime adjustments to ensure smooth character movement on high-refresh-rate monitors.
+
+### [physics_server_direct_body.gd](scripts/physics_server_direct_body.gd)
+Direct PhysicsServer2D RID management for peak performance in massive physics simulations.
+
+### [move_and_collide_precision.gd](scripts/move_and_collide_precision.gd)
+Expert bounce and friction logic implementation for precision-critical movement.
+
+### [continuous_collision_detection.gd](scripts/continuous_collision_detection.gd)
+Advanced CCD management for preventing bullet tunneling at extremely high velocities.
+
+### [performance_batch_mover.gd](scripts/performance_batch_mover.gd)
+Optimized batch movement for multiple static/animatable bodies using riders-aware logic.
 
 ---
 
@@ -352,6 +404,37 @@ func check_vision() -> void:
 # Leave RayCast2D.enabled = true for vision checks once per second
 ```
 
+
+
+---
+
+## Expert Techniques & Optimizations
+
+### 1. Low-Level Servers for Massive Swarms
+If you are dealing with tens of thousands of projectiles or physics objects, the SceneTree node overhead will bottleneck the CPU. Bypass the SceneTree entirely by using `PhysicsServer2D` and `RenderingServer` to create, move, and draw bodies directly in C++ or GDScript.
+
+### 2. Physics Interpolation
+If your game uses a low physics tick rate to save CPU cycles (causing visible jitter), enable **Physics Interpolation** in the Project Settings. This keeps the physics tick rate low but interpolates visual transforms smoothly over rendered frames.
+
+### 3. Safe RigidBody2D Integration
+```gdscript
+extends RigidBody2D
+
+var thrust := Vector2(0, -250)
+var torque := 20000.0
+
+# According to the RigidBody2D documentation, we must use _integrate_forces 
+# to safely modify physical state without fighting the physics server.
+func _integrate_forces(state: PhysicsDirectBodyState2D) -> void:
+    if Input.is_action_pressed("ui_up"):
+        # Apply force taking current rotation into account
+        state.apply_force(thrust.rotated(rotation))
+    else:
+        state.apply_force(Vector2.ZERO)
+        
+    var rotation_dir := Input.get_axis("ui_left", "ui_right")
+    state.apply_torque(rotation_dir * torque)
+```
 
 ## Reference
 - Master Skill: [godot-master](../godot-master/SKILL.md)

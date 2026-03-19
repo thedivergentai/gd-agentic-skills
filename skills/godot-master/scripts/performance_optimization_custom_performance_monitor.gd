@@ -1,4 +1,4 @@
-# godot-master/scripts/performance_optimization_custom_performance_monitor.gd
+# skills/performance-optimization/scripts/custom_performance_monitor.gd
 extends Node
 
 ## Custom Performance Monitor Expert Pattern

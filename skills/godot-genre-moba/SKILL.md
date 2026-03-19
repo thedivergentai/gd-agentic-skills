@@ -7,24 +7,54 @@ description: "Expert blueprint for MOBA games including lane logic (minion wave 
 
 Expert blueprint for MOBAs emphasizing competitive balance and strategic depth.
 
-## NEVER Do
+## NEVER Do (Expert Anti-Patterns)
 
-- **NEVER client-side damage calculation** — Client says "I cast Q at direction V", server calculates damage. Otherwise hacking trivializes game.
-- **NEVER ignore snowballing** — Winning team gets too strong. Implement comeback mechanics (kill bounties, catchup XP).
-- **NEVER pathfind all minions every frame** — 100+ minions cause lag. Time-slice pathfinding over multiple frames.
-- **NEVER sync position every frame** — Use client-side prediction. Sync position corrections at 10-20Hz, not 60Hz.
-- **NEVER forget minion avoidance** — Enable NavigationAgent3D.avoidance_enabled so minions flow around each other, not stack.
+### Networking & Authority
+- NEVER trust the client for damage calculation or resource costs; strictly validate mana, ranges, and hit detection on the **authoritative server** using `multiplayer.is_server()`.
+- NEVER use `TRANSFER_MODE_RELIABLE` for continuous movement; strictly use `UNRELIABLE` or `UNRELIABLE_ORDERED` for position/velocity to prevent network congestion.
+- NEVER sync units at 60Hz; strictly use a lower tick rate (10-20Hz) via `MultiplayerSynchronizer` and implement **Interp/Client-Side Prediction** for visual smoothness.
+- NEVER attach individual synchronizers to hundreds of minions; strictly batch state updates into compressed byte arrays via a central manager.
+- NEVER synchronize complex Engine objects directly; strictly serialize state into primitive properties or Dictionaries for reliable peer-to-peer sync.
+
+### AI & Pathfinding
+- NEVER use expensive pathfinding for all minions every frame; strictly use **Time Slicing** to spread `get_next_path_position()` calls across multiple frames.
+- NEVER query `NavigationAgent` paths inside `_process()`; strictly use `_physics_process()` to interact with the navigation server and avoidance systems.
+- NEVER use complex visual geometry for NavMesh baking; parse simple primitives to avoid stalling the `RenderingServer` or crashing the engine.
+- NEVER set `path_search_max_polygons` too low in large maps; agents will stop or walk incorrectly if the limit is reached before the destination.
+- NEVER use `Area2D` for high-performance Fog of War LOS; strictly use nodeless physics queries (`intersect_ray`) to bypass node overhead.
+
+### Gameplay & Balancing
+- NEVER forget Tower "Dive" protection; towers MUST switch targets immediately if an enemy Hero damages an allied Hero within range (Priority: Hero attacking Ally > Minion > Hero).
+- NEVER allow "Snowballing" without counter-play; strictly implement **Comeback Mechanisms** (Kill Bounties, Catch-up XP) to maintain competitive tension.
+- NEVER manage hero stats as standard Node variables; strictly use custom `Resource` scripts for data separation and memory efficiency.
+- NEVER forget to call `duplicate(true)` on shared ability Resources; modifying a buff on a shared resource will affect all heroes globally.
+
+### Technical & Performance
+- NEVER use standard strings for status checks (e.g., "stunned"); strictly use `StringName` (&"stunned") for pointer-speed comparisons.
+- NEVER loop over massive Fog of War grids with floats; strictly use `Vector2i` and `TileMapLayer` to prevent precision jitter.
+- NEVER execute heavy world/minimap logic on the main thread; strictly offload complex array math to `WorkerThreadPool` to maintain 60+ FPS.
+- NEVER rigidly couple UI cooldowns to Hero scripts; strictly use a Signal Bus or `Callable` bindings for decoupled architecture.
+- NEVER evaluate exact floating-point equality (==); strictly use `is_equal_approx()` for range, cooldown, and mana validations.
+
 ---
 
-## Available Scripts
+## 🛠 Expert Components (scripts/)
 
-> **MANDATORY**: Read the appropriate script before implementing the corresponding pattern.
+### Original Expert Patterns
+- [skill_shot_indicator.gd](scripts/skill_shot_indicator.gd) - Mouse-driven targeting system for range, width, and direction visualization.
+- [tower_priority_aggro.gd](scripts/tower_priority_aggro.gd) - Advanced AI for defensive towers following competitive priority rules.
 
-### [skill_shot_indicator.gd](scripts/skill_shot_indicator.gd)
-Mouse-following skillshot telegraph. Draws rectangular indicator, rotates toward cursor in _physics_process for ability range preview.
-
-### [tower_priority_aggro.gd](scripts/tower_priority_aggro.gd)
-Tower target priority stack: heroes-attacking-allies > minions > heroes. Deterministic targeting with closest-distance tiebreaker.
+### Modular Components
+- [server_minion_sync.gd](scripts/server_minion_sync.gd) - Authoritative sync for high-count units using compressed byte arrays.
+- [fog_visibility_check.gd](scripts/fog_visibility_check.gd) - Physics raycasting for high-performance Line-of-Sight checks.
+- [fog_grid_mask.gd](scripts/fog_grid_mask.gd) - TileMap-driven visibility masking system using Vector2i grid logic.
+- [status_effect_data.gd](scripts/status_effect_data.gd) - Lightweight Resource container forDefining buffs, debuffs, and stuns.
+- [status_effect_manager.gd](scripts/status_effect_manager.gd) - Modular logic for applying and managing unique status effect instances.
+- [decoupled_ability_damage.gd](scripts/decoupled_ability_damage.gd) - Inter-hero combat interaction using safe duck-typing patterns.
+- [hero_state_machine.gd](scripts/hero_state_machine.gd) - Optimized StringName-based state machine for hero logic.
+- [async_arena_baker.gd](scripts/async_arena_baker.gd) - Background thread-safe navigation mesh updates for dynamic arenas.
+- [ability_ui_binder.gd](scripts/ability_ui_binder.gd) - Signal-based UI decoupling for ability cooldown tracking.
+- [minion_flow_calculator.gd](scripts/minion_flow_calculator.gd) - Parallelized pathing and intelligence using WorkerThreadPool.
 
 ---
 
@@ -100,14 +130,20 @@ The most misunderstood mechanic by new players.
 # tower.gd
 func _on_aggro_check() -> void:
     # Priority 1: Enemy Hero attacking Ally Hero
-    var hero_target = check_for_hero_aggro()
-    if hero_target:
-        current_target = hero_target
-        return
-
-    # Priority 2: Closest Minion
-    # Priority 3: Closest Hero
+    # Priority 2: Enemy Unit attacking Ally Hero
+    # Priority 3: Closest Enemy Minion
+    # Priority 4: Closest Enemy Hero
+    var target = determine_best_target()
+    if target:
+        shoot_at(target)
 ```
+
+### 4. Skill-Shot Ability Cycle
+Implementation pattern for "QWER" targeting:
+1. **Idle**: Waiting for input.
+2. **Telegraphed**: Show indicator (`skill_shot_indicator.gd`) while mouse is held.
+3. **Active**: Spawn hitbox/projectile on release.
+4. **Recovery**: Brief backswing animation where movement/casting is locked.
 
 ## Key Mechanics Implementation
 

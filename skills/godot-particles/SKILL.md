@@ -15,14 +15,51 @@ Expert custom shader integration for advanced particle VFX.
 ### [particle_burst_emitter.gd](scripts/particle_burst_emitter.gd)
 One-shot particle bursts with auto-cleanup - essential for VFX systems.
 
+### [custom_particle_logic.gdshader](scripts/custom_particle_logic.gdshader)
+Expert procedural particle movement logic. Demonstrates persistent `CUSTOM` data and `USERDATA` injection for dynamic wind/orbit effects.
+
+### [sub_emitter_impact.gdshader](scripts/sub_emitter_impact.gdshader)
+High-performance collision handling. Triggers sub-emitters (splashes/debris) using `emit_subparticle()` and `COLLISION_NORMAL`.
+
+### [particle_attractor_opt.gd](scripts/particle_attractor_opt.gd)
+Optimization pattern using `cull_mask` to isolate particle-attractor interactions, preventing global performance bottlenecks.
+
+### [massive_swarm_multimesh.gd](scripts/massive_swarm_multimesh.gd)
+Bypassing GPUParticles for millions of entities (fish, insects). Uses `set_buffer_interpolated()` for jitter-free high-count movement.
+
+### [dynamic_userdata_modulation.gd](scripts/dynamic_userdata_modulation.gd)
+Clean architectual pattern for passing runtime variables to particle shaders via `USERDATA` to preserve GPU batching.
+
+### [local_vs_global_coords.gd](scripts/local_vs_global_coords.gd)
+Expert logic for switching between localized (Auras) and global (Trails) space. Includes correct `restart()` handling for teleports.
+
+### [smart_oneshot_recycler.gd](scripts/smart_oneshot_recycler.gd)
+Robust lifecycle management using the `finished` signal and `restart()` to avoid async emission failures.
+
+### [screenspace_weather_heightfield.gd](scripts/screenspace_weather_heightfield.gd)
+Optimizing global weather (Rain/Snow) using Camera-snapped `GPUParticlesCollisionHeightField3D`.
+
+### [particle_lod_manager.gd](scripts/particle_lod_manager.gd)
+Hierarchical LOD for environmental VFX. Uses `visibility_range` and margins to cull distant torches or fires completely.
+
+### [2d_physics_interpolation_fix.gd](scripts/2d_physics_interpolation_fix.gd)
+Expert workaround for 2D particle stuttering. Switches to `CPUParticles2D` with `fract_delta` for smooth physics-parented movement.
+
 ## NEVER Do in Particle Systems
 
-- **NEVER use CPUParticles2D for performance-critical effects** — 100+ godot-particles with CPU = lag spike. Use GPUParticles2D unless targeting mobile with no GPU support.
-- **NEVER forget to set `emitting = false` for one-shot godot-particles** — Explosion scene with `emitting = true` by default = godot-particles emit immediately on instantiate(), before positioning. Set false, position, THEN emit.
-- **NEVER use high `amount` without testing on target platform** — 1000 godot-particles = fine on desktop, mobile melts. Test early,scale `amount` based on `OS.get_name()`.
-- **NEVER forget to `queue_free()` one-shot godot-particles** — Explosion lasts 1 second but node stays in tree forever = memory leak. `await create_timer(lifetime).timeout` then `queue_free()`.
-- **NEVER use `emission_shape = POINT` for explosions** — All godot-particles spawn at same position = looks flat. Use `EMISSION_SHAPE_SPHERE` with radius for 3D spread.
-- **NEVER forget alpha in color gradients** — Particles fade suddenly at end = harsh. Add gradient point at 1.0 with `Color(r, g, b, 0.0)` for smooth fadeout.
+- **NEVER use `amount_ratio` to optimize performance dynamically** — It does not save GPU memory or improve processing; the full `amount` is still allocated. Change the `amount` property directly instead.
+- **NEVER use CPUParticles2D for performance-critical effects on Desktop** — Use GPUParticles unless targeting low-end mobile with no GPU support. However, use CPUParticles2D if you need Physics Interpolation for smooth trails on moving bodies in 2D.
+- **NEVER set `preprocess` to extremely high values** — High values (e.g., 60s) will force the GPU to simulate thousands of frames in a single render tick, potentially causing an immediate GPU crash.
+- **NEVER leave `visibility_aabb` unconfigured for large systems** — Incorrect AABBs cause frustum culling errors (particles popping out) and break LOD calculations. Generate AABBs using the editor toolbar.
+- **NEVER enable turbulence on Mobile/Web without testing** — 3D noise evaluation per particle is extremely heavy. Disable via Feature Tags on lower-end platforms.
+- **NEVER forget to `queue_free()` one-shot particles** — Use the `finished` signal instead of an arbitrary Timer for safe lifecycle management.
+- **NEVER use `local_coords = true` for trails** — Smoke or fire left behind by a projectile MUST use global space (`local_coords = false`) or the trail will follow the projectile like a stiff stick.
+- **NEVER expect GPUParticles2D to interpolate correctly in Godot 4.3** — They stutter when parented to physics bodies. Use `CPUParticles2D` with `fract_delta = true` for high-speed 2D movement.
+- **NEVER trigger `emitting = true` immediately after a `finished` signal** — Async GPU state delays can cause the restart to fail. Use the `restart()` method instead.
+- **NEVER attempt recursion with sub-emitters** — A particle system cannot be its own sub-emitter; it will silently fail.
+- **NEVER forget alpha in color gradients** — Particles that disappear instantly at the end of their lifetime look harsh; always add a gradient point at 1.0 with 0.0 alpha for a smooth exit.
+- **NEVER use `EMISSION_SHAPE_POINT` for volumentric explosions** — Spawning all particles at a single point looks flat. Use a Sphere or Box shape for natural 3D spread.
+- **NEVER forget to set `emitting = false` initially for one-shot VFX** — This prevents unwanted emission at the scene origin before you've had a chance to position the node via script.
 
 ---
 

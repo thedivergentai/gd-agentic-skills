@@ -14,6 +14,9 @@ Expert guidance for level design with GridMaps, CSG, and environmental setup.
 - **NEVER scale GridMap cell size after placing tiles** — Changing `cell_size` doesn't update existing tiles, causing misalignment. Set it once at the start.
 - **NEVER use MeshLibrary without collision shapes** — Items without collision spawn visual-only geometry that players fall through.
 - **NEVER enable volumetric fog without DirectionalLight3D** — Volumetric fog requires at least one light to scatter. No lights = no visible fog.
+- **NEVER animate CSG nodes during gameplay** — Moving a CSG node within another forces the CPU to recalculate the boolean geometry, causing significant performance drops.
+- **NEVER place generic logic nodes in a GridMap** — GridMap is highly optimized only for meshes, navigation, and collision. It is not a general-purpose system for placing arbitrary node structures on a grid.
+- **NEVER use non-manifold meshes in CSG** — If you import a custom mesh for CSGMesh3D, it must be manifold (closed, no self-intersections, no interior faces, no negative volume). Non-manifold meshes will break the CSG algorithm and are completely unsupported.
 
 ---
 
@@ -29,6 +32,9 @@ Runtime GridMap tile placement with batch operations and auto-navigation baking.
 
 ### [csg_bake_tool.gd](scripts/csg_bake_tool.gd)
 EditorScript to bake CSG geometry to static meshes with proper materials and collision. Use when finalizing level prototypes.
+
+### [safe_csg_baking.gd](scripts/safe_csg_baking.gd)
+Expert technique for safe CSG baking. Awaits the end of the frame before extracting baked meshes to avoid empty data.
 
 ### [lod_manager.gd](scripts/lod_manager.gd)
 Level-of-detail switching based on camera distance. Manages mesh swapping and visibility for large outdoor scenes.
@@ -386,6 +392,14 @@ cutout.operation = CSGShape3D.OPERATION_SUBTRACTION
 cutout.size = Vector3(2, 3, 2.002)  # Slightly larger depth
 ```
 
+
+
+---
+
+## Expert Techniques & Optimizations
+
+### 1. Spatially Partitioning MultiMeshes
+The major drawback of `MultiMesh` is that individual instances cannot be frustum or occlusion culled; the entire cluster is drawn based on the bounding box of the `MultiMeshInstance3D`. To solve this, partition your thousands of objects into several regional `MultiMeshInstance3D` nodes so the engine can cull entire regions at once.
 
 ## Reference
 - Master Skill: [godot-master](../godot-master/SKILL.md)

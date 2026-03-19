@@ -329,33 +329,33 @@
     "name": "godot-composition-apps",
     "description": "\"Expert architectural standards for building scalable Godot applications (Apps, Tools, UI, or Games) using the Composition pattern. Use when designing node structures, refactoring monolithic scripts, or implementing complex behaviors. Enforces \\\"Has-A\\\" relationships over \\\"Is-A\\\" inheritance.\"",
     "keywords": [
-      "applications",
-      "composition",
-      "over",
-      "scripts",
       "expert",
-      "monolithic",
-      "enforces",
-      "implementing",
-      "refactoring",
       "building",
-      "scalable",
-      "structures",
-      "godot",
-      "node",
-      "tools",
-      "games",
       "designing",
       "inheritance",
       "standards",
-      "complex",
-      "pattern",
-      "behaviors",
-      "architectural",
+      "composition",
+      "scalable",
       "apps",
+      "implementing",
+      "pattern",
+      "architectural",
+      "relationships",
+      "over",
+      "structures",
+      "behaviors",
+      "applications",
+      "complex",
+      "games",
+      "scripts",
+      "refactoring",
+      "node",
       "using",
       "when",
-      "relationships"
+      "enforces",
+      "monolithic",
+      "tools",
+      "godot"
     ]
   },
   {
@@ -416,6 +416,97 @@
       "build_optimization",
       "codesign",
       "Android_SDK"
+    ]
+  },
+  {
+    "name": "godot-game-loop-collection",
+    "description": "Use when implementing collection quests, scavenger hunts, or \"find all X\" objectives.",
+    "keywords": [
+      "find",
+      "scavenger",
+      "hunts",
+      "when",
+      "collection",
+      "quests",
+      "objectives",
+      "implementing"
+    ]
+  },
+  {
+    "name": "godot-game-loop-harvest",
+    "description": "Data-driven resource harvesting system (mining, logging, foraging) for Godot 4. Use when implementing gathering mechanics with tool/tier validation, health depletion, item spawning, and persistence.",
+    "keywords": [
+      "driven",
+      "gathering",
+      "foraging",
+      "system",
+      "tier",
+      "implementing",
+      "spawning",
+      "mechanics",
+      "tool",
+      "validation",
+      "depletion",
+      "data",
+      "mining",
+      "with",
+      "health",
+      "item",
+      "persistence",
+      "logging",
+      "harvesting",
+      "when",
+      "resource",
+      "godot"
+    ]
+  },
+  {
+    "name": "godot-game-loop-time-trial",
+    "description": "Expert patterns for racing mechanics, checkpoint tracking, and ghost recording/playback in Godot 4. Use when building racing games, speed-run platformers, or arcade trials.",
+    "keywords": [
+      "expert",
+      "building",
+      "godot",
+      "mechanics",
+      "arcade",
+      "racing",
+      "tracking",
+      "recording",
+      "playback",
+      "checkpoint",
+      "games",
+      "speed",
+      "when",
+      "platformers",
+      "patterns",
+      "trials",
+      "ghost"
+    ]
+  },
+  {
+    "name": "godot-game-loop-waves",
+    "description": "Expert patterns for managing combat waves, difficulty scaling, and automated enemy spawning in Godot 4. Use when building wave-based shooters, tower defense, or arena games.",
+    "keywords": [
+      "expert",
+      "building",
+      "difficulty",
+      "waves",
+      "defense",
+      "patterns",
+      "based",
+      "tower",
+      "spawning",
+      "scaling",
+      "shooters",
+      "wave",
+      "combat",
+      "games",
+      "automated",
+      "enemy",
+      "managing",
+      "arena",
+      "when",
+      "godot"
     ]
   },
   {
@@ -697,6 +788,19 @@
     ]
   },
   {
+    "name": "godot-genre-shooter-fps",
+    "description": "\"Expert blueprint for First-Person Shooters (Doom, Quake, Battlefield, Overwatch) focusing on physics-based movement, acceleration/friction, camera sway, weapon bobbing, and high-precision hit registration. Use when building tight, responsive FPS combat with advanced camera mechanics. Keywords FPS, movement physics, weapon bobbing, camera sway, hitscan, ground detection, air control.\"",
+    "keywords": [
+      "FPS",
+      "movement physics",
+      "weapon bobbing",
+      "camera sway",
+      "hitscan",
+      "ground detection",
+      "air control"
+    ]
+  },
+  {
     "name": "godot-genre-simulation",
     "description": "\"Expert blueprint for simulation and tycoon games (SimCity, RollerCoaster Tycoon, Factorio, Two Point Hospital) covering economy management, time progression, interconnected systems, NPC simulation, and feedback loops. Use when building management sims, tycoon games, city builders, or resource optimization games. Keywords tycoon, economy system, resource management, time scale, feedback loop, progression unlock, simulation tick.\"",
     "keywords": [
@@ -801,57 +905,57 @@
   },
   {
     "name": "godot-master",
-    "description": "\"Consolidated expert library for professional Godot 4.x game and application development. Orchestrates 86 specialized blueprints through architectural workflows, anti-pattern catalogs, performance budgets, and Server API patterns. Use when: (1) starting a new Godot project, (2) designing game or app architecture, (3) building entity/component systems, (4) debugging performance or physics issues, (5) choosing between 2D/3D approaches, (6) implementing multiplayer, (7) optimizing draw calls or script time, (8) porting between platforms. Primary entry point for ALL Godot development tasks.\"",
+    "description": "\"Consolidated expert library for professional Godot 4.x game and application development. Orchestrates 94 specialized blueprints through architectural workflows, anti-pattern catalogs, performance budgets, and Server API patterns. Use when: (1) starting a new Godot project, (2) designing game or app architecture, (3) building entity/component systems, (4) debugging performance or physics issues, (5) choosing between 2D/3D approaches, (6) implementing multiplayer, (7) optimizing draw calls or script time, (8) porting between platforms. Primary entry point for ALL Godot development tasks.\"",
     "keywords": [
-      "development",
-      "through",
-      "draw",
-      "physics",
-      "blueprints",
-      "library",
-      "architecture",
-      "approaches",
-      "porting",
+      "expert",
+      "building",
       "catalogs",
-      "professional",
-      "multiplayer",
-      "game",
-      "application",
-      "workflows",
+      "designing",
+      "library",
+      "entity",
+      "development",
       "patterns",
+      "script",
+      "blueprints",
+      "implementing",
       "platforms",
       "choosing",
-      "script",
-      "anti",
-      "point",
-      "expert",
-      "optimizing",
-      "implementing",
-      "performance",
-      "entity",
-      "building",
-      "debugging",
-      "issues",
-      "entry",
-      "tasks",
       "server",
-      "godot",
+      "draw",
+      "consolidated",
+      "component",
+      "issues",
+      "pattern",
+      "architectural",
+      "orchestrates",
+      "between",
+      "calls",
+      "multiplayer",
+      "debugging",
+      "point",
+      "tasks",
+      "primary",
+      "application",
+      "entry",
+      "time",
+      "game",
+      "workflows",
+      "approaches",
+      "professional",
+      "architecture",
+      "anti",
+      "specialized",
+      "starting",
+      "performance",
+      "optimizing",
       "systems",
       "budgets",
-      "designing",
-      "component",
-      "primary",
+      "through",
       "project",
-      "pattern",
-      "starting",
-      "between",
-      "orchestrates",
-      "architectural",
-      "time",
-      "consolidated",
       "when",
-      "specialized",
-      "calls"
+      "porting",
+      "physics",
+      "godot"
     ]
   },
   {
@@ -873,6 +977,38 @@
       "scene automation",
       "npx",
       "claude_desktop_config"
+    ]
+  },
+  {
+    "name": "godot-mechanic-revival",
+    "description": "Use when implementing player death, resurrection, or \"second chance\" mechanics.",
+    "keywords": [
+      "second",
+      "mechanics",
+      "player",
+      "when",
+      "resurrection",
+      "chance",
+      "death",
+      "implementing"
+    ]
+  },
+  {
+    "name": "godot-mechanic-secrets",
+    "description": "Use when implementing cheat codes, hidden interactions, or unlockable content based on player input/behavior.",
+    "keywords": [
+      "interactions",
+      "unlockable",
+      "player",
+      "content",
+      "cheat",
+      "behavior",
+      "when",
+      "hidden",
+      "based",
+      "input",
+      "codes",
+      "implementing"
     ]
   },
   {
@@ -1073,6 +1209,20 @@
     ]
   },
   {
+    "name": "godot-raycasting-queries",
+    "description": "\"Expert blueprint for physics queries using RayCast, ShapeCast, and DirectSpaceState. Covers hit detection, volume overlap, mouse picking, and high-performance server-side intersection queries. Use when implementing projectiles, LOS, terrain grounding, or AI sensors. Keywords raycast, shapecast, direct_space_state, intersect_ray, intersect_shape, PhysicsRayQueryParameters, collision mask, mouse picking.\"",
+    "keywords": [
+      "raycast",
+      "shapecast",
+      "direct_space_state",
+      "intersect_ray",
+      "intersect_shape",
+      "PhysicsRayQueryParameters",
+      "collision mask",
+      "mouse picking"
+    ]
+  },
+  {
     "name": "godot-resource-data-patterns",
     "description": "\"Expert blueprint for data-oriented design using Resource/RefCounted classes (item databases, character stats, reusable data structures). Covers typed arrays, serialization, nested resources, and resource caching. Use when implementing data systems OR inventory/stats/dialogue databases. Keywords Resource, RefCounted, ItemData, CharacterStats, database, serialization, @export, typed arrays.\"",
     "keywords": [
@@ -1175,28 +1325,6 @@
     ]
   },
   {
-    "name": "godot-skill-discovery",
-    "description": "\"Expert blueprint for GDSkills skill discovery and indexing system. Enables AI agents to find relevant skills by topic/keyword. Use when building skill libraries OR implementing search functionality. Keywords skill discovery, indexing, search, metadata, skill registry.\"",
-    "keywords": [
-      "skill discovery",
-      "indexing",
-      "search",
-      "metadata",
-      "skill registry"
-    ]
-  },
-  {
-    "name": "godot-skill-judge",
-    "description": "\"Meta-skill for validating the integrity and quality of other skills. automatically checks for SKILL.md existence, script syntax errors (via Godot CLI), and metadata completeness. Use this skill to verify the entire skill library. Trigger keywords: validation, continuous_integration, quality_assurance, syntax_check, metadata_check.\"",
-    "keywords": [
-      "validation",
-      "continuous_integration",
-      "quality_assurance",
-      "syntax_check",
-      "metadata_check"
-    ]
-  },
-  {
     "name": "godot-state-machine-advanced",
     "description": "\"Expert blueprint for hierarchical finite state machines (HSM) and pushdown automata for complex AI/character behaviors. Covers state stacks, sub-states, transition validation, and state context passing. Use when basic FSMs are insufficient OR implementing layered AI. Keywords state machine, HSM, hierarchical, pushdown automata, state stack, FSM, AI behavior.\"",
     "keywords": [
@@ -1222,6 +1350,22 @@
       "GutTest",
       "watch_signals",
       "TDD"
+    ]
+  },
+  {
+    "name": "godot-theme-easter",
+    "description": "Use when applying a specific Easter holiday theme (Eggs, Bunnies, Pastels) to a game.",
+    "keywords": [
+      "easter",
+      "theme",
+      "holiday",
+      "applying",
+      "specific",
+      "pastels",
+      "bunnies",
+      "when",
+      "game",
+      "eggs"
     ]
   },
   {
@@ -1303,47 +1447,5 @@
       "theme inheritance",
       "dark mode"
     ]
-  },
-  {
-    "name": "godot-game-loop-harvest",
-    "description": "\"Expert patterns for resource gathering mechanics in Godot including node-based depletion (trees, rocks, ore), interactive gathering time, drop calculation with rarity tables, and visual feedback for harvesting. Use when implementing survival gathering, RPG resource nodes, or crafting-based gameplay. Trigger keywords: Harvestable, gather_time, depletion, resource_drop, loot_table, interactive_node, gathering_state, harvest_finished.\"",
-    "keywords": [
-      "Harvestable",
-      "gather_time",
-      "depletion",
-      "resource_drop",
-      "loot_table",
-      "interactive_node",
-      "gathering_state",
-      "harvest_finished"
-    ]
-  },
-  {
-    "name": "godot-game-loop-time-trial",
-    "description": "\"Expert patterns for timed challenges in Godot including ghost recording (recording player transforms), race start/finish logic with checkpoint validation, precise timing systems with millisecond formatting, and leaderboard integration. Use when implementing racing games, speed-run challenges, or platformer trials. Trigger keywords: TimeTrial, ghost_recorder, checkpoint_system, race_timer, finish_line, best_time, ghost_playback, race_state.\"",
-    "keywords": [
-      "TimeTrial",
-      "ghost_recorder",
-      "checkpoint_system",
-      "race_timer",
-      "finish_line",
-      "best_time",
-      "ghost_playback",
-      "race_state"
-    ]
-  },
-  {
-    "name": "godot-game-loop-waves",
-    "description": "\"Expert patterns for wave-based spawning in Godot including round-based difficulty scaling, dynamic enemy distribution per wave, spawn point management, and wave completion triggers. Use when implementing horde shooters, tower defense waves, or arena survival games. Trigger keywords: WaveManager, wave_spawner, difficulty_scaling, round_number, enemies_remaining, spawn_timer, wave_completed, enemy_pool.\"",
-    "keywords": [
-      "WaveManager",
-      "wave_spawner",
-      "difficulty_scaling",
-      "round_number",
-      "enemies_remaining",
-      "spawn_timer",
-      "wave_completed",
-      "enemy_pool"
-    ]
   }
-]
+]

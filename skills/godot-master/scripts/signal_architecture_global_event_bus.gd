@@ -1,4 +1,4 @@
-# godot-master/scripts/signal_architecture_global_event_bus.gd
+# skills/signal-architecture/code/global_event_bus.gd
 extends Node
 
 ## Signal Architecture Expert Pattern

@@ -7,21 +7,49 @@ description: "Expert blueprint for puzzle games including undo systems (Command 
 
 Expert blueprint for puzzle games emphasizing clarity, experimentation, and "Aha!" moments.
 
-## NEVER Do
+## NEVER Do (Expert Anti-Patterns)
 
-- **NEVER punish experimentation** — Puzzles are about testing ideas. Always provide undo/reset. No punishment for trying.
-- **NEVER require pixel-perfect input** — Logic puzzles shouldn't need precision aiming. Use grid snapping or forgiving hitboxes.
-- **NEVER allow undetected unsolvable states** — Detect softlocks automatically or provide prominent "Reset Level" button.
-- **NEVER hide the rules** — Visual feedback must be instant and clear. A wire lighting up when connected teaches the rule.
-- **NEVER skip non-verbal tutorials** — Level 1 = introduce mechanic in isolation. Level 2 = trivial use. Level 3 = combine with existing mechanics.
+### Design & Player Experience
+- NEVER punish experimentation; strictly provide **Undo/Reset** functionality to allow risk-free hypothesis testing.
+- NEVER require pixel-perfect input for logic puzzles; strictly use **Grid Snapping** or large, forgiving hitboxes.
+- NEVER allow undetected **Soft-Locks** (unsolvable states); strictly notify the player or provide immediate backtracking.
+- NEVER hide the rules of the world; strictly ensure visual feedback is instant and unambiguous (e.g., powered wires must glow).
+- NEVER skip the **Non-Verbal Tutorial** phase; strictly introduce mechanics in isolation before combining them.
+
+### Grid Logic & State
+- NEVER use floating-point numbers (`Vector2`) for grid coordinates; strictly use **Vector2i** to prevent precision drift.
+- NEVER use `_process()` for grid-state or win-condition validation; strictly trigger checks only when a piece moves.
+- NEVER rely on the `SceneTree` structure as the source of truth; strictly maintain grid data in a separate script/dictionary.
+- NEVER modify a Dictionary or Array size while iterating over it; strictly use a copy or a separate queue for modifications.
+- NEVER calculate heavy recursive solvers in `_process()`; strictly cache results or use threaded workers for solve-checks.
+- NEVER ignore diagonal rules in pathfinding; strictly configure `AStarGrid2D.diagonal_mode` correctly.
+
+### Architecture & Performance
+- NEVER program custom command history queues manually; strictly use Godot's built-in **UndoRedo** system for reliability.
+- NEVER intermingle "do" and "undo" logic in the same function; strictly maintain separation for predictable rollbacks.
+- NEVER use exact floating-point equality (==); strictly use `is_equal_approx()` for spatial constraints.
+- NEVER use `load()` for resetting large rooms dynamically; strictly use `ResourceLoader.load_threaded_request()`.
+- NEVER leave **Tween** objects unreferenced; strictly kill active tweens before starting new movement on the same object.
+
 ---
 
-## Available Scripts
+## 🛠 Expert Components (scripts/)
 
-> **MANDATORY**: Read the appropriate script before implementing the corresponding pattern.
+### Original Expert Patterns
+- [command_undo_redo.gd](scripts/command_undo_redo.gd) - Professional-grade Command Pattern for non-destructive state reversal and experimentation.
+- [grid_manager.gd](scripts/grid_manager.gd) - Decoupled grid logic data structure for raycast-free move validation (Sokoban/Match-3).
 
-### [command_undo_redo.gd](scripts/command_undo_redo.gd)
-Command pattern for undo/redo. Stores reversible actions in dual stacks, clears redo on new action. Includes MoveCommand example.
+### Modular Components
+- [puzzle_pathfinder.gd](scripts/puzzle_pathfinder.gd) - AStarGrid2D configuration for optimized pathfinding on 2D grids.
+- [puzzle_history.gd](scripts/puzzle_history.gd) - UndoRedo system implementation using the Action Command pattern.
+- [puzzle_saver.gd](scripts/puzzle_saver.gd) - JSON-based serialization for saving/restoring complex puzzle states.
+- [shuffle_bag.gd](scripts/shuffle_bag.gd) - Non-repeating randomizer for fair distribution of puzzle elements.
+- [perspective_overlay.gd](scripts/perspective_overlay.gd) - 3D-to-2D projection bridge for world-space puzzle mechanics.
+- [tile_animator.gd](scripts/tile_animator.gd) - Safe tween-based movement system using Callables for logic sync.
+- [match_three_logic.gd](scripts/match_three_logic.gd) - Recursive flood-fill and match detection logic.
+- [grid_input_manager.gd](scripts/grid_input_manager.gd) - Device-agnostic input routing for grid interaction.
+- [sleepy_block.gd](scripts/sleepy_block.gd) - Physics object stabilizer to prevent unintended solver jitter.
+- [puzzle_validator.gd](scripts/puzzle_validator.gd) - Array reduction component for evaluating complex win conditions.
 
 ---
 

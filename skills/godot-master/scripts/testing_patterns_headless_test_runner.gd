@@ -1,4 +1,4 @@
-# godot-master/scripts/testing_patterns_headless_test_runner.gd
+# skills/testing-patterns/code/headless_test_runner.gd
 extends Node
 
 ## Testing Patterns Expert Pattern

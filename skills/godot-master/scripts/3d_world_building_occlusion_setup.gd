@@ -1,4 +1,4 @@
-# godot-master/scripts/3d_world_building_occlusion_setup.gd
+# skills/3d-world-building/code/occlusion_setup.gd
 extends Node3D
 
 ## Occlusion Culling Expert Pattern

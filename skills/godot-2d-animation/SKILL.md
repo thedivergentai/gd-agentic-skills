@@ -9,11 +9,15 @@ Expert-level guidance for frame-based and skeletal 2D animation in Godot.
 
 ## NEVER Do
 
+- **NEVER use AnimatedTexture** — This class is deprecated, highly inefficient in modern renderers, and may be removed in future Godot versions. Use AnimatedSprite2D or AnimationPlayer instead.
+- **NEVER allow Tweens to fight over the same property** — If multiple Tweens animate the same property, the last one created forcibly takes priority. Always assign your Tween to a variable and call `kill()` on the previous instance before creating a new one.
+- **NEVER process kinematic movement outside the physics tick** — If your AnimationPlayer moves a CharacterBody2D, ensure the AnimationPlayer's callback mode is set to Physics. Animating physics bodies during the Idle (render) frame breaks fixed timestep physics interpolation and causes stutter.
 - **NEVER use `animation_finished` for looping animations** — The signal only fires on non-looping animations. Use `animation_looped` instead for loop detection.
 - **NEVER call `play()` and expect instant state changes** — AnimatedSprite2D applies `play()` on the next process frame. Call `advance(0)` immediately after `play()` if you need synchronous property updates (e.g., when changing animation + flip_h simultaneously).
 - **NEVER set `frame` directly when preserving animation progress** — Setting `frame` resets `frame_progress` to 0.0. Use `set_frame_and_progress(frame, progress)` to maintain smooth transitions when swapping animations mid-frame.
 - **NEVER forget to cache `@onready var anim_sprite`** — The node lookup getter is surprisingly slow in hot paths like `_physics_process()`. Always use `@onready`.
 - **NEVER mix AnimationPlayer tracks with code-driven AnimatedSprite2D** — Choose one animation authority per sprite. Mixing causes flickering and state conflicts.
+- **NEVER use paper-thin skeletons for deformation** — 2D meshes require balanced vertex density. If your mesh deforms poorly, increase the vertex count near joints in the Mesh2D editor.
 
 ---
 
@@ -29,6 +33,27 @@ Frame-perfect state-driven animation with transition queueing - essential for re
 
 ### [shader_hook.gd](scripts/shader_hook.gd)
 Animating ShaderMaterial uniforms via AnimationPlayer property tracks. Covers hit flash, dissolve effects, and instance uniforms for batched sprites. Use for visual feedback tied to animation states.
+
+### [procedural_squash_stretch.gd](scripts/procedural_squash_stretch.gd)
+Dynamic physics-driven deformation. Provides `lerp` logic for smoothing out sudden impact squashes and directional stretches based on high-velocity movement.
+
+### [skeleton_2d_rig_helper.gd](scripts/skeleton_2d_rig_helper.gd)
+Programmatic rig management. Tuning FABRIK/CCDIK modification stacks and updating bone rest poses at runtime for procedural limb goal-reaching.
+
+### [animation_tree_step.gd](scripts/animation_tree_step.gd)
+Expert state machine control. Utilizes `AnimationNodeStateMachinePlayback.travel()` to leverage the engine's internal A* pathfinding for multi-state transitions.
+
+### [one_frame_sync_fix.gd](scripts/one_frame_sync_fix.gd)
+Eliminates the "One-Frame Glitch" by using `advance(0)` to force the engine to apply animation poses immediately alongside property changes like `flip_h`.
+
+### [gpu_mesh_optimizer.gd](scripts/gpu_mesh_optimizer.gd)
+Architectural pattern for bypassing GPU fill-rate bottlenecks. Demonstrates when to convert large sprites into specialized 2D meshes to avoid transparent pixel overhead.
+
+### [multimesh_swarm_anim.gd](scripts/multimesh_swarm_anim.gd)
+Optimization for thousands of entities. Offloads animation logic (sine waves, flight patterns) to the GPU vertex shader to eliminate CPU node processing.
+
+### [tween_lifecycle_manager.gd](scripts/tween_lifecycle_manager.gd)
+Safe and memory-efficient `Tween` orchestration. Handles interruption cleanup and property-fight prevention in fast-paced gameplay loops.
 
 ---
 
@@ -128,16 +153,15 @@ func swap_skin(new_skin: String) -> void:
 
 ---
 
-## Decision Tree: AnimatedSprite2D vs AnimationPlayer
+## Expert Decision Tree: Choosing the Right Animation Tool
 
-| Scenario | Use |
-|----------|-----|
-| Simple frame-based sprite swapping | AnimatedSprite2D |
-| Need to animate other properties (position, scale, rotation) | AnimationPlayer |
-| Character with swappable skins/palettes | AnimatedSprite2D (swap SpriteFrames) |
-| Cutout animation with 10+ bones | AnimationPlayer (cleaner track management) |
-| Need to blend/crossfade animations | AnimationPlayer (AnimationTree support) |
-| Pixel-perfect retro game | AnimatedSprite2D (simpler frame control) |
+| Scenario | Recommended Node | Expert Insight |
+|----------|------------------|----------------|
+| Isolated, pure frame-by-frame spritesheets | **AnimatedSprite2D** | Simple and effective, but cannot animate non-visual properties, manipulate transforms, or trigger external methods. |
+| Cutout animations, non-visual sync, audio/particles | **AnimationPlayer** | Required when manipulating transforms of many child sprites, driving 2D mesh deformations, or syncing methods/particles to visual frames. |
+| Complex state machines, blending, locomotion | **AnimationTree** | Essential for blending movement directions. Does not hold animations itself; it's a logic graph driving an underlying AnimationPlayer. |
+| Procedural, dynamic, fire-and-forget UI/fx | **Tween** | Target values calculated at runtime. Far more lightweight than AnimationPlayer; designed to be created and discarded via script. |
+| Swarms of thousands of entities (bats, fish) | **MultiMeshInstance2D + Shader** | Bypasses the node system entirely. Calculate sine waves/movement on the GPU vertex shader to avoid massive CPU bottlenecks. |
 
 ---
 
@@ -252,6 +276,60 @@ anim_sprite.offset = Vector2.ZERO
 # rendering/textures/canvas_textures/default_texture_filter = Nearest
 ```
 
+
+
+---
+
+## Expert Techniques & Optimizations
+
+### 1. Hybrid Cutout and Cel Animation
+Do not limit yourself to just one style. Use `AnimationPlayer` to rig a 2D skeleton and animate the bones (Cutout animation), while simultaneously keyframing the `texture` or `frame` properties of specific child sprites. This allows highly efficient transform-based animation for the body, while selectively swapping hand shapes or facial expressions using traditional hand-drawn cel animation.
+
+### 2. Optimizing GPU Fill Rate with 2D Meshes
+Sprites with large transparent areas (like tree leaves) waste GPU fill rate. Convert a `Sprite2D` into a `MeshInstance2D` in Godot. This generates a 2D polygon that tightly hugs the opaque pixels, bypassing transparent areas. While this slightly increases vertex processing time, it massively improves GPU fill rate on complex 2D scenes.
+
+### 3. Safe Tween Interruption and Looping
+Game states change rapidly. Ensure Tweens are properly cleaned up before starting new ones to avoid memory leaks and conflicting animations.
+
+```gdscript
+extends Node2D
+
+var _tween: Tween
+
+func animate_damage_flash() -> void:
+    # Anti-pattern prevention: Always kill the existing tween before overwriting it.
+    if _tween:
+        _tween.kill()
+        
+    _tween = create_tween()
+    
+    # Chain tweeners and use loops for rapid, predictable animation
+    _tween.set_loops(3)
+    _tween.tween_property($Sprite2D, "modulate", Color.RED, 0.1).set_trans(Tween.TRANS_SINE)
+    _tween.tween_property($Sprite2D, "modulate", Color.WHITE, 0.1).set_trans(Tween.TRANS_SINE)
+```
+
+### 4. Advanced State Machine Travel via AnimationTree
+When using an `AnimationNodeStateMachine` within an `AnimationTree`, you do not directly "play" animations. You command the state machine to compute the shortest path (using A*) to a new state.
+
+```gdscript
+extends CharacterBody2D
+
+@onready var animation_tree: AnimationTree = $AnimationTree
+# Retrieve the playback object from the AnimationTree properties
+@onready var state_machine: AnimationNodeStateMachinePlayback = animation_tree.get("parameters/playback")
+
+func _ready() -> void:
+    # The state machine must be started before traveling
+    state_machine.start("idle")
+
+func _physics_process(delta: float) -> void:
+    if velocity.length() > 0:
+        # Travel to the run state. Internal A* will seamlessly play intermediate transitions.
+        state_machine.travel("run")
+    else:
+        state_machine.travel("idle")
+```
 
 ## Reference
 - Master Skill: [godot-master](../godot-master/SKILL.md)

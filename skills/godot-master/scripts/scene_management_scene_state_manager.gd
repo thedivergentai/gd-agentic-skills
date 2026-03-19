@@ -1,4 +1,4 @@
-# godot-master/scripts/scene_management_scene_state_manager.gd
+# skills/scene-management/scripts/scene_state_manager.gd
 extends Node
 
 ## Scene State Manager Expert Pattern

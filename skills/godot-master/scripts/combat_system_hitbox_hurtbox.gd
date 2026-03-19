@@ -1,4 +1,4 @@
-# godot-master/scripts/combat_system_hitbox_hurtbox.gd
+# skills/combat-system/code/hitbox_hurtbox.gd
 extends Area2D
 
 ## Hitbox/Hurtbox Expert Pattern

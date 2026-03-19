@@ -14,14 +14,41 @@ Strategic placement, resource management, and escalating difficulty define tower
 4.  **Reward**: Kills grant currency
 5.  **Escalate**: Waves increase in difficulty/complexity
 
-## NEVER Do in Tower Defense Games
+## NEVER Do (Expert Anti-Patterns)
 
-- **NEVER make all towers equally viable** — If Sniper = same DPS as Machine Gun, no strategic choice. Each tower MUST have distinct niche (AoE, slow, armor pierce, anti-air).
-- **NEVER use synchronous NavigationServer baking for mazing** — `NavigationRegion2D.bake_navigation_polygon()` blocks main thread. Use `NavigationServer2D.get_maps()` + worker thread OR fixed paths.
-- **NEVER let players fully block the exit path** — In mazing TDs, validate `NavigationServer2D.map_get_path(start, goal)` before tower placement. Empty path = illegal build.
-- **NEVER use `Area2D.get_overlapping_bodies()` every frame** — 500 enemies × 60fps = 30k collision checks. Store `bodies_entered` in array, remove on `body_exited`. Query once.
-- **NEVER make early waves feel like busywork** — First 3 waves should introduce mechanics, not bore. Start timer at 50% or give "early call" bonus to skip.
-- **NEVER allow death spirals without catch-up mechanics** — 1 leaked enemy → less money → harder next wave → inevitable loss. Add interest on saved money OR discrete wave difficulty.
+### Design & Strategy
+- NEVER make all towers have the same niche; strictly ensure distinct specialties: **Aura Slow**, **Armor Piercing**, **Anti-Air**, **Burst Sniper**, and **Splash Damage**.
+- NEVER allow a "Death Spiral" with no exit; strictly provide small **comeback bonuses** or interest on saved gold to prevent early inevitable failure.
+- NEVER make early waves feel like busywork; strictly provide an **"Early Call" bonus** to skip wait times and accelerate engagement.
+- NEVER trust client-side economy updates; strictly require the **authoritative server** to validate currency addition and tower purchases in co-op.
+
+### Pathing & Placement
+- NEVER allow the player to "Seal" the exit in mazing games; strictly validate path existence with **`NavigationServer2D.map_get_path()`** before finalizing tower placement.
+- NEVER use synchronous `bake_navigation_polygon()` for mazing; strictly offload to a **worker thread** to prevent 100ms+ frame hitches during placement.
+- NEVER use global coordinates for grid logic; strictly convert to **Vector2i/Vector3i** to ensure pixel-perfect tower alignment.
+
+### Performance & Systems
+- NEVER call `get_overlapping_bodies()` every frame; strictly use **signals** (`body_entered`/`body_exited`) to maintain a local target cache.
+- NEVER use `_process()` for projectile movement if count > 500; strictly use the **PhysicsServer2D/3D** directly for high-performance bullet-hell tiers.
+- NEVER spawn hundreds of projectiles as full Nodes; strictly use **Object Pooling** to reuse resources and avoid garbage collection stutters.
+- NEVER use standard Strings for priorities; strictly use `StringName` (&"first", &"strongest") for O(1) hash comparisons in targeting loops.
+- NEVER ignore the `progress` property on PathFollow nodes; strictly use it as the O(1) way to identify the **target closest to exit**.
+- NEVER process tower search logic every frame; strictly **throttle ACQUIRE searches** (e.g., every 5-10 frames) to save significant CPU cycles.
+- NEVER scale Tower `CollisionShape` non-uniformly; strictly adjust the radius property of the Shape resource to preserve collision math.
+- NEVER delete enemies immediately on death; strictly use **set_deferred("disabled", true)** and wait one frame to prevent physics server crashes.
+- NEVER hardcode waves in huge switch statements; strictly use **Custom Resources (.tres)** for clean balancing and sequence editing.
+
+---
+
+## 🛠 Expert Components (scripts/)
+
+### Original Expert Patterns
+- [wave_manager.gd](scripts/wave_manager.gd) - Professional wave orchestrator with Resource-based enemy composition and cleanup.
+- [tower.gd](scripts/tower.gd) - Base turret class with FSM state management and firing logic.
+- [tower_targeting_system.gd](scripts/tower_targeting_system.gd) - Autonomous priority logic (First/Last/Strongest/Weakest) for efficient targeting.
+
+### Modular Components
+- [tower_defense_patterns.gd](scripts/tower_defense_patterns.gd) - Collection of patterns for furthest-target logic and PhysicsServer projectile optimization.
 
 ---
 

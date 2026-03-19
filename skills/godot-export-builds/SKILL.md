@@ -7,24 +7,56 @@ description: "Expert patterns for multi-platform exports including export templa
 
 Expert guidance for building and distributing Godot games across platforms.
 
-## NEVER Do
+## NEVER Do (Expert Export Rules)
 
-- **NEVER export without testing on target platform first** — "Works on my machine" doesn't mean it works on Windows/Linux/Android. Test early and often.
-- **NEVER use debug builds for release** — Debug builds are 5-10x larger and slower. Always export with --export-release for production.
-- **NEVER hardcode file paths in exports** — Use `res://` and `user://` paths. Absolute paths (`C:/Users/...`) break on other machines.
-- **NEVER skip code signing on macOS** — Unsigned macOS apps trigger Gatekeeper warnings. Users won't run your game.
-- **NEVER include editor-only files in exports** — Exclude `.md`, `docs/*`, `.git` via export filters. Reduces build size by 20-50%.
+### Platform & Validation
+- **NEVER export to production without a 'Smoke Test'** — "It runs in editor" is NOT enough. Web, Mobile, and Console have unique memory/shader constraints.
+- **NEVER skip macOS Notarization** — Apple's Gatekeeper will block unsigned apps. Use `notarytool` OR distribute exclusively via Steam/App Store.
+- **NEVER use ad-hoc file paths** — `res://` is read-only in builds. Use `user://` for saves and logs, or paths will fail on locked file systems.
+
+### Performance & Size
+- **NEVER use 'Debug' templates for release** — Debug binaries are bloated and slow. Always use `--export-release` to strip profiling overhead.
+- **NEVER include raw resources in builds** — Check your export filters. If you include `.md`, `.txt`, or `.psd` files, you're wasting player bandwidth and disk space.
+- **NEVER ignore VRAM compression** — Large textures in Web/Mobile builds will crash the GPU driver. Enable ASTC/ETC2 compression in Import settings.
+
+### Security
+- **NEVER commit keystores or raw passwords to Git** — Use Environment Variables and CI Secrets (`export_android_signing_env.ps1`).
+- **NEVER allow debug commands in Production** — Use `OS.has_feature("release")` to purge console/cheats from the final build.
 ---
 
 ## Available Scripts
 
 > **MANDATORY**: Read the appropriate script before implementing the corresponding pattern.
 
-### [version_manager.gd](scripts/version_manager.gd)
-AutoLoad for managing game version, build hash, and window titles.
+### [export_headless_pipeline.ps1](scripts/export_headless_pipeline.ps1)
+Expert PowerShell script for automated multi-platform headless exports.
 
-### [headless_build.sh](scripts/headless_build.sh)
-CI/CD headless export script. Automates version injection, godot --headless --export-release, code signing, and butler deployment.
+### [export_version_sync.gd](scripts/export_version_sync.gd)
+Editor script to sync Git tags/hashes with 'application/config/version'.
+
+### [export_post_process_hook.gd](scripts/export_post_process_hook.gd)
+`EditorExportPlugin` for automating post-build tasks (Zipping, Manifests).
+
+### [export_feature_flag_manager.gd](scripts/export_feature_flag_manager.gd)
+Expert manager for runtime behavior swapping via build feature flags.
+
+### [export_pck_patch_loader.gd](scripts/export_pck_patch_loader.gd)
+Runtime patching logic for mounting external PCK archives and DLC.
+
+### [export_android_signing_env.ps1](scripts/export_android_signing_env.ps1)
+Secure environment variable setup for Android release keystores.
+
+### [export_custom_build_stripper.py](scripts/export_custom_build_stripper.py)
+SCons configuration for stripping unused Godot modules to reduce binary size.
+
+### [export_macos_notarize_cmd.ps1](scripts/export_macos_notarize_cmd.ps1)
+CLI procedure for macOS code signing and notarization outside the App Store.
+
+### [export_build_size_report.gd](scripts/export_build_size_report.gd)
+Editor tool for auditing resource sizes to optimize build footprints.
+
+### [export_ci_github_actions.yml](scripts/export_ci_github_actions.yml)
+Professional CI/CD workflow for automated multi-platform Godot releases.
 
 ---
 

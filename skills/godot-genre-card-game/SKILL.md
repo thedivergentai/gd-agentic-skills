@@ -7,21 +7,44 @@ description: "Expert blueprint for digital card games (CCG/Deckbuilders) includi
 
 Expert blueprint for digital card games with data-driven design and juicy UI.
 
-## NEVER Do
+## NEVER Do (Expert Anti-Patterns)
 
-- **NEVER hardcode card effects in card scripts** — Use Command pattern or effect_script Resource. Enables designers to create cards without code.
-- **NEVER use global_position for hand layout** — Hand cards should use local positions relative to hand container. global_position breaks with camera movement.
-- **NEVER forget to shuffle discard into draw pile** — When draw_pile is empty, reshuffle discard_pile. Otherwise game soft-locks.
-- **NEVER skip z_index management** — Dragged cards must have highest z_index. Use `move_to_front()` or set `z_index = 999`.
-- **NEVER use instant card movements** — Cards without tween animations feel terrible. Even 0.2s tweens massively improve feel.
+### Logic & Architecture
+- NEVER hardcode card logic inside UI scripts; strictly encapsulate gameplay effects in **`Callable` objects** or **Command resources** pushed to a LIFO stack.
+- NEVER perform board-state calculations (Power/Toughness) in `_process()`; strictly use **Signal-driven triggers** or a centralized `EffectStack` resolver.
+- NEVER forget **LIFO Stack Resolution**; strictly use **`Array.push_back()`** and **`Array.pop_back()`** to resolve reactions from top-to-bottom.
+
+### UX & Animation
+- NEVER skip **Z-Index management** during drag-and-drop; strictly raise the card to the front on click to prevent it sliding under other cards.
+- NEVER allow instant card "teleportation" between piles; strictly use **Tween animations** (0.2s+) to give cards a tactile, physical feel.
+- NEVER use `global_position` for cards in hand; strictly position them using a **`Curve2D`** (Bezier) layout with **`sample_baked()`** for smooth, non-circular arcs.
+- NEVER allow instant card "teleportation" between piles; strictly use **`create_tween()`** and **`tween_property`** chainings (0.2s+) for juicy card-feel.
+
+### Deck & State Management
+- NEVER forget to handle **Empty Deck** scenarios; strictly implement auto-reshuffle of the discard pile to prevent soft-locks.
+- NEVER use floating point numbers for discrete card stats; strictly use `int` for Costs, Attack, and Health to avoid precision drift.
+- NEVER use standard Control nodes for mass tokens/battlefields; strictly use **`_draw()` custom drawing** to bypass SceneTree overhead when rendering 100+ cards or map icons.
+- NEVER rely on SceneTree order for hand logic; strictly manage logical order in an **Array** and update visuals via **`queue_redraw()`**.
+- NEVER erase array elements during a standard `for` loop; strictly iterate in reverse or use `filter()` to avoid indexing errors.
+- NEVER forget to provide parameterless constructors in `_init()`; otherwise, Resources will fail to load in the Inspector.
 ---
 
-## Available Scripts
+## 🛠 Expert Components (scripts/)
 
-> **MANDATORY**: Read the appropriate script before implementing the corresponding pattern.
+### Original Expert Patterns
+- [card_effect_resolution.gd](scripts/card_effect_resolution.gd) - Stack-based effect resolver (LIFO/FIFO) handling nested triggers and counter-play.
 
-### [card_effect_resolution.gd](scripts/card_effect_resolution.gd)
-FILO stack for card effect resolution. Enables reaction/counter cards (last-in resolves first), visual pass for animations, and polymorphic effect dispatch.
+### Modular Components
+- [card_data_resource.gd](scripts/card_data_resource.gd) - Data-driven card definitions allowing Inspector-based design.
+- [deck_shuffle_bag.gd](scripts/deck_shuffle_bag.gd) - Secure randomization patterns for uniform card distribution.
+- [turn_state_machine.gd](scripts/turn_state_machine.gd) - Managing rigid phases (Draw, Play, Combat) via state matching.
+- [card_drag_drop.gd](scripts/card_drag_drop.gd) - Implementation of native `_get_drag_data()` for Control nodes.
+- [board_query_filter.gd](scripts/board_query_filter.gd) - Functional `filter()` patterns for querying board metadata.
+- [card_tween_manager.gd](scripts/card_tween_manager.gd) - Managing interruptible card juice and board transitions.
+- [reactive_card_ui.gd](scripts/reactive_card_ui.gd) - Resource-signal driven UI for automatic visual state updates.
+- [board_state_dictionary.gd](scripts/board_state_dictionary.gd) - Grid-based tracking (Vector2i) decoupled from Node order.
+- [match_state_resetter.gd](scripts/match_state_resetter.gd) - Clean-up pattern for in-match temporary Resource modifications.
+- [deck_builder_validator.gd](scripts/deck_builder_validator.gd) - Backend logic for deck-building constraints and mana curves.
 
 ---
 

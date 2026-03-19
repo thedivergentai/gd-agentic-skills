@@ -14,25 +14,57 @@ Feature-based organization, consistent naming, and version control hygiene defin
 ### [project_bootstrapper.gd](scripts/project_bootstrapper.gd)
 Expert project scaffolding tool for auto-generating feature folders and .gitignore.
 
-### [scene_naming_validator.gd](scripts/scene_naming_validator.gd)
-Scans entire project for snake_case/PascalCase violations. Run before PRs.
+### [runtime_configurator.gd](scripts/runtime_configurator.gd)
+Expert pattern for applying high-performance profiles (ticks, FPS) and saving `override.cfg`.
 
-### [dependency_auditor.gd](scripts/dependency_auditor.gd)
-Detects circular scene dependencies and coupling issues. Critical for projects >50 scenes.
+### [managed_autoload.gd](scripts/managed_autoload.gd)
+Advanced Singleton pattern with `RefCounted` delegation to avoid SceneTree bloat.
 
-### [feature_scaffolder.gd](scripts/feature_scaffolder.gd)
-Generates complete feature folders with base scenes, scripts, and subfolders.
+### [base_data_resource.gd](scripts/base_data_resource.gd)
+Reactive Resource foundation using `emit_changed()` for data-driven pipelines.
 
-> **Do NOT Load** dependency_auditor.gd unless troubleshooting loading errors or auditing large projects.
+### [advanced_telemetry_logger.gd](scripts/advanced_telemetry_logger.gd)
+Custom OS-level `Logger` implementation to capture engine output for crash reporting.
+
+### [threaded_task_worker.gd](scripts/threaded_task_worker.gd)
+Robust `WorkerThreadPool` implementation with `Mutex` synchronization.
+
+### [async_resource_loader.gd](scripts/async_resource_loader.gd)
+Threaded non-blocking scene loading with progress status.
+
+### [action_buffer_input.gd](scripts/action_buffer_input.gd)
+Foundational `_unhandled_input` buffer to decouple hardware events from frame-rate.
+
+### [global_event_bus.gd](scripts/global_event_bus.gd)
+Strongly-typed global Signal Bus for system decoupling.
+
+### [build_metadata_provider.gd](scripts/build_metadata_provider.gd)
+Native extraction of project version and CI/CD build metadata.
+
+### [node_pooling_system.gd](scripts/node_pooling_system.gd)
+Thread-safe Object Pool for high-frequency scene instantiation.
+
+> **Do NOT Load** dependency_auditor.gd unless troubleshooting loading errors.
 
 
-## NEVER Do in Project Organization
+## NEVER Do (Expert Anti-Patterns)
 
-- **NEVER group by file type** —  `/scripts`, `/sprites`, `/sounds` folders? Nightmare maintainability. Use feature-based: `/player`, `/enemies`, `/ui`.
-- **NEVER mix snake_case and PascalCase in files** — `PlayerController.gd` vs `player_controller.gd`? Pick one. Official standard: snake_case for files, PascalCase for nodes.
-- **NEVER forget .gitignore**  — Committing `.godot/` folder = 100MB+ bloat + merge conflicts. ALWAYS include Godot-specific .gitignore.
-- **NEVER use hardcoded get_node() paths** — `get_node("../../../Player/Sprite2D")` breaks on scene reparenting. Use `%SceneUniqueNames` for stable references.
-- **NEVER skip .gdignore for raw assets** — Design source files (`.psd`, `.blend`) in project root = Godot imports them. Add `.gdignore` to exclude from import process.
+### Global Architecture
+- **NEVER group by file type** —  `/scripts`, `/sprites` folders. Nightmare maintainability. Use feature-based: `/player`, `/ui`.
+- **NEVER mix snake_case and PascalCase in files** — Standard: snake_case for files, PascalCase for nodes.
+- **NEVER use hardcoded get_node() paths** — Brittle on reparenting. Use `%SceneUniqueNames` for stable references.
+- **NEVER use monolithic Autoloads** — Avoid managers that hold visual node references; keep singletons focused on pure data or RefCounted delegation.
+
+### Resource Management
+- **NEVER forget .gitignore**  — Committing `.godot/` folder = 100MB+ bloat + conflicts.
+- **NEVER skip .gdignore for raw assets** — Design source files (`.psd`, `.blend`) in root will be imported unless ignored.
+- **NEVER modify globally shared Resources directly** — Strictly call `duplicate(true)` for unique instances with independent state.
+
+### Performance & Threading
+- **NEVER block the main thread with `load()`** — Strictly use `ResourceLoader.load_threaded_request()` for async scene transitions.
+- **NEVER modify the SceneTree from a background thread** — Strictly use `call_deferred()` for thread-to-main-thread synchronization.
+- **NEVER skip Mutex locking during pooled access** — Strictly ensure thread-safety when using a shared `WorkerThreadPool` or Object Pool.
+- **NEVER use `_process()` for precise input** — Tied to visual framerate. Strictly use `_unhandled_input()` to capture exact, frame-independent events.
 
 ---
 

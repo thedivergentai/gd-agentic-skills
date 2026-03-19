@@ -1,4 +1,4 @@
-# skills/genre-open-world/scripts/world_streamer.gd
+# godot-master/scripts/open_world_world_streamer.gd
 extends Node3D
 
 ## World Streamer (Expert Pattern)

@@ -14,14 +14,37 @@ Romance games are built on the "Affection Economy"—the management of player ti
 4.  **Branch**: Story diverges into character-specific "Routes" based on major milestones.
 5.  **Resolve**: Reach a specialized ending (Good/Normal/Bad) based on relationship quality.
 
-## NEVER Do in Romance Games
+## NEVER Do (Expert Anti-Patterns)
 
-- **NEVER create "Vending Machine" romance** — If giving 10 gifts always equals a confession, the characters feel like objects. ALWAYS incorporate variables like current mood, timing, and stat thresholds (e.g., "Must have 10 Courage to ask out").
-- **NEVER use 100% opaque stats** — If the player doesn't know *why* they failed a date, they feel cheated. ALWAYS provide subtle feedback or visible "Relationship Screens" (e.g., hearts pulsing, trust bars filling).
-- **NEVER use binary Affection (Love/Hate)** — Real relationships are complex. Use multi-axis stats such as **Attraction** (physical/chemistry), **Trust** (emotional safety), and **Comfort** (familiarity) for deeper simulation.
-- **NEVER use the "Same Date Order" trap** — Repeating the exact same date sequence for every character makes the game feel repetitive. ALWAYS vary date locations, activities, and dialogue structures per love interest.
-- **NEVER forget "Missable" Milestones** — If a player misses the "Valentine's Day" event because they were working, that's a meaningful (if painful) consequence. Don't force every event to happen regardless of player choices.
-- **NEVER ignore NPC Autonomy** — If an NPC only exists for the player, they feel hollow. Give them their own schedules, goals, and the ability to *reject* the player if specific conditions (like low trust) aren't met.
+### Romance & NPC Logic
+- NEVER create "Vending Machine" romance; strictly incorporate variables like **NPC Mood**, **Timing**, and **Multi-Stat Thresholds** to ensure characters feel autonomous.
+- NEVER use binary Affection (Love/Hate); strictly use a **Multi-Axial Model** (Attraction, Trust, Comfort) for believable psychological depth.
+- NEVER focus on 100% opaque stats; strictly provide **Visible Indicators** (heart UI, blushing text, pulsing hearts) to help players make informed choices.
+- NEVER use the "Same Date Order" trap; strictly implement a **Repetition Penalty** (~30%) for visiting the same location twice in a row.
+- NEVER forget "Missable" Milestones; strictly ensure meaningful consequences (e.g., missing events due to poor scheduling) to add weight to the experience.
+- NEVER ignore NPC Autonomy; strictly allow NPCs to have their own **Schedules** and the ability to **Reject** the player based on low trust or conflicting events.
+
+### Technical & UI
+- NEVER use `_process` for typewriter text; strictly use **Tweens on `visible_ratio`** for frame-independent, smooth reveals.
+- NEVER parse massive narrative files on the main thread; strictly use **`ResourceLoader.load_threaded_request()`** to prevent transition stutters.
+- NEVER use exact float math for affection checks; strictly use **`is_equal_approx()`** to avoid jitter-based logic failures.
+- NEVER structure complex dialogue purely in code; strictly design dialogue trees as **Custom `Resource` classes** to decouple narrative data from logic.
+- NEVER rely on the global OS clock for timed choices; strictly use **`SceneTreeTimer`** which respects `Engine.time_scale` and pause states.
+- NEVER leave invisible controls with `MOUSE_FILTER_STOP`; strictly set to `IGNORE` or `PASS` on non-opaque layers to avoid blocking dialogue progression.
+- NEVER hardcode dialogue strings; strictly map text to **Localization Keys** and retrieve via `tr()` for internationalization.
+- NEVER use absolute pixel positioning for interfaces; strictly rely on **Anchoring & Containers** for responsive scaling across devices.
+
+---
+
+## 🛠 Expert Components (scripts/)
+
+### Original Expert Patterns
+- [romance_affection_manager.gd](scripts/affection_manager.gd) - Multi-axis (Attraction/Trust/amic_pricing_modifier.gd Attraction/Trust/Comfort) tracking and gift logic.
+- [romance_date_event_system.gd](scripts/date_event_system.gd) - Variety-aware dating logic with repetition penalties.
+- [romance_route_manager.gd](scripts/route_manager.gd) - Flag-based route branching and CG gallery persistence.
+
+### Modular Components
+- [romance_patterns.gd](scripts/romance_patterns.gd) - Reusable UI helpers: Typewriter tweens and heart-burst pulses.
 
 ---
 

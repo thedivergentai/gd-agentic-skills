@@ -1,4 +1,4 @@
-# godot-master/scripts/performance_optimization_multimesh_foliage_manager.gd
+# skills/performance-optimization/code/multimesh_foliage_manager.gd
 extends MultiMeshInstance3D
 
 ## MultiMesh Foliage Manager Expert Pattern

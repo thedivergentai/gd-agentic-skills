@@ -1,4 +1,4 @@
-# godot-master/scripts/inventory_system_inventory_grid.gd
+# skills/inventory-system/scripts/inventory_grid.gd
 extends Control
 
 ## Inventory Grid Expert Pattern

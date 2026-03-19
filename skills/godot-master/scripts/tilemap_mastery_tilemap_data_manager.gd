@@ -1,4 +1,4 @@
-# godot-master/scripts/tilemap_mastery_tilemap_data_manager.gd
+# skills/tilemap-mastery/code/tilemap_data_manager.gd
 extends Node
 
 ## TileMap Mastery Expert Pattern

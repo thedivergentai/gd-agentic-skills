@@ -7,24 +7,49 @@ description: "Expert blueprint for Metroidvanias including ability-gated explora
 
 Expert blueprint for Metroidvanias balancing exploration, progression, and backtracking rewards.
 
-## NEVER Do
+## NEVER Do (Expert Anti-Patterns)
 
-- **NEVER allow soft-locks** — Players must always have ability to backtrack. Design "valves" (one-way drops) carefully with escape routes.
-- **NEVER make empty dead ends** — Every path should have a reward (upgrade, lore, currency). Empty rooms waste player time.
-- **NEVER make backtracking tedious** — New abilities should speed traversal (dash, teleport). Or unlock shortcuts connecting distant areas.
-- **NEVER forget persistent state** — Save collectible pickup status globally. If player collects item in Room A, it must stay collected after leaving.
-- **NEVER hide critical path without breadcrumbs** — Use landmarks, environmental storytelling, or subtle visual cues. Players should build mental maps.
+### World Design & Exploration
+- NEVER allow "Soft-Locks" where a player is trapped; if they enter via a one-way path ("valve"), they MUST be able to leave using current abilities. Always design **fail-safe escape routes**.
+- NEVER create empty dead ends; if a player backtracks to a remote area, they MUST be rewarded with a collectible, lore, or currency. Empty rooms are design failures.
+- NEVER make backtracking purely repetitive; as the player gains movement (Dash/Teleport), traversal through old areas MUST become faster. **Open shortcuts** to bypass long, early routes.
+- NEVER hide the critical path without "crumbs"; use distinct **Landmarks**, unique lighting, or environmental storytelling to build the player's mental map.
+- NEVER design abilities that serve only one purpose; strictly implement dual-use traversal and combat functionality (e.g., a "Dash" that crosses gaps and dodges attacks).
+
+### Persistence & Mapping
+- NEVER forget to save **persistent room state**; if a player opens a chest or defeats a boss, that state MUST remain saved when they leave and return.
+- NEVER load interconnected rooms synchronously via `load()`; strictly use `ResourceLoader.load_threaded_request()` for seamless transitions.
+- NEVER track global progression within localized room scripts; strictly use **Autoload Singletons** for global ability flags and world state.
+- NEVER use floating-point types for grid coordinates (minimaps/fog); strictly use `Vector2i` to prevent precision jitter.
+- NEVER manipulate the SceneTree directly from a background loading thread; strictly use `call_deferred()`.
+
+### Physics & Controls
+- NEVER calculate jump arcs or dashes inside `_process()`; strictly use `_physics_process()` to prevent stutter.
+- NEVER multiply `CharacterBody2D` velocity by `delta` before `move_and_slide()`; the engine handles this internally.
+- NEVER poll `is_action_just_pressed()` inside `_physics_process()` for buffering; strictly capture events in `_unhandled_input()`.
+- NEVER use standard strings for high-frequency ability checks; strictly use `StringName` (&"dashing") for pointer-speed comparisons.
+- NEVER iterate through every node to broadcast updates; strictly use `SceneTree.call_group()` for efficient mass communication.
+- NEVER delete active room/player nodes via `free()`; strictly use `queue_free()` to avoid segmentation faults.
+
 ---
 
-## Available Scripts
+## 🛠 Expert Components (scripts/)
 
-> **MANDATORY**: Read the appropriate script before implementing the corresponding pattern.
+### Original Expert Patterns
+- [minimap_fog.gd](scripts/minimap_fog.gd) - Grid-based fog of war that tracks visited rooms and persists via global save data.
+- [progression_gate_manager.gd](scripts/progression_gate_manager.gd) - Central manager for ability-gated progression (Locks/Keys) and world persistence.
 
-### [minimap_fog.gd](scripts/minimap_fog.gd)
-Grid-based fog-of-war for minimap. Tracks revealed tiles via player position, draws only visited rooms. Scalable via TileMap for large maps.
-
-### [progression_gate_manager.gd](scripts/progression_gate_manager.gd)
-Ability unlock + world persistence system. Tracks unlocked abilities and room states (doors, bosses), enables global collision gate updates.
+### Modular Components
+- [platformer_jump_buffer.gd](scripts/platformer_jump_buffer.gd) - Modular coyote time and jump buffering for high-fidelity movement.
+- [background_room_streamer.gd](scripts/background_room_streamer.gd) - Thread-safe background room preloading using `ResourceLoader`.
+- [safe_scene_switcher.gd](scripts/safe_scene_switcher.gd) - Deferred scene transition pattern for stable cross-room world-state switching.
+- [minimap_fog_revealer.gd](scripts/minimap_fog_revealer.gd) - Vector2i-based fog-of-war clearing logic synced to player position.
+- [persistent_progression_system.gd](scripts/persistent_progression_system.gd) - Autoload pattern for tracking global ability/collectible flags.
+- [ability_state_machine.gd](scripts/ability_state_machine.gd) - Optimized `StringName` pattern matching for traversal/combat states.
+- [fast_wall_detector.gd](scripts/fast_wall_detector.gd) - Direct `PhysicsServer` queries for performance-optimized wall detection.
+- [save_station_broadcast.gd](scripts/save_station_broadcast.gd) - Group-based entity resetting and healing logic on save interaction.
+- [decoupled_hazard_logic.gd](scripts/decoupled_hazard_logic.gd) - Interface-style pattern for generic damage interaction.
+- [smooth_room_camera_transition.gd](scripts/smooth_room_camera_transition.gd) - Tween-based camera limit interpolation for seamless room movement.
 
 ---
 

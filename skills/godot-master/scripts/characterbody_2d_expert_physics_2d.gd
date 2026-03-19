@@ -1,4 +1,4 @@
-# godot-master/scripts/characterbody_2d_expert_physics_2d.gd
+# skills/characterbody-2d/code/expert_physics_2d.gd
 extends CharacterBody2D
 
 ## CharacterBody2D Expert Movement Pattern

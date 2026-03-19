@@ -1,4 +1,4 @@
-# godot-master/scripts/dialogue_system_dialogue_manager.gd
+# skills/dialogue-system/scripts/dialogue_manager.gd
 extends Node
 
 ## Dialogue Manager Expert Pattern

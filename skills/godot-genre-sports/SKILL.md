@@ -5,26 +5,39 @@ description: "Expert blueprint for sports games (FIFA, NBA 2K, Rocket League, To
 
 # Genre: Sports
 
-## Available Scripts
+## NEVER Do (Expert Anti-Patterns)
 
-### [sports_ball_physics.gd](scripts/sports_ball_physics.gd)
-Expert ball physics with drag, magnus effect (curve), and proper bounce handling.
+### Physics & Ball Interaction
+- NEVER parent the ball directly to a player Transform; strictly keep it a standalone `RigidBody3D` and use `apply_central_impulse()` for **realistic dribble physics**.
+- NEVER allow the ball to "Tunnel" through goals; strictly enable **Continuous CD** (`continuous_cd = true`) on the ball's properties for high-velocity validation.
+- NEVER scale a `CollisionShape3D` non-uniformly; strictly adjust the resource radius to preserve the internal **moment of inertia**.
+- NEVER apply impulses in `_process()`; strictly use `_physics_process()` or `_integrate_forces()` to prevent visual jitter.
+- NEVER use a single collision shape for characters; strictly use **layered shapes** for Head, Torso, and Legs to enable headers and chest-traps.
 
-## Core Loop
-1.  **Possession**: Player or AI controls the ball/puck
-2.  **Maneuver**: Player avoids opponents (dribble, pass)
-3.  **Strike**: Player attempts to score (shoot, dunk)
-4.  **Defend**: Opposing team tries to steal or block
-5.  **Score**: Points determine winner after time
+### Match & Team AI
+- NEVER allow all AI to chase the ball ("Kindergarten Soccer"); strictly implement **Formation Slots** (Defense/Attack) where only the closest 1-2 players engage.
+- NEVER use perfect goalkeeper reflexes; strictly add a **Reaction Delay** (0.2s-0.5s) and an "Error Rate" based on shot angle and velocity.
+- NEVER ignore **Root Motion** for movement; strictly use `AnimationTree` with root motion to ensure momentum and turns are visually grounded.
+- NEVER trust client-side goal validations; strictly require the **Authoritative Server** to validate physics and score logic.
 
-## NEVER Do in Sports Games
+### Implementation & Sync
+- NEVER rely on the default physics tick rate (60 TPS) for fast-moving ballistics; strictly increase **physics_ticks_per_second** (e.g., to 120 or 240) to prevent tunneling.
+- NEVER leave **Physics Interpolation** disabled if you want broadcast-quality smoothness; enable it in Project Settings to smooth ball transforms between ticks on high-refresh monitors.
+- NEVER parent the ball directly to a player Transform; strictly keep it a standalone `RigidBody3D` and use `apply_central_impulse()` for **realistic dribble physics**.
+- NEVER skip **vector normalization** on joystick input; strictly normalize to prevent diagonal movement from being 1.4x faster.
+- NEVER handle contextual buttons with `is_action_pressed()`; strictly use a **ContextManager** to determine if Button A means "Pass", "Tackle", or "Switch".
+- NEVER evaluate an `Area3D` goal trigger immediately; strictly `await get_tree().physics_frame` to allow the Physics Server to sync.
 
-- **NEVER parent ball to player transform** — Ball must be physics-based, not child node. Parenting = magnetic stick feel, unrealistic. Use `apply_central_impulse()` for dribble touches.
-- **NEVER make all AI chase the ball** — Kindergarten soccer problem. Use formation slots: only 1-2 players press ball, others cover space/mark opponents.
-- **NEVER use perfect instant goalkeeper reflexes** — Add reaction time delay (0.2-0.5s) and error rate based on shot speed. Instant = unfair, frustrating.
-- **NEVER ignore animation root motion for player movement** — Sports need realistic momentum/turning. Teleporting to animation end position breaks feel. Use `AnimationTree` root motion.
-- **NEVER use single collision shape for player body** — Head, torso, legs need separate hitboxes for realistic ball contact (headers vs foot shots).
-- **NEVER allow ball to clip through goalposts** — Use Continuous CD (`continuous_cd`) for fast-moving ball. Standard discrete physics = tunneling at high speeds.
+---
+
+## 🛠 Expert Components (scripts/)
+
+### Original Expert Patterns
+- [sports_ball_physics.gd](scripts/sports_ball_physics.gd) - High-fidelity Magnus effect and air drag model for ball-centric sports.
+- [team_manager.gd](scripts/team_manager.gd) - Macro-behavior manager implementing Formation Slots and team strategy switching.
+
+### Modular Components
+- [sports_patterns.gd](scripts/sports_patterns.gd) - Collection of utilities for physics-safe impulses and authoritative scoring.
 
 ---
 

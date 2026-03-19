@@ -16,15 +16,35 @@ Expert pattern for recoil, bloom, and dual hitscan/projectile systems with objec
 
 `Engage → Aim → Fire → Kill Confirm → Acquire Next`
 
-## NEVER Do in Shooters
+## NEVER Do (Expert Anti-Patterns)
 
-- **NEVER use `_process()` for hit detection** — Hitscan MUST use physics raycasts in `_physics_process()` or on-demand. Frame-rate dependent accuracy breaks competitive integrity.
-- **NEVER apply recoil to the weapon model transform** — Recoil affects CAMERA rotation (view) and SPREAD (accuracy), not the gun's visual position. Players learn to control camera, not 3D models.
-- **NEVER use single `AudioStreamPlayer` for gunfire** — Layered audio (shot + mechanical + tail) creates punchy feel. Single-stream guns sound flat and amateurish.
-- **NEVER sync projectiles with `rpc()` per-bullet** — Bandwidth death. Use client-side prediction for visuals, server-authoritative hit validation. Compress: send firing event, not each frame's position.
-- **NEVER use `Area3D` overlap for hitscan hits** — This is 10-100x slower than `PhysicsRayQueryParameters3D`. Areas are for triggers (health pickups), not instant ballistics.
-- **NEVER hardcode damage values in weapon script** — Export stats to `Resource` for weapon data. Designers need iteration without code changes. Use `WeaponData.tres`.
-- **NEVER allow client-authoritative hit decisions in multiplayer** — Client says "I shot you" = hacking paradise. Server validates all damage with lag compensation (rewinding).
+### Gunplay & Hit Registration
+- NEVER use `_process()` for hit detection; strictly use **`_physics_process()`** to maintain frame-rate independent accuracy (aiming/firing are physics events).
+- NEVER apply recoil solely to the weapon model transform; strictly apply it to **Camera Rotation (kick)** and **Weapon Bloom (spread)**.
+- NEVER use `Area3D` overlap for high-speed hit detection; strictly use **`PhysicsDirectSpaceState3D.intersect_ray()`** for 100x better performance.
+- NEVER trust the client for hit registration in multiplayer; strictly use **Server-Authoritative** validation using lag compensation (rewinding).
+- NEVER synchronize every bullet over the network; strictly use **Client-Side Prediction** for visual tracers and only send the initial "Fire" event.
+- NEVER forget to exclude the player's own RID from hitscan raycasts; strictly use **`add_exception()`** to prevent shots colliding with the weapon barrel.
+- NEVER use exact floating-point equality (==) for bullet damage or health; strictly use **`is_equal_approx()`** to mitigate precision loss.
+
+### Performance & Architecture
+- NEVER hardcode weapon statistics (Damage, Recoil) inside logic; strictly use **Resource-based WeaponData** for rapid balancing.
+- NEVER use a single `AudioStreamPlayer` for gunfire; strictly use **Layered Audio** (Mechanical + Shot + Reverb Tail) for punchy feedback.
+- NEVER instantiate and `free()` hundreds of projectile nodes; strictly use **Object Pooling** or the `PhysicsServer3D` API for stability.
+- NEVER use `Sprite3D` for bullet impacts on surfaces; strictly use the **Decal** node for conforming, perspective-correct projection.
+- NEVER use absolute pixel positioning for crosshairs; strictly rely on **Anchors & RectCenter** to ensure accuracy across resolutions.
+- NEVER scale `CollisionShape3D` non-uniformly; strictly scale the **Internal Shape Resource** to maintain valid physics calculations.
+- NEVER use TCP for multiplayer shooter synchronization; strictly use **ENet (UDP)** with unreliable transfer modes to avoid latency spikes.
+
+---
+
+## 🛠 Expert Components (scripts/)
+
+### Original Expert Patterns
+- [advanced_weapon_controller.gd](scripts/advanced_weapon_controller.gd) - Professional-grade weapon system with deterministic recoil, bloom, and dual firing modes.
+
+### Modular Components
+- [shooter_patterns.gd](scripts/shooter_patterns.gd) - Reusable patterns: Server-bypassing hitscan, random spread, and ShapeCast3D explosions.
 
 ---
 

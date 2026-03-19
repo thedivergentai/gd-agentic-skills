@@ -1,4 +1,4 @@
-# godot-master/scripts/server_architecture_rid_performance_server.gd
+# skills/server-architecture/code/rid_performance_server.gd
 extends Node
 
 ## Server Architecture Expert Pattern

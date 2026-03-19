@@ -14,6 +14,9 @@ Expert guidance for migrating 2D games into the third dimension.
 - **NEVER forget to add lighting** — 3D without lights is pitch black (unless using unlit materials). Add at least one DirectionalLight3D.
 - **NEVER use Camera2D follow logic in 3D** — Camera3D needs spring arm or look-at logic. Direct position copying causes clipping and disorientation.
 - **NEVER assume same performance** — 3D is 5-10x more demanding. Budget for lower draw calls, smaller viewport resolution on mobile.
+- **NEVER use the rotation property for complex 3D logic** — 3D rotation uses Euler angles. Interpolating Euler angles causes unpredictable paths and Gimbal Lock. Always use `Quaternion` for 3D rotation interpolation or the `Basis` matrix for directional vectors.
+- **NEVER ignore metric scaling** — 3D physics and lighting assume 1 unit = 1 meter. Scaling models inside the engine introduces precision errors. Export assets from DCCs at the correct metric scale.
+- **NEVER disable physics interpolation when using custom camera follow scripts** — Updating camera position in `_process` to follow a body moving in `_physics_process` causes jitter. Use `Node3D.get_global_transform_interpolated()` for smooth transforms.
 
 ---
 
@@ -26,6 +29,9 @@ Sprite3D billboard configuration and world-to-screen projection for placing 2D U
 
 ### [vector_mapping.gd](scripts/vector_mapping.gd)
 Static utility for 2D→3D vector translation. The Y-to-Z rule: 2D Y (down) maps to 3D Z (forward). Essential for movement code.
+
+### [crisp_projected_ui.gd](scripts/crisp_projected_ui.gd)
+Projected 2D UI for 3D Objects mapping snippet. Replaces blurry text elements with true 2D Canvas space positioning projected from 3D space.
 
 ---
 
@@ -357,6 +363,17 @@ floor.add_child(floor_collision)
 | **Development time** | Limited | Have time for 3D learning curve |
 | **Team skills** | 2D artists only | 3D artists or asset library |
 
+
+
+---
+
+## Expert Techniques & Optimizations
+
+### 1. Vector Math over Euler Angles
+When moving a 3D character, rely heavily on `Transform3D` basis vectors rather than calculating trigonometric angles. To move forward locally, extract the negative Z-axis of your transform's basis: `velocity = transform.basis.z * speed`.
+
+### 2. Understanding Coordinate Discrepancies
+In 2D, the Y-axis points down. In 3D, Godot uses a right-handed system where Y-axis points UP, and forward is -Z. Translating 2D jumps to 3D requires inverting the Y velocity logic (e.g., `velocity.y = JUMP_SPEED` instead of `-JUMP_SPEED`).
 
 ## Reference
 - Master Skill: [godot-master](../godot-master/SKILL.md)

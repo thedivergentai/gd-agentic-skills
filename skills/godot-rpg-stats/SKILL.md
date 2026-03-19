@@ -9,20 +9,48 @@ Resource-based stats, modifier stacks, and derived calculations define flexible 
 
 ## Available Scripts
 
-### [stat_resource.gd](scripts/stat_resource.gd)
-Robust Resource-based stat system with caching, dirty flags, and modifier stacks.
+### [base_stats_resource.gd](scripts/base_stats_resource.gd)
+Core data container for base attributes (Str, Dex, Int) and derived scaling rules.
 
-### [modifier_stack_stats.gd](scripts/modifier_stack_stats.gd)
-Expert stat system with additive/multiplicative modifier stacks and priority ordering.
+### [status_effect_data.gd](scripts/status_effect_data.gd)
+Serialized data definition for buffs/debuffs (Additive, Multiplicative, Override).
+
+### [stats_component_reactive.gd](scripts/stats_component_reactive.gd)
+Orchestrator for JIT (Just-In-Time) stat calculation with active modifier stacking.
+
+### [exp_progression_resource.gd](scripts/exp_progression_resource.gd)
+Data-driven level-up curve definition using growth factors and base XP.
+
+### [dynamic_stat_label_sync.gd](scripts/dynamic_stat_label_sync.gd)
+Reactive UI hook for syncing Labels to stat changes without polling.
+
+### [damage_formula_handler.gd](scripts/damage_formula_handler.gd)
+Centralized RefCounted utility for complex combat math and damage calculations.
+
+### [stat_modifier_stacking.gd](scripts/stat_modifier_stacking.gd)
+Logic for handling unique vs. stackable buffs and refreshing durations.
+
+### [resource_stat_inheritance.gd](scripts/resource_stat_inheritance.gd)
+Pattern for extending base stats with specialized attributes (Elemental Resists).
+
+### [persistent_character_stats.gd](scripts/persistent_character_stats.gd)
+Managing the serialization of character progression to `.tres` files.
+
+### [level_up_system.gd](scripts/level_up_system.gd)
+Logic for awarding experience and triggering level-up benefits.
 
 ## NEVER Do in RPG Stats
 
-- **NEVER use int for percentages** — `var critical_chance: int = 50` for 50%? Integer division = truncation errors. Use `float` (0.0-1.0 OR 0.0-100.0).
-- **NEVER modify stats without signals** — UI showing health bar but `stats.current_health -= 10` doesn't update? MUST emit signals on stat changes.
-- **NEVER use additive-only modifiers** — Buff adds +10 strength on level 1 (10 base) = 100% increase. Same buff on level 50 (100 base) = 10% increase. Use multiplicative OR hybrid.
-- **NEVER skip modifier IDs** — `add_modifier("strength", 5)` without ID? Can't remove specific buffs later. MUST use unique IDs (e.g., "sword_buff", "potion_123").
-- **NEVER use exponential XP formulas without cap** — `xp_to_next = level * 1000`? Level 100 = 100k XP, level 1000 = 1M. Use sqrt/log OR flat scaling.
-- **NEVER forget to clamp derived stats** — `max_health = vitality * 10`? Negative vitality from debuff = negative health = crash. Use `maxi(value, 1)`.
+- **NEVER use integers for percentages** — `critical_chance = 50`? Integer division (e.g., in formulas) causes truncation. Always use `float` (0.0 to 1.0 or 0.0 to 100.0) [20].
+- **NEVER modify current_health without emitting signals** — UI elements like health bars will desync if you don't broadcast changes to the system [21].
+- **NEVER rely solely on additive modifiers** — +10 strength is huge at level 1 but negligible at level 50. Use multiplicative or hybrid scaling for balance [22].
+- **NEVER add modifiers without a unique ID or Key** — Without a reference (e.g., "potion_buff"), you cannot remove specific effects without clearing the entire stack [23].
+- **NEVER use exponential XP formulas without a growth cap** — Uncapped `pow()` scaling quickly leads to unreachable levels or integer overflows [24].
+- **NEVER forget to clamp derived values** — Negative vitality from a debuff could result in negative max HP, crashing your health logic. Use `maxi(val, 1)` [25].
+- **NEVER perform heavy stat recalculations in `_process()`** — Only recalculate when a modifier is added/removed or base stats change. Use the "Reactive" pattern.
+- **NEVER hardcode stat names in logic** — Use StringNames or an Enum for attributes to prevent typos and facilitate refactoring (e.g., `get_attribute("strength")`).
+- **NEVER store temporary "Runtime Only" buffs in a permanent Save Resource** — Clear short-duration modifiers before serializing player progress to disk.
+- **NEVER calculate damage directly in the Character script** — Centralize combat math in a `DamageFormula` class to ensure consistency across Players and NPCs.
 
 ---
 

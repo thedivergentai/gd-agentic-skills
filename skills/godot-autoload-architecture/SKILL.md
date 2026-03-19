@@ -7,29 +7,50 @@ description: "Expert patterns for Godot AutoLoad (singleton) architecture includ
 
 AutoLoads are Godot's singleton pattern, allowing scripts to be globally accessible throughout the project lifecycle. This skill guides implementing robust, maintainable singleton architectures.
 
-## NEVER Do
-
-- **NEVER access AutoLoads in `_init()`** — AutoLoads aren't guaranteed to exist yet during _init(). Use `_ready()` or `_enter_tree()` instead.
-- **NEVER create circular dependencies** — If GameManager depends on SaveManager and SaveManager depends on GameManager, initialization deadlocks. Use signals or dependency injection.
-- **NEVER store scene-specific state in AutoLoads** — AutoLoads persist across scene changes. Storing temporary state (current enemy count, UI state) causes leaks. Reset in `_ready()`.
-- **NEVER use AutoLoads for everything** — Over-reliance creates "God objects" and tight coupling. Limit to 5-10 AutoLoads max. Use scene trees for local logic.
-- **NEVER assume AutoLoad initialization order** — AutoLoads initialize top-to-bottom in Project Settings. If order matters, add explicit `initialize()` calls or use `@onready` carefully.
----
-
 ## Available Scripts
 
-> **MANDATORY**: Read the appropriate script before implementing the corresponding pattern.
+### [static_state_manager.gd](scripts/static_state_manager.gd)
+Using `static var` for high-performance global state that doesn't need SceneTree presence.
 
-### [service_locator.gd](scripts/service_locator.gd)
-Service locator pattern for decoupled system access. Allows swapping implementations (e.g., MockAudioManager) without changing game code.
+### [safe_scene_switcher.gd](scripts/safe_scene_switcher.gd)
+Robust scene transitioning logic that handles deferred freeing and root-level management.
 
-### [stateless_bus.gd](scripts/stateless_bus.gd)
-Stateless signal bus pattern. Domain-specific signals (player_health_changed, level_completed) without storing state. The bus is a post office, not a warehouse.
+### [autoload_init_order_diag.gd](scripts/autoload_init_order_diag.gd)
+Diagnostic utility for verifying and debugging the initialization sequence of Singletons.
 
-### [autoload_initializer.gd](scripts/autoload_initializer.gd)
-Manages explicit initialization order and dependency injection to avoid circular dependencies.
+### [global_event_bus.gd](scripts/global_event_bus.gd)
+Centralized signal router for decoupling disparate systems (Achievements, Stats, Game Events).
 
-> **Do NOT Load** service_locator.gd unless implementing dependency injection patterns.
+### [persistent_data_holder.gd](scripts/persistent_data_holder.gd)
+Pattern for data that must survive `change_scene_to_file()` (Inventory, Settings).
+
+### [lazy_loaded_singleton.gd](scripts/lazy_loaded_singleton.gd)
+Memory-efficient singleton pattern that instantiates on-demand rather than at boot.
+
+### [debug_console_autoload.gd](scripts/debug_console_autoload.gd)
+CanvasLayer-based debug overlay accessible from any game context.
+
+### [cross_autoload_comms.gd](scripts/cross_autoload_comms.gd)
+Expert rules and safety checks for communication between multiple Singletons.
+
+### [thread_safe_global_access.gd](scripts/thread_safe_global_access.gd)
+Using Mutex and `call_deferred` to safely access global data from background threads.
+
+### [autoload_reference_checker.gd](scripts/autoload_reference_checker.gd)
+Validation utility to ensure Autoloads are correctly registered before attempting access.
+
+## NEVER Do in AutoLoad Architecture
+
+- **NEVER access AutoLoads in `_init()`** — AutoLoads are initialized sequentially. Accessing one in `_init()` may find a null reference [12]. 
+- **NEVER modify a Singleton's size or children in `_ready()`** — If multiple Singletons refer to each other's trees during boot, it can cause layout/sorting errors.
+- **NEVER store highly localized, scene-specific data in AutoLoads** — This creates "God Objects" and introduces global side effects that are hard to debug [14].
+- **NEVER use `Parent.method()` calls from an Autoload** — Autoloads sit at the root. They are the ultimate "top". Use signals to talk to the active scene.
+- **NEVER use an Autoload for pure data containers** — If you don't need `_process()` or signals, use a `static var` in a `class_name` script instead [7].
+- **NEVER create circular dependencies between Singletons** — If A needs B and B needs A, Godot will hang during the splash screen [13].
+- **NEVER free an Autoload node manually** — Removing a singleton from the root can leave dangling references that crash the engine.
+- **NEVER use AutoLoads for UI elements that aren't global** — Popups that only exist in one level should be in that level, not a global singleton.
+- **NEVER assume `get_tree().current_scene` is accurate in `_ready()`** — In Autoloads, the active scene might still be initializing. Access it via `get_tree().root.get_child(-1)` [6].
+- **NEVER skip `process_mode` configuration** — If your global console or music manager needs to work while the game is paused, set `process_mode = PROCESS_MODE_ALWAYS`.
 
 
 ---

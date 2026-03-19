@@ -1,4 +1,4 @@
-# godot-master/scripts/ui_rich_text_rich_text_animator.gd
+# skills/ui-rich-text/scripts/rich_text_animator.gd
 extends RichTextLabel
 
 ## RichTextLabel Animator Expert Pattern

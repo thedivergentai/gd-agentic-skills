@@ -1,4 +1,4 @@
-# godot-master/scripts/3d_materials_material_fx.gd
+# skills/3d-materials/scripts/material_fx.gd
 extends Node
 
 ## Material FX (Expert Pattern)

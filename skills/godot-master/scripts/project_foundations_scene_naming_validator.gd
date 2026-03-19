@@ -1,4 +1,4 @@
-# godot-master/scripts/project_foundations_scene_naming_validator.gd
+# skills/project-foundations/scripts/scene_naming_validator.gd
 @tool
 extends EditorScript
 

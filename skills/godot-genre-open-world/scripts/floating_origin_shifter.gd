@@ -1,4 +1,4 @@
-# skills/genre-open-world/scripts/floating_origin_shifter.gd
+# godot-master/scripts/open_world_floating_origin_shifter.gd
 extends Node
 
 ## Floating Origin Shifter (Expert Pattern)

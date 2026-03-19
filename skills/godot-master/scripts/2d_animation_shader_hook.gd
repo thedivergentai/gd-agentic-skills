@@ -1,4 +1,4 @@
-# godot-master/scripts/2d_animation_shader_hook.gd
+# skills/2d-animation/code/shader_hook.gd
 extends Sprite2D
 
 ## Shader Parameter Hooks Expert Pattern

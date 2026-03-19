@@ -1,4 +1,4 @@
-# godot-master/scripts/server_architecture_headless_manager.gd
+# skills/server-architecture/scripts/headless_manager.gd
 extends Node
 
 ## Headless Server Manager Expert Pattern

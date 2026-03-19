@@ -1,4 +1,4 @@
-# godot-master/scripts/platform_mobile_mobile_safe_area_handler.gd
+# skills/platform-mobile/scripts/mobile_safe_area_handler.gd
 extends Control
 
 ## Mobile Safe Area Handler Expert Pattern

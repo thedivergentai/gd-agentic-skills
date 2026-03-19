@@ -1,4 +1,4 @@
-# godot-master/scripts/project_templates_base_game_manager.gd
+# skills/project-templates/code/base_game_manager.gd
 extends Node
 
 ## Project Templates Expert Pattern
