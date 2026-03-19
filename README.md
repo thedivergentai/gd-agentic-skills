@@ -122,7 +122,7 @@
 
 | 🚀 Get Started | 🏆 Godot Master | 🧩 Micro-Skills | 🤖 Agent Protocol | ⭐ Star History |
 |:---:|:---:|:---:|:---:|:---:|
-| [Install](#-quick-start) | [All-in-One System](#-godot-master-your-lead-architect) | [Bite-Size Modules](#-micro-skills-bite-size-power) | [DIA Loop](#-for-agents-the-discovery-ingestion-application-protocol) | [Growth Chart](#-star-history) |
+| [Install](#-quick-start) | [All-in-One System](#-godot-master--your-lead-architect) | [Bite-Size Modules](#-micro-skills--bite-size-power) | [DIA Loop](#-for-agents--the-discovery-ingestion-application-protocol) | [Growth Chart](#-star-history) |
 
 ---
 
@@ -158,7 +158,7 @@ Unlike individual micro-skills that focus on isolated features, **godot-master**
 
 **📚 Comprehensive Knowledge Base**
 - **94 Reference Documents**: Complete markdown guides for every skill, from foundations to advanced genres
-- **982 Production Scripts**: Battle-tested, production-ready GDScript implementations
+- **982 Unique Production Scripts**: Battle-tested, production-ready GDScript implementations
 - **10 Workflow Patterns**: Step-by-step architectural workflows (scaffolding, entity orchestration, persistence, optimization, multiplayer, etc.)
 
 **🧠 Expert Frameworks**
