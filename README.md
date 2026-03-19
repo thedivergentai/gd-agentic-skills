@@ -138,16 +138,44 @@ Unlike generic AI responses, every skill in this repository follows strictly def
 
 ## ⚡ Quick Start
 
-Install via the [skills.sh](https://skills.sh) protocol:
+Choose your path to avoid a **"Context Storm"** (overloading your agent with too many instructions at once).
 
+### 🏆 Path A: The Architect (New or Existing Projects)
+If you are starting a new project OR you have an existing project that needs to be **"checked" and brought up to date** with modern Godot 4 standards, install the **Godot Master** hub. 
 ```bash
-npx skills add thedivergentai/gd-agentic-skills
+npx skills add thedivergentai/gd-agentic-skills/skills/godot-master
 ```
 
-**Manual Discovery**: Agents can directly query the machine-readable [`skills_index.json`](skills_index.json) for skill discovery and dependency mapping.
+### 🧩 Path B: The Specialist (Existing Projects)
+If you need a specific feature (e.g., 2D movement, inventory), install only that **Micro-Skill**.
+```bash
+npx skills add thedivergentai/gd-agentic-skills/skills/godot-characterbody-2d
+```
 
-> [!NOTE]
-> The `skills_index.json` file is only available when cloning the repository locally. It is not included when installing via the `npx skills add` methodology.
+> [!DANGER]
+> **NEVER** use the `--all` flag when installing this repository (e.g., `npx skills add ... --all`). This is an **"Instant No-No"** that will cause an unrecoverable Context Storm by forcing your agent to read every single metadata entry in the library.
+
+---
+
+## 🧠 Context Management: Performance Guidelines
+
+To keep your AI agent fast and accurate, follow these "Expert Efficiency" rules:
+
+### 1. The "Power of One" Rule
+Either use **`godot-master`** (which orchestrates the other 93 skills via references) OR use individual **micro-skills**. 
+
+*   **Godot Master** is an "Orchestrator" skill. It is dense (~15k tokens) but provides a complete blueprint. Use it when the "Big Picture" matters.
+*   **Micro-Skills** are "Surgical" skills (~2-5k tokens). They are fast, reliable, and keep the agent focused on one specific API.
+
+### 2. Why "Install All" Fails
+Installing 94 skills simultaneously creates a **"Metadata Flood"**:
+- **Token Bleed**: ~15,000 tokens are "permanently" used just to tell the agent which skills exist.
+- **Instruction Conflicts**: Having multiple overlapping expert instructions (e.g., 20+ different genre blueprints) can cause the agent to lose its specific focus.
+- **Reasoning Lag**: The model has to sift through 100+ KB of text before deciding what to do.
+
+### 3. Repository Clones vs. Plugin Installs
+- **Plugin Install (`npx skills add`)**: Copies the skill to your agent's **Skill Plugin Directory**. The agent can now "Discover" and scan these instructions automatically in any conversation. This is why installing too many at once causes a "Context Storm."
+- **Repository Clone**: If you merely clone this repo to a folder (e.g., `Downloads/GDSkills`), the agent will **NOT** automatically find them unless you are actively working *inside* that specific directory. This is safer for context management but requires manual `view_file` calls for discovery.
 
 ---
 
@@ -212,6 +240,7 @@ flowchart LR
 
 **Use godot-master when:**
 - Starting a new Godot project from scratch
+- **Auditing an existing project** to find anti-patterns or standards violations
 - Designing game or application architecture
 - Building entity/component systems
 - Debugging performance or physics issues
