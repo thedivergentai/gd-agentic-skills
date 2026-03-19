@@ -11,6 +11,7 @@
 .aider/
 GEMINI.md
 LEARNINGS.gemini.md
+skills-lock.json
 
 # Agent memory, databases, and logs
 brain/

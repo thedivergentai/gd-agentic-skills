@@ -146,6 +146,9 @@ npx skills add thedivergentai/gd-agentic-skills
 
 **Manual Discovery**: Agents can directly query the machine-readable [`skills_index.json`](skills_index.json) for skill discovery and dependency mapping.
 
+> [!NOTE]
+> The `skills_index.json` file is only available when cloning the repository locally. It is not included when installing via the `npx skills add` methodology.
+
 ---
 
 ## 🏆 Godot Master — Your Lead Architect
@@ -393,6 +396,9 @@ Think of micro-skills as your **component library**: Drop them into your project
 ### 📂 Full Skill Index
 
 All skills are catalogued in the machine-readable [`skills_index.json`](skills_index.json) with keywords, descriptions, and dependency chains.
+
+> [!NOTE]
+> This JSON index is a repository-level file and is only present if you have cloned the source repository.
 
 ---
 
